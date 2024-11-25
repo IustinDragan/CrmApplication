@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMRealEstate.API", "CRMRealEstate.API\CRMRealEstate.API.csproj", "{FB3615FB-1E79-4CE5-80E5-9185EA386CEC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMRealEstate.DataAccess", "CRMRealEstate.DataAccess\CRMRealEstate.DataAccess.csproj", "{17A2CA0D-EBA8-4D9E-9600-FC295B1A6290}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMRealEstate.Application", "CRMRealEstate.Application\CRMRealEstate.Application.csproj", "{3A6076A2-BFA9-447E-9310-674F1CE746C4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FB3615FB-1E79-4CE5-80E5-9185EA386CEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB3615FB-1E79-4CE5-80E5-9185EA386CEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB3615FB-1E79-4CE5-80E5-9185EA386CEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB3615FB-1E79-4CE5-80E5-9185EA386CEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17A2CA0D-EBA8-4D9E-9600-FC295B1A6290}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17A2CA0D-EBA8-4D9E-9600-FC295B1A6290}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17A2CA0D-EBA8-4D9E-9600-FC295B1A6290}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17A2CA0D-EBA8-4D9E-9600-FC295B1A6290}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A6076A2-BFA9-447E-9310-674F1CE746C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A6076A2-BFA9-447E-9310-674F1CE746C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A6076A2-BFA9-447E-9310-674F1CE746C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A6076A2-BFA9-447E-9310-674F1CE746C4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

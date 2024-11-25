@@ -1,0 +1,17 @@
+1. https://app.pluralsight.com/ilx/video-courses/d345f270-7924-4be0-80d2-8c994fb893ed/c419498c-c803-4335-b477-cd2e471106ce/1afe0735-eee9-4e7e-ba06-437c7a2b8909
+(Section 3, Returning Resources) 
+
+Comenzi pt migrari:
+
+1. Add migration:
+dotnet ef migrations add InitialCreate
+2. Apply Migrations to Create the Database:
+dotnet ef database update
+
+
+Nugets de instalat:
+
+dotnet add package Microsoft.EntityFrameworkCore
+dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet add package Microsoft.EntityFrameworkCore.Tools
+dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL

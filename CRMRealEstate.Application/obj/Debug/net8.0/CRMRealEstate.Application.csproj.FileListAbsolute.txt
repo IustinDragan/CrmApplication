@@ -1,0 +1,15 @@
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.Application\bin\Debug\net8.0\CRMRealEstate.Application.deps.json
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.Application\bin\Debug\net8.0\CRMRealEstate.Application.dll
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.Application\bin\Debug\net8.0\CRMRealEstate.Application.pdb
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.Application\bin\Debug\net8.0\CRMRealEstate.DataAccess.dll
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.Application\bin\Debug\net8.0\CRMRealEstate.DataAccess.pdb
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.Application\obj\Debug\net8.0\CRMRealEstate.Application.csproj.AssemblyReference.cache
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.Application\obj\Debug\net8.0\CRMRealEstate.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.Application\obj\Debug\net8.0\CRMRealEstate.Application.AssemblyInfoInputs.cache
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.Application\obj\Debug\net8.0\CRMRealEstate.Application.AssemblyInfo.cs
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.Application\obj\Debug\net8.0\CRMRealEstate.Application.csproj.CoreCompileInputs.cache
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.Application\obj\Debug\net8.0\CRMRealE.D21E358B.Up2Date
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.Application\obj\Debug\net8.0\CRMRealEstate.Application.dll
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.Application\obj\Debug\net8.0\refint\CRMRealEstate.Application.dll
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.Application\obj\Debug\net8.0\CRMRealEstate.Application.pdb
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.Application\obj\Debug\net8.0\ref\CRMRealEstate.Application.dll

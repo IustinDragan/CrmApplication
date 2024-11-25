@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "02n9RnkD8y2PsLbme+jiqqrxFxzP+0+tJRmFNV/zl90=",
+  "Source": "CRMRealEstate.API",
+  "BasePath": "_content/CRMRealEstate.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
