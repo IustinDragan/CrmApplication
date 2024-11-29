@@ -20,18 +20,4 @@ public class DatabaseContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetAssembly(typeof(UserConfiguration))!);
         base.OnModelCreating(modelBuilder);
     }
-    // protected override void OnModelCreating(ModelBuilder modelBuilder)
-    // {
-    //     modelBuilder.Entity<Users>()
-    //         .HasOne(u => u.Company)
-    //         .WithMany(c => c.Users)
-    //         .HasForeignKey(u => u.CompanyId)
-    //         .OnDelete(DeleteBehavior.Cascade);
-    //
-    //     modelBuilder.Entity<Users>()
-    //         .HasOne(u => u.Roles)
-    //         .WithMany(r => r.Users)
-    //         .HasForeignKey(u => u.RoleId)
-    //         .OnDelete(DeleteBehavior.Restrict);
-    // }
 }

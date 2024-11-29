@@ -5,6 +5,11 @@ namespace CRMRealEstate.DataAccess.Entities;
 
 public class Company
 {
+    public Company()
+    {
+        CompanyCreatedAt = DateTime.Now;
+    }
+
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int CompanyId { get; set; }
@@ -14,9 +19,4 @@ public class Company
     public string CompanyPhoneNumber { get; set; }
     public DateTime CompanyCreatedAt { get; set; }
     public ICollection<Users> Users { get; set; }
-
-    public Company()
-    {
-        CompanyCreatedAt = DateTime.Now;
-    }
 }

@@ -10,3 +10,4 @@ C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.DataAccess\obj\Debug\
 C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.DataAccess\obj\Debug\net8.0\refint\CRMRealEstate.DataAccess.dll
 C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.DataAccess\obj\Debug\net8.0\CRMRealEstate.DataAccess.pdb
 C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.DataAccess\obj\Debug\net8.0\ref\CRMRealEstate.DataAccess.dll
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.DataAccess\obj\Debug\net8.0\CRMRealEstate.DataAccess.sourcelink.json

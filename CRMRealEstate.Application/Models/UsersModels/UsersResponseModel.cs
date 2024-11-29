@@ -14,7 +14,6 @@ public class UsersResponseModel
     public string PhoneNumber { get; set; }
     public Roles RoleName { get; set; }
     public DateTime UserCreatedAt { get; set; }
-    //trebuie adaugat si Company?
 
     public static UsersResponseModel FromUser(Users user)
     {

@@ -6,6 +6,11 @@ namespace CRMRealEstate.DataAccess.Entities;
 
 public class Users
 {
+    public Users()
+    {
+        UserCreatedAt = DateTime.Now;
+    }
+
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
@@ -20,9 +25,4 @@ public class Users
     [ForeignKey("CompanyId")] public Company? Company { get; set; }
     public Roles Roles { get; set; }
     public DateTime UserCreatedAt { get; private set; }
-
-    public Users()
-    {
-        UserCreatedAt = DateTime.Now;
-    }
 }

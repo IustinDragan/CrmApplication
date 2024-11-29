@@ -10,6 +10,7 @@ public class UserConfiguration : IEntityTypeConfiguration<Users>
     {
         builder.HasOne(x => x.Company)
             .WithMany(x => x.Users)
-            .HasForeignKey(x => x.CompanyId);
+            .HasForeignKey(x => x.CompanyId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

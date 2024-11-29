@@ -13,3 +13,6 @@ C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.Application\obj\Debug
 C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.Application\obj\Debug\net8.0\refint\CRMRealEstate.Application.dll
 C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.Application\obj\Debug\net8.0\CRMRealEstate.Application.pdb
 C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.Application\obj\Debug\net8.0\ref\CRMRealEstate.Application.dll
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.Application\obj\Debug\net8.0\CRMRealEstate.Application.sourcelink.json
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.Application\bin\Debug\net8.0\CRMRealEstate.Shared.dll
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.Application\bin\Debug\net8.0\CRMRealEstate.Shared.pdb

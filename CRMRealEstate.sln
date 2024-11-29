@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMRealEstate.DataAccess", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMRealEstate.Application", "CRMRealEstate.Application\CRMRealEstate.Application.csproj", "{3A6076A2-BFA9-447E-9310-674F1CE746C4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMRealEstate.Shared", "CRMRealEstate.Shared\CRMRealEstate.Shared.csproj", "{77953ABC-08F1-40F7-A5A2-26F88B643C00}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{3A6076A2-BFA9-447E-9310-674F1CE746C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A6076A2-BFA9-447E-9310-674F1CE746C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A6076A2-BFA9-447E-9310-674F1CE746C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77953ABC-08F1-40F7-A5A2-26F88B643C00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77953ABC-08F1-40F7-A5A2-26F88B643C00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77953ABC-08F1-40F7-A5A2-26F88B643C00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77953ABC-08F1-40F7-A5A2-26F88B643C00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -49,9 +49,15 @@ C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.API\bin\Debug\net8.0\
 C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.API\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll
 C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.API\bin\Debug\net8.0\CRMRealEstate.Application.dll
 C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.API\bin\Debug\net8.0\CRMRealEstate.DataAccess.dll
-C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.API\bin\Debug\net8.0\CRMRealEstate.Shared.dll
 C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.API\bin\Debug\net8.0\CRMRealEstate.Application.pdb
-C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.API\bin\Debug\net8.0\CRMRealEstate.Shared.pdb
 C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.API\bin\Debug\net8.0\CRMRealEstate.DataAccess.pdb
 C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.API\obj\Debug\net8.0\staticwebassets.build.endpoints.json
 C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.API\obj\Debug\net8.0\staticwebassets\msbuild.CRMRealEstate.API.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.API\obj\Debug\net8.0\CRMRealEstate.API.sourcelink.json
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.API\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.API\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.API\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.API\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.API\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.API\bin\Debug\net8.0\CRMRealEstate.Shared.dll
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.API\bin\Debug\net8.0\CRMRealEstate.Shared.pdb
