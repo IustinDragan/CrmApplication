@@ -19,7 +19,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DatabaseContext>(optionsBuilder =>
 {
-    optionsBuilder.UseNpgsql(builder.Configuration.GetConnectionString("Database:ConnectionString"));
+    //optionsBuilder.UseNpgsql(builder.Configuration.GetConnectionString("Database:ConnectionString"));
+    optionsBuilder.UseNpgsql(builder.Configuration.GetConnectionString("ConnectionString"));
 });
 
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();

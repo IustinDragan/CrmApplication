@@ -1,4 +1,5 @@
 C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.DataAccess\bin\Debug\net8.0\CRMRealEstate.DataAccess.deps.json
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.DataAccess\bin\Debug\net8.0\CRMRealEstate.DataAccess.runtimeconfig.json
 C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.DataAccess\bin\Debug\net8.0\CRMRealEstate.DataAccess.dll
 C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.DataAccess\bin\Debug\net8.0\CRMRealEstate.DataAccess.pdb
 C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.DataAccess\obj\Debug\net8.0\CRMRealEstate.DataAccess.csproj.AssemblyReference.cache
@@ -6,8 +7,9 @@ C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.DataAccess\obj\Debug\
 C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.DataAccess\obj\Debug\net8.0\CRMRealEstate.DataAccess.AssemblyInfoInputs.cache
 C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.DataAccess\obj\Debug\net8.0\CRMRealEstate.DataAccess.AssemblyInfo.cs
 C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.DataAccess\obj\Debug\net8.0\CRMRealEstate.DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.DataAccess\obj\Debug\net8.0\CRMRealEstate.DataAccess.sourcelink.json
 C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.DataAccess\obj\Debug\net8.0\CRMRealEstate.DataAccess.dll
 C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.DataAccess\obj\Debug\net8.0\refint\CRMRealEstate.DataAccess.dll
 C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.DataAccess\obj\Debug\net8.0\CRMRealEstate.DataAccess.pdb
+C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.DataAccess\obj\Debug\net8.0\CRMRealEstate.DataAccess.genruntimeconfig.cache
 C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.DataAccess\obj\Debug\net8.0\ref\CRMRealEstate.DataAccess.dll
-C:\Users\idragan\RiderProjects\CRMRealEstate\CRMRealEstate.DataAccess\obj\Debug\net8.0\CRMRealEstate.DataAccess.sourcelink.json
