@@ -7,12 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FluentValidation" Version="11.11.0"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
+        <PackageReference Include="FluentValidation" Version="11.11.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="7.1.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\CRMRealEstate.Application\CRMRealEstate.Application.csproj"/>
+        <ProjectReference Include="..\CRMRealEstate.Application\CRMRealEstate.Application.csproj" />
     </ItemGroup>
 
 </Project>
