@@ -1,4 +1,4 @@
-using CRMRealEstate.Application.Helpers.Validators;
+﻿using CRMRealEstate.Application.Helpers.Validators;
 using CRMRealEstate.Application.Models.UsersModels;
 using CRMRealEstate.Application.Services;
 using CRMRealEstate.Application.Services.Interfaces;
@@ -7,6 +7,7 @@ using CRMRealEstate.DataAccess.Repositories.Interfaces;
 using CRMRealEstate.DataAccess.Scripts;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,10 +18,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
 builder.Services.AddDbContext<DatabaseContext>(optionsBuilder =>
 {
-    //optionsBuilder.UseNpgsql(builder.Configuration.GetConnectionString("Database:ConnectionString"));
-    optionsBuilder.UseNpgsql(builder.Configuration.GetConnectionString("ConnectionString"));
+    optionsBuilder.UseNpgsql(connectionString);  
 });
 
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
@@ -32,7 +34,8 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllers().AddJsonOptions(options => { });
 
 var app = builder.Build();
-
+//Fix care nu se face:
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
