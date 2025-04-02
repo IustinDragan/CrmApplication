@@ -12,7 +12,10 @@ public class DatabaseContext : DbContext
 
     public DbSet<Users> Users { get; set; }
     public DbSet<Company> Companies { get; set; }
-
+    public DbSet<Announcement> Announcements { get; set; }
+    public DbSet<UserAnnouncement> UsersAnnouncements { get; set; }
+    public DbSet<Property> Properties { get; set; }
+    public DbSet<Adress> Addresses { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         //original code:
