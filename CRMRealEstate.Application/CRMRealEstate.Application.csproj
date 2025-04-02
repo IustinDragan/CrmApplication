@@ -1,21 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\CRMRealEstate.DataAccess\CRMRealEstate.DataAccess.csproj"/>
-        <ProjectReference Include="..\CRMRealEstate.Shared\CRMRealEstate.Shared.csproj"/>
+        <ProjectReference Include="..\CRMRealEstate.DataAccess\CRMRealEstate.DataAccess.csproj" />
+        <ProjectReference Include="..\CRMRealEstate.Shared\CRMRealEstate.Shared.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="FluentValidation" Version="11.11.0"/>
-        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0"/>
-        <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0"/>
-        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.2.1"/>
+        <PackageReference Include="FluentValidation" Version="11.11.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.3.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.3.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.0" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.2.1" />
     </ItemGroup>
 
 </Project>
