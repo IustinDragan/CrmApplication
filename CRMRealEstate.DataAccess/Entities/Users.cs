@@ -43,4 +43,8 @@ public class Users
     public Roles Roles { get; set; }
     
     public DateTime UserCreatedAt { get; private set; }
+
+    public ICollection<Announcement> Announcements { get; set; }
+
+    public ICollection<UserAnnouncement> FavoritesAnnouncements { get; set; }
 }

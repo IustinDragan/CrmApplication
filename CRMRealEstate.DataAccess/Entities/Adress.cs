@@ -13,9 +13,6 @@ namespace CRMRealEstate.DataAccess.Entities
         public int StreetNumber { get; set; }
         public string Country { get; set; } //judet
         public string City { get; set; } //oras/comuna
-        //public string Locality { get; set; } //localitate/sat
-        //public int Floors { get; set; } //etaj
-        //public string Scale { get; set; } //scara
         public int AppartamentNumber { get; set; }
 
         [ForeignKey("PropertyId")]
