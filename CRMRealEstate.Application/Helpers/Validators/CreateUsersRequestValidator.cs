@@ -15,8 +15,12 @@ public class CreateUsersRequestValidator : AbstractValidator<CreateUsersRequestM
         RuleFor(x => x.Password).NotEmpty().Length(1, 50);
         RuleFor(x => x.PhoneNumber).NotEmpty().Length(1, 50);
 
-        if (new CreateUsersRequestModel().isAgent)
-            RuleFor(x => x.Company).NotNull().SetValidator(new CompanyValidator());
+        if (new CreateUsersRequestModel().isAgent != false)
+            RuleFor(x => x.Company).NotNull().When(x => x.isAgent).WithMessage("The Company field is required for agents.");
+
+       // RuleFor(x => x.Company).NotNull().SetValidator(new CompanyValidator());
+
+
     }
 }
 

@@ -1,0 +1,78 @@
+﻿@page "/login"
+@using Blazored.LocalStorage
+@using CRMRealEstate.Shared.Models.Users
+@using Microsoft.AspNetCore.Components.Authorization
+@inject HttpClient Http
+@inject ILocalStorageService LocalStorage
+@inject AuthenticationStateProvider AuthState
+@inject NavigationManager NavManager
+
+<h3 class="text-center mt-4 mb-5 text-primary">Autentificare cont</h3>
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+
+<div class="d-flex justify-content-center">
+    <EditForm Model="loginModel" OnValidSubmit="HandleLogin" class="w-100" style="max-width: 400px;">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label class="form-label">Username</label>
+            <InputText class="form-control" @bind-Value="loginModel.Username" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Parola</label>
+            <InputText class="form-control" @bind-Value="loginModel.Password" type="password" />
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Login</button>
+    </EditForm>
+</div>
+
+@code {
+    private LoginRequestModel loginModel = new();
+    private string? errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthState.GetAuthenticationStateAsync();
+
+        if (authState.User.Identity is not null && authState.User.Identity.IsAuthenticated)
+        {
+            NavManager.NavigateTo("/announcements");
+        }
+    }
+
+    private async Task HandleLogin()
+    {
+        try
+        {
+            var response = await Http.PostAsJsonAsync("Users/login", loginModel);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var loginResponse = await response.Content.ReadFromJsonAsync<LoginResponseModel>();
+
+                if (loginResponse is not null)
+                {
+                    await LocalStorage.SetItemAsync("user", loginResponse);
+                    await AuthState.GetAuthenticationStateAsync();
+                    NavManager.NavigateTo("/announcements");
+                }
+            }
+            else
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                errorMessage = $"Eroare autentificare: {error}";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Exceptie: {ex.Message}";
+        }
+    }
+}

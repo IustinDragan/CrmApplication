@@ -4,8 +4,10 @@ using CRMRealEstate.Application.Helpers.Exceptions;
 using CRMRealEstate.Application.Models.UsersModels;
 using CRMRealEstate.Application.Services.Interfaces;
 using CRMRealEstate.DataAccess.Enums;
+using CRMRealEstate.DataAccess.Repositories;
 using CRMRealEstate.DataAccess.Repositories.Interfaces;
 using CRMRealEstate.Shared.Models.Users;
+using System.Data;
 
 namespace CRMRealEstate.Application.Services;
 
@@ -65,6 +67,29 @@ public class UsersService : IUsersServices
         return UsersResponseModel.FromUser(newUser);
     }
 
+    //public async Task<UsersResponseModel> CreateUserAsync(CreateUsersRequestModel requestModel)
+    //{
+    //    var user = requestModel.ToUser();
+    //    user.Roles = requestModel.isAgent ? Roles.SalesAgent : Roles.Customer;
+
+    //    // dacă este agent, trebuie să aibă companie
+    //    if (requestModel.isAgent && requestModel.Company != null)
+    //    {
+    //        // presupunem că adaugi compania în baza de date și primești ID-ul
+    //        var newCompany = await _companyRepository.AddAsync(requestModel.Company);
+    //        user.CompanyId = newCompany.Id;
+    //    }
+    //    else
+    //    {
+    //        // client simplu — fără companie
+    //        user.CompanyId = null;
+    //    }
+
+    //    await _usersRepository.AddAsync(user);
+
+    //    return UsersResponseModel.FromUser(user);
+    //}
+
     public async Task<UsersResponseModel> UpdateUserAsync(int id, CreateUsersRequestModel requestModel)
     {
         var userFromDb = _usersRepository.GetById(id);
@@ -122,7 +147,7 @@ public class UsersService : IUsersServices
         if (user.Password != requestModel.Password)
             throw new NotFoundException(UsersConstants.USERNAME_OR_PASSWORD_NOT_FOUND);
 
-        var token = JwtHelper.GenerateToken(user, "MySuperSecretKey");
+        var token = JwtHelper.GenerateToken(user, "MySuperSecretKeyMySuperSecretKey2");
 
 
         return new LoginResponseModel

@@ -30,7 +30,7 @@ namespace CRMRealEstate.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AppartamentNumber")
+                    b.Property<int?>("AppartamentNumber")
                         .HasColumnType("integer");
 
                     b.Property<string>("City")
@@ -38,7 +38,6 @@ namespace CRMRealEstate.DataAccess.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Country")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int?>("PropertyId")
@@ -126,7 +125,10 @@ namespace CRMRealEstate.DataAccess.Migrations
                     b.Property<int?>("AnnouncementId")
                         .HasColumnType("integer");
 
-                    b.Property<double>("Area")
+                    b.Property<int?>("ApartamentFloor")
+                        .HasColumnType("integer");
+
+                    b.Property<double?>("Area")
                         .HasColumnType("double precision");
 
                     b.Property<int>("BathroomsNumber")
@@ -138,6 +140,9 @@ namespace CRMRealEstate.DataAccess.Migrations
                     b.Property<string>("Details")
                         .HasColumnType("text");
 
+                    b.Property<int?>("FloorsTotalNumber")
+                        .HasColumnType("integer");
+
                     b.Property<double>("Price")
                         .HasColumnType("double precision");
 
@@ -148,7 +153,6 @@ namespace CRMRealEstate.DataAccess.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Utilities")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("isAvailable")
@@ -190,7 +194,7 @@ namespace CRMRealEstate.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CompanyId")
+                    b.Property<int?>("CompanyId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Email")
@@ -287,8 +291,7 @@ namespace CRMRealEstate.DataAccess.Migrations
                     b.HasOne("CRMRealEstate.DataAccess.Entities.Company", "Company")
                         .WithMany("Users")
                         .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Company");
                 });

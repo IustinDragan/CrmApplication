@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using CRMRealEstate.Application.Models.AdressModels;
+using CRMRealEstate.Application.Validators;
 
 internal class Program
 {
@@ -59,12 +61,23 @@ internal class Program
             options.TokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySuperSecretKey")),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySuperSecretKeyMySuperSecretKey2")),
                 ValidateLifetime = true,
                 ValidateIssuer = false,
                 ValidateAudience = false
             };
         });
+
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAll", policy =>
+            {
+                policy.WithOrigins("https://localhost:7111") // portul Blazor
+                      .AllowAnyHeader()
+                      .AllowAnyMethod();
+            });
+        });
+
 
 
         var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -82,13 +95,17 @@ internal class Program
         builder.Services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
         builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
         builder.Services.AddScoped<IPropertyService, PropertyService>();
+        builder.Services.AddScoped<IValidator<CreateAdressRequestModel>, AddressRequestModelValidator>();
 
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddControllers().AddJsonOptions(options => { });
 
+
+
         var app = builder.Build();
         //Fix care nu se face:
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
@@ -96,6 +113,8 @@ internal class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+
+        app.UseCors("AllowAll");
 
         app.UseHttpsRedirection();
 

@@ -1,0 +1,267 @@
+﻿
+
+.home-wrapper {
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    font-family: 'Poppins',  sans-serif;
+}
+
+.dashboard-card {
+    /* ... restul proprietăților existente ... */
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+    .dashboard-card:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .dashboard-card:nth-child(3) {
+        animation-delay: 0.4s;
+    }
+
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 2rem;
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.dark-toggle {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+    .dark-toggle:hover {
+        color: #ff6f00;
+    }
+
+.login-btn {
+    padding: 0.4rem 1rem;
+    font-weight: 500;
+    border-radius:  20px;
+}
+
+
+
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+            
+    }
+}
+
+.home-wrapper {
+    background: linear-gradient(to bottom right, #fff3e0, #ffe0b2); /* portocaliu deschis spre crem */
+    padding: 2rem 1rem;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+.hero-title {
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: #bf360c; /* portocaliu închis */
+    margin-bottom: 0.75rem;
+}
+
+.hero-sub {
+    font-size: 1.1rem;
+    color: #6c6c6c;
+    margin-bottom: 2.5rem;
+}
+
+.dashboard-cards {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 0 2rem;
+    margin-bottom: 4rem;
+}
+
+.dashboard-card {
+    background: #ffffff;
+    border: 1px solid #f0f0f0;
+    border-radius: 20px;
+    box-shadow: 0 4px 14px rgba(191, 54, 12, 0.1);
+    padding: 2rem 1.5rem;
+    max-width: 340px;
+    flex: 1 1 320px;
+    text-align: center;
+    transition: all 0.35s ease;
+}
+
+    .dashboard-card:hover {
+        box-shadow: 0 6px 20px rgba(191, 54, 12, 0.2);
+        transform: translateY(-6px);
+    }
+
+
+.dark-toggle {
+    margin-left: auto;
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    color: #333;
+    cursor: pointer;
+}
+
+.dark-toggle {
+    background-color: transparent;
+    border: none;
+    font-size: 1.4rem;
+    color: inherit;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+    .dark-toggle.active {
+        background-color: #ffffff;
+        color: #000000;
+        box-shadow: 0 0 6px rgba(0,  0,  0,  0.3);
+    }
+
+/* Stiluri dark mode */
+body.dark-mode {
+    background-color: #1e1e1e;
+    color: #f1f1f1;
+}
+
+    body.dark-mode .home-wrapper {
+        background: linear-gradient(to bottom right, #2c2c2c, #3d3d3d);
+    }
+
+    body.dark-mode .dashboard-card {
+        background-color: #2a2a2a;
+        border: 1px solid #444;
+        color: #eee;
+    }
+
+        body.dark-mode .dashboard-card p,
+        body.dark-mode .dashboard-card h5 {
+            color: #ddd;
+        }
+
+    body.dark-mode .btn-outline-primary {
+        border-color: #ff9800;
+        color: #ff9800;
+    }
+
+        body.dark-mode .btn-outline-primary:hover {
+            background-color: #ff9800;
+              color:   #fff;
+        }
+
+.card-icon {
+    font-size: 2.6rem;
+   /* color: #ff6f00;*/ /* portocaliu intens */
+    color: #000000; /* portocaliu intens */
+    margin-bottom: 1rem;
+}
+
+.dashboard-card h5 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #212121;
+}
+
+.dashboard-card p {
+    font-size: 0.95rem;
+    color: #444;
+    margin-bottom: 1.25rem;
+}
+
+.btn {
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: 30px;
+    padding: 0.5rem 1.25rem;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-outline-primary {
+    border: 2px solid #ff6f00;
+    color: #ff6f00;
+    background-color: transparent;
+}
+
+    .btn-outline-primary:hover {
+        background-color: #ff6f00;
+        color: #fff;
+    }
+
+footer {
+    margin-top:  5rem;
+}
+
+
+.imobiliare-search-bar {
+    display: flex;
+    align-items: center;
+    max-width: 600px; /* Adjust the width as needed */
+    margin: 20px auto; /* Adjust the margin as needed */
+    border: 1px solid #e1e1e1;
+    border-radius: 25px;
+    overflow: hidden;
+    position: absolute; /* Set the search bar to absolute positioning */
+    top: 20%; /* Position it 50% from the top of the parent container */
+    left: 70%; /* Position it 50% from the left of the parent container */
+    /*transform: translate(-50%, -50%); !* Center the search bar *!*/
+    /*background-color: tomato; !* Add a background color to the search bar if needed *!*/
+    /*padding: 10px;*/
+}
+
+    /* Style for the search input */
+    .imobiliare-search-bar input {
+        flex: 1;
+        padding: 15px;
+        border: none;
+        outline: none;
+        /*background-color: tomato;*/
+        /*culoarea background-ului din search*/
+    }
+
+    /* Style for the search button */
+    .imobiliare-search-bar button {
+        background-color: #fcfcfc;
+        border: none;
+        padding: 15px;
+        cursor: pointer;
+    }
+
+        /* Style for the search icon inside the button */
+        .imobiliare-search-bar button i {
+            color: #555;
+        }
+
+        /* Add hover effect to the search button */
+        .imobiliare-search-bar button:hover {
+            /*background-color: #f1f1f1;*/
+            background-color: tomato;
+        }

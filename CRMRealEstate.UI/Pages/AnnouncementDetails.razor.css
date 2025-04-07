@@ -1,0 +1,108 @@
+﻿.details-container {
+    padding: 2rem;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    max-width: 900px;
+    margin: 2rem auto;
+}
+
+.title {
+    font-size: 2rem;
+    color: #004E89;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.btn-back,
+.btn-edit {
+    background-color: #0071BC;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+    .btn-back:hover,
+    .btn-edit:hover {
+        background-color: #005fa3;
+    }
+
+.image-gallery {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+    .image-gallery img {
+        width: 30%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+.details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    color: #333;
+}
+
+.description {
+    background-color: #f9f9f9;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+    .description h4 {
+        margin-bottom: 0.5rem;
+        color: #333;
+    }
+
+.contact-agent {
+    background-color: #eef7fb;
+    padding: 1.2rem;
+    border-radius: 8px;
+    text-align: left;
+}
+
+    .contact-agent h4 {
+        margin-bottom: 0.8rem;
+        color: #004E89;
+    }
+
+.btn-contact {
+    background-color: #009BDB;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    margin-top: 1rem;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+    .btn-contact:hover {
+        background-color: #007bb8;
+    }
+
+.loading {
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.2rem;
+      color:   #666;
+}

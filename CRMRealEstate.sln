@@ -12,6 +12,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMRealEstate.Shared", "CRMRealEstate.Shared\CRMRealEstate.Shared.csproj", "{77953ABC-08F1-40F7-A5A2-26F88B643C00}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMRealEstate.UI", "CRMRealEstate.UI\CRMRealEstate.UI.csproj", "{0E0F034D-E133-43AE-B0AF-9ED063D67BCF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{77953ABC-08F1-40F7-A5A2-26F88B643C00} = {77953ABC-08F1-40F7-A5A2-26F88B643C00}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -84,8 +84,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
-    public async Task<IActionResult>
-        UpdateUserAsync(int id, CreateUsersRequestModel createUsersRequestModel) //TODO base model 
+    public async Task<IActionResult> UpdateUserAsync(int id, CreateUsersRequestModel createUsersRequestModel) //TODO base model 
     {
         var validator = new CreateUsersRequestValidator();
         var result = await validator.ValidateAsync(createUsersRequestModel);

@@ -1,7 +1,50 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+<div class="home-wrapper">
+    <h1 class="hero-title">Bine ai venit la CRM Real Estate</h1>
+    <p class="hero-sub">Administrează-ți anunțurile și proprietățile imobiliare cu ușurință.</p>
 
-<h1>Hello, world!</h1>
+    <div class="header-main-filter">
+        <div class="img-presentation-firstPage">
+            <img src="first_page_img4.jpg">
+            @* search bar 2 *@
+            <div class="imobiliare-search-bar">
+                <input type="text" placeholder="Caută...">
+                <button>
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </div>
 
-Welcome to your new app.
+    <div class="dashboard-cards">
+        <div class="dashboard-card">
+            <div class="card-icon">
+                <i class="bi bi-box"></i>
+            </div>
+            <h5>Proprietăți</h5>
+            <p>Vizualizează, adaugă și gestionează proprietățile tale listate.</p>
+            <a class="btn btn-outline-primary" href="/properties">Vezi Proprietăți</a>
+        </div>
+
+        <div class="dashboard-card">
+            <div class="card-icon">
+                <i class="bi bi-building"></i>
+            </div>
+            <h5>Anunțuri</h5>
+            <p>Publică anunțuri noi sau editează-le pe cele existente.</p>
+            <a class="btn btn-outline-primary" href="/announcements">Gestionare Anunțuri</a>
+        </div>
+
+        <div class="dashboard-card">
+            <div class="card-icon">
+                <i class="bi bi-person"></i>
+            </div>
+            <h5>Profilul Meu</h5>
+            <p>Actualizează datele contului tău și informațiile personale.</p>
+            <a class="btn btn-outline-primary" href="/profile">Vezi Profil</a>
+        </div>
+    </div>
+</div>
+
+

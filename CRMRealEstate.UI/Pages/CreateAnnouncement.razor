@@ -1,0 +1,326 @@
+﻿@page "/announcements/create"
+@using System.Net.Http.Json
+@using CRMRealEstate.UI.Models
+@inject HttpClient Http
+@inject NavigationManager Navigation
+
+<div class="announcement-wizard">
+    <h2 class="wizard-title">Adaugă un anunț</h2>
+
+    <!-- Tip anunț -->
+    <div class="wizard-step">
+        <h5>Selectează tipul anunțului</h5>
+        <div class="option-grid">
+            <div class="option-box @(announcementType == "vanzare" ? "active" : null)" @onclick='() => SelectType("vanzare")'>
+                <img src="/images/sale-icon.png" alt="vânzare" />
+                <span>Vânzare</span>
+            </div>
+            <div class="option-box @(announcementType == "inchiriere" ? "active" : null)" @onclick='() => SelectType("inchiriere")'>
+                <img src="/images/rent-icon.png" alt="închiriere" />
+                <span>Închiriere</span>
+            </div>
+        </div>
+    </div>
+
+    @using CRMRealEstate.DataAccess.Enums
+
+    <!-- Tip proprietate -->
+    <div class="wizard-step">
+        <h5>Selectează tipul proprietății</h5>
+        <div class="option-grid">
+            <div class="option-box @(selectedPropertyType == PropertyType.Apartment ? "active" : null)"
+                 @onclick='() => SelectPropertyType(PropertyType.Apartment)'>
+                <img src="/images/apartment-icon.png" alt="apartament" />
+                <span>Apartament</span>
+            </div>
+            <div class="option-box @(selectedPropertyType == PropertyType.House ? "active" : null)"
+                 @onclick='() => SelectPropertyType(PropertyType.House)'>
+                <img src="/images/house-icon.png" alt="casă" />
+                <span>Casă</span>
+            </div>
+            <div class="option-box @(selectedPropertyType == PropertyType.Land ? "active" : null)"
+                 @onclick='() => SelectPropertyType(PropertyType.Land)'>
+                <img src="/images/land-icon.png" alt="teren" />
+                <span>Teren</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detalii anunț -->
+    <div class="wizard-step">
+        @if (selectedPropertyType == PropertyType.Apartment)
+        {
+            <h5>Detalii anunț</h5>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <i class="bi bi-card-text"></i>
+                    <input class="form-input" placeholder="Titlu" @bind="_announcementRequestModel.Title" />
+                </div>
+
+                <div class="form-group">
+                    <i class="bi bi-info-circle"></i>
+                    <textarea class="form-textarea" rows="1" placeholder="Descriere" @bind="_announcementRequestModel.Property.Details"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <i class="bi bi-currency-euro"></i>
+                    <input class="form-input" type="number" placeholder="Preț (EUR)" @bind-value="_announcementRequestModel.Property.Price" @bind-value:event="oninput" />
+                </div>
+
+                <div class="form-group">
+                    <i class="bi bi-aspect-ratio-fill"></i>
+                    <input class="form-input" type="number" placeholder="Suprafață (mp)" @bind-value="_announcementRequestModel.Property.HouseUsableArea" @bind-value:event="oninput" />
+                </div>
+
+                <div class="form-group">
+                    <i class="bi bi-calendar-event"></i>
+                    <input class="form-input" type="number" placeholder="An construcție" @bind-value="_announcementRequestModel.Property.ConstructionYear" @bind-value:event="oninput" />
+                </div>
+
+                <div class="form-group">
+                    <i class="bi bi-door-closed"></i>
+                    <input class="form-input" type="number" placeholder="Număr camere" @bind-value="_announcementRequestModel.Property.RoomsNumber" @bind-value:event="oninput" />
+                </div>
+
+                <div class="form-group">
+                    <i class="bi bi-droplet"></i>
+                    <input class="form-input" type="number" placeholder="Număr băi" @bind-value="_announcementRequestModel.Property.BathroomsNumber" @bind-value:event="oninput" />
+                </div>
+
+                <div class="form-group">
+                    <i class="bi bi-building-up"></i>
+                    <input class="form-input" type="number" placeholder="Etaj" @bind-value="_announcementRequestModel.Property.ApartamentFloor" @bind-value:event="oninput" />
+                </div>
+
+                <div class="form-group">
+                    <i class="bi bi-layers-half"></i>
+                    <input class="form-input" type="number" placeholder="Etaje bloc" @bind-value="_announcementRequestModel.Property.FloorsTotalNumber" @bind-value:event="oninput" />
+                </div>
+
+                <div class="form-group">
+                    <i class="bi bi-box-arrow-in-down"></i>
+                    <select id="elevator"
+                            class="form-input"
+                            @bind-value="_announcementRequestModel.Property.Elevator"
+                            @bind-value:event="oninput">
+                        <option value="" disabled selected hidden>Lift</option>
+                        <option value="true">Da</option>
+                        <option value="false">Nu</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <i class="bi bi-tools"></i>
+                    <input class="form-input" type="text" placeholder="Utilități (ex: apă, gaz, electricitate)"
+                           @bind="_announcementRequestModel.Property.Utilities"   />
+                </div>
+
+                <div class="form-group">
+                    <i class="bi bi-123"></i>
+                    <input class="form-input" type="number" placeholder="Număr apartament" @bind-value="_announcementRequestModel.Property.Adress.AppartamentNumber" @bind-value:event="oninput" />
+                </div>
+
+                <div class="form-group">
+                    <i class="bi bi-geo-alt"></i>
+                    <input class="form-input" type="text" placeholder="Oraș" @bind="_announcementRequestModel.Property.Adress.City" />
+                </div>
+
+                <div class="form-group">
+                    <i class="bi bi-signpost-split"></i>
+                    <input class="form-input" type="text" placeholder="Stradă" @bind-value="_announcementRequestModel.Property.Adress.Street" @bind-value:event="oninput" />
+                </div>
+
+                <div class="form-group">
+                    <i class="bi bi-123"></i>
+                    <input class="form-input" type="number" placeholder="Număr stradă" @bind-value="_announcementRequestModel.Property.Adress.StreetNumber" @bind-value:event="oninput" />
+                </div>
+
+            </div>
+
+        }
+        else if (selectedPropertyType == PropertyType.House)
+        {
+
+            <h5>Detalii anunț</h5>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <i class="bi bi-card-text"></i>
+                    <input class="form-input" placeholder="Titlu" @bind="_announcementRequestModel.Title" />
+                </div>
+
+                <div class="form-group">
+                    <i class="bi bi-info-circle"></i>
+                    <textarea class="form-textarea" rows="1" placeholder="Descriere" @bind="_announcementRequestModel.Property.Details"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <i class="bi bi-currency-euro"></i>
+                    <input class="form-input" type="number" placeholder="Preț (Eur)" @bind-value="_announcementRequestModel.Property.Price" @bind-value:event="oninput" />
+                </div>
+
+                <div class="form-group">
+                    <i class="bi bi-aspect-ratio-fill"></i>
+                    <input class="form-input" type="number" placeholder="Suprafață teren (mp)" @bind-value="_announcementRequestModel.Property.LandArea" @bind-value:event="oninput" />
+                </div>
+
+                <div class="form-group">
+                    <i class="bi bi-bounding-box"></i>
+                    <input class="form-input" type="number" placeholder="Suprafață utilă (mp)" @bind-value="_announcementRequestModel.Property.HouseUsableArea" @bind-value:event="oninput" />
+                </div>
+
+                <div class="form-group">
+                    <i class="bi bi-calendar-event"></i>
+                    <input class="form-input" type="number" placeholder="An construcție" @bind-value="_announcementRequestModel.Property.ConstructionYear" @bind-value:event="oninput" />
+                </div>
+
+                <div class="form-group">
+                    <i class="bi bi-door-closed"></i>
+                    <input class="form-input" type="number" placeholder="Număr camere" @bind-value="_announcementRequestModel.Property.RoomsNumber" @bind-value:event="oninput" />
+                </div>
+
+                <div class="form-group">
+                    <i class="bi bi-droplet"></i>
+                    <input class="form-input" type="number" placeholder="Număr băi" @bind-value="_announcementRequestModel.Property.BathroomsNumber" @bind-value:event="oninput" />
+                </div>
+
+                <div class="form-group">
+                    <i class="bi bi-layers"></i>
+                    <input class="form-input" type="number" placeholder="Număr etaje" @bind-value="_announcementRequestModel.Property.FloorsTotalNumber" @bind-value:event="oninput" />
+                </div>
+
+                <div class="form-group">
+                    <i class="bi bi-tools"></i>
+                    <input class="form-input" type="text" placeholder="Utilități (ex: apă, gaz, electricitate)"
+                           @bind="_announcementRequestModel.Property.Utilities"   />
+                </div>
+
+                <div class="form-group">
+                    <i class="bi bi-geo-alt"></i>
+                    <input class="form-input" type="text" placeholder="Oraș" @bind-value="_announcementRequestModel.Property.Adress.City" @bind-value:event="oninput" />
+                </div>
+
+                <div class="form-group">
+                    <i class="bi bi-signpost"></i>
+                    <input class="form-input" type="text" placeholder="Stradă" @bind-value="_announcementRequestModel.Property.Adress.Street" @bind-value:event="oninput" />
+                </div>
+
+                <div class="form-group">
+                    <i class="bi bi-123"></i>
+                    <input class="form-input" type="number" placeholder="Număr stradă" @bind-value="_announcementRequestModel.Property.Adress.StreetNumber" @bind-value:event="oninput" />
+                </div>
+            </div>
+
+        }
+        else if (selectedPropertyType == PropertyType.Land)
+        {
+            <h5>Detalii anunț</h5>
+            <label>Titlu</label>
+            <input class="form-input" @bind="_announcementRequestModel.Title" />
+
+            <label>Descriere</label>
+            <textarea class="form-textarea" rows="4" @bind="_announcementRequestModel.Property.Details"></textarea>
+
+            <div class="form-group">
+                <i class="bi bi-currency-euro"></i>
+                <input class="form-input" placeholder="Preț (Eur)" type="number" @bind="_announcementRequestModel.Property.Price"   />
+            </div>
+
+            <div class="form-group">
+                <i class="bi bi-aspect-ratio-fill"></i>
+                <input class="form-input" type="number" placeholder="Suprafață teren (mp)" @bind-value="_announcementRequestModel.Property.LandArea" @bind-value:event="oninput" />
+            </div>
+
+            <div class="form-group">
+                <i class="bi bi-tools"></i>
+                <input class="form-input" type="text" placeholder="Utilități (ex: apă, gaz, electricitate)"
+                       @bind="_announcementRequestModel.Property.Utilities"   />
+            </div>
+
+            <div class="form-group">
+                <i class="bi bi-geo-alt"></i>
+                <input class="form-input" type="text" placeholder="Oraș" @bind="_announcementRequestModel.Property.Adress.City" />
+            </div>
+
+            <div class="form-group">
+                <i class="bi bi-geo-alt"></i>
+                <input class="form-input" placeholder="Stradă" @bind="_announcementRequestModel.Property.Adress.Street"   />
+            </div>
+
+
+            <div class="form-group">
+                <i class="bi bi-123"></i>
+                <input class="form-input" type="number" placeholder="Număr stradă" @bind-value="_announcementRequestModel.Property.Adress.StreetNumber" @bind-value:event="oninput" />
+            </div>
+        }
+    </div>
+
+    <div class="wizard-footer">
+        <button class="submit-btn" @onclick="HandleSubmit">Publică Anunțul</button>
+        @if (!string.IsNullOrEmpty(successMessage))
+        {
+            <div class="success-box">@successMessage</div>
+        }
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="error-box">@errorMessage</div>
+        }
+    </div>
+</div>
+
+@code {
+    //private CreateAnnouncementRequestModel _announcementRequestModel = new();
+    private CreateAnnouncementRequestModel _announcementRequestModel;
+    private string? successMessage;
+    private string? errorMessage;
+    private string announcementType = "";
+
+    private PropertyType selectedPropertyType;
+
+    protected override void OnInitialized()
+    {
+        _announcementRequestModel = new CreateAnnouncementRequestModel
+            {
+                Property = new CreatePropertyRequestModel
+                {
+                    Adress = new CreateAdressRequestModel()
+                }
+            };
+    }
+
+    private void SelectPropertyType(PropertyType type)
+    {
+        selectedPropertyType = type;
+        _announcementRequestModel.Property.PropertyType = type;
+    }
+
+    private void SelectType(string type)
+    {
+        announcementType = type;
+    }
+
+    private async Task HandleSubmit()
+    {
+
+        try
+        {
+            var response = await Http.PostAsJsonAsync("announcement", _announcementRequestModel);
+            if (response.IsSuccessStatusCode)
+            {
+                successMessage = "Anunțul a fost publicat cu succes!";
+                errorMessage = null;
+                _announcementRequestModel = new CreateAnnouncementRequestModel();
+            }
+            else
+            {
+                errorMessage = "Eroare la publicarea anunțului.";
+                successMessage = null;
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Exceptie: {ex.Message}";
+        }
+    }
+}

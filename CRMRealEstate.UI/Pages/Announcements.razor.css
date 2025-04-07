@@ -1,0 +1,510 @@
+﻿:root {
+    --bg-body: var(--bg-body);
+    --bg-hot: var(--bg-hot);
+    --bg-featured: var(--bg-featured);
+    --p-text-color: var(--p-text-color);
+    --icon-info-color: var(--icon-info-color);
+    --icon-image-color: var(--icon-image-color);
+    --h2-text-color: var(--h2-text-color);
+    --price-text-color: var(--price-text-color);
+    --backgound-imgage: var(--background-image);
+    --border-view-color: var(--border-view-color);
+    --blue-hover: var(--blue-hover);
+}
+
+body {
+    background-color: var(--bg-body);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+.premium-text {
+    text-align: center;
+    color: #003366;
+    font-family: 'Georgia', serif;
+    font-size: 13px;
+    font-weight: bold;
+    margin: 0.5rem 0;
+    line-height: 1.4;
+    font-style: italic;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+/**/
+
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr repeat(12, minmax(auto, 60px)) 1fr;
+    grid-gap: 10px;
+    margin: 35px 0;
+}
+
+.cards {
+    grid-column: 2 / span 12;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 15px;
+    position: relative;
+}
+
+.card {
+    height: 320px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: var(--icon-image-color);
+    box-shadow: 0px 0px 7px 3px #dfdfdf;
+    position: relative;
+    padding-bottom: 2rem;
+}
+
+    .card:hover {
+        transform: scale(0.98);
+    }
+
+.img-overlay {
+    width: 100%;
+    height: 100px; /* mai mic decât 100px */
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-start; /* împinge imaginea sus */
+    justify-content: center;
+    padding-top: 20px; /* ridică și mai mult imaginea */
+}
+
+    .img-overlay img {
+        width: 60%; /* mai îngust decât 100% */
+        height: auto;
+        object-fit: cover;
+        object-position: top;
+        z-index: 1;
+        margin-top: -10px; /* opțional, trage imaginea mai sus în container */
+    }
+
+figcaption {
+    padding: 10px 0;
+    font-weight: bold;
+    text-align: center;
+    color: var(--h2-text-color);
+    font-size: 1rem;
+    line-height: 1.1;
+}
+
+.card-content {
+    padding: 0 15px;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 4px;
+    line-height: 1.3;
+    height: 100%;
+    overflow: hidden;
+    background-color: #f9f9f9;
+}
+
+    .card-content p {
+        color: var(--p-text-color);
+        font-size: 12px;
+        margin: 0;
+        line-height: 1.2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+
+
+.price {
+    margin-top: 0.3rem;
+    font-size: 14px;
+    line-height: 1.2;
+    font-weight: bold;
+    text-align: center;
+}
+
+    .price span:last-of-type {
+        color: var(--price-text-color);
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+.card-buttons {
+    position: absolute;
+    bottom: 10px;
+    left: 15px;
+    right: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-detail,
+.btn-delete {
+    padding: 0.3rem 0.6rem;
+    font-size: 12px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-detail {
+    background-color: transparent;
+    border: 1px solid var(--border-view-color);
+    color: var(--border-view-color);
+}
+
+    .btn-detail:hover {
+        background-color: var(--blue-hover);
+        color: var(--icon-image-color);
+        border-color: var(--blue-hover);
+    }
+
+.btn-delete {
+    background-color: #e74c3c;
+    color: var(--icon-image-color);
+}
+
+    .btn-delete:hover {
+        background-color: #c0392b;
+    }
+
+
+.icons-home {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 0.9rem;
+    margin: 10px 0;
+}
+
+.name-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+    .name-icon span {
+        color: var(--h2-text-color);
+        font-weight: 500;
+        font-family: 'Open Sans', sans-serif;
+    }
+
+.icon {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #333;
+}
+
+    .icon i {
+        font-size: 16px;
+        color: var(--icon-info-color);
+    }
+
+
+
+.img-overlay:hover
+
+.cont {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 6;
+}
+
+.icons-img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 10px;
+}
+
+
+    .icons-img .btn-share,
+    .icons-img .btn-fav {
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        font-size: 18px;
+        transition: color 0.2s ease;
+    }
+
+        /* Culoare implicită: roșu */
+        .icons-img .btn-share i {
+            color: #e74c3c;
+        }
+
+        .icons-img .btn-fav i {
+            color: #e74c3c;
+        }
+
+        /* Hover pe share – afectează DOAR iconița din interiorul butonului .btn-share */
+        .icons-img .btn-share:hover i {
+            color: #c0392b;
+        }
+
+        /* Hover pe favorite – afectează DOAR iconița din interiorul butonului .btn-fav */
+        .icons-img .btn-fav:hover i {
+            color:   #c0392b;
+        }
+
+
+
+
+.card-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.btn-detail {
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--blue-hover);
+    color: var(--blue-hover);
+    background: transparent;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+    .btn-detail:hover {
+        background-color: var(--blue-hover);
+        color: var(--icon-image-color);
+    }
+
+.btn-delete {
+    padding: 0.4rem 1rem;
+    border: none;
+    background-color: #e74c3c;
+    color: var(--icon-image-color);
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+    .btn-delete:hover {
+        background-color:   #c0392b;
+    }
+
+/* Fade-in animation for cards */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    border-radius: 12px;
+    animation: fadeInUp 0.5s ease forwards;
+    background-color: #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .card:hover {
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+/* Badge: Nou / Promovat etc. */
+.badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #ff5e57;
+    color: var(--icon-image-color);
+    padding: 5px 8px;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 4px;
+    text-transform: uppercase;
+    z-index: 10;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.card .img-overlay img {
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-body: #121212;
+        --h2-text-color: #e0e0e0;
+        --p-text-color: #b0b0b0;
+        --price-text-color: #4dd0e1;
+        --border-view-color: #4dd0e1;
+    }
+
+    body {
+        background-color: var(--bg-body);
+    }
+
+    .card {
+        background-color: #1e1e1e;
+        box-shadow: 0 0 10px rgba(0,0,0,0.4);
+    }
+
+    .btn-detail {
+        border-color: var(--border-view-color);
+        color: var(--border-view-color);
+    }
+
+        .btn-detail:hover {
+            background-color: var(--border-view-color);
+            color: black;
+        }
+}
+
+.overlay {
+    width: 100%;
+}
+
+
+/*.search-container {
+    text-align: center;
+    margin: 20px;
+}
+
+.search-price-container {
+    text-align: center;
+    margin: 20px;
+}
+
+#searchInput {
+    padding: 10px;
+    width: 300px;
+}
+
+#searchButton {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.search-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-price-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-container div {
+    background: #fff;
+    width: 600px;
+    height: 55px;
+    display: flex;
+}
+
+.search-price-container div {
+    background: #fff;
+    width: 600px;
+    height: 55px;
+    display: flex;
+}
+
+.search-container input {
+    flex: 1;
+    border: none;
+    outline: none;
+}
+
+.search-price-container input {
+    flex: 1;
+    border: none;
+    outline: none;
+}
+
+.search-container button {
+    background: tomato;
+    padding: 10px 50px;
+    border: none;
+    outline: none;
+    color: #fff;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.search-price-container button {
+    background: tomato;
+    padding: 10px 50px;
+    border: none;
+    outline: none;
+    color: #fff;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.search-container .fa-magnifying-glass {
+    align-self: center;
+    padding: 10px 20px;
+    color: #777;
+}
+
+.search-price-container .fa-magnifying-glass {
+    align-self: flex-start;
+    padding: 10px 20px;
+    color: #777;
+}*/
+
+.search-wrapper {
+    grid-column: 2 / span 12;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+    .search-wrapper input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        min-width: 150px;
+        flex: 1;
+    }
+
+    .search-wrapper button {
+        padding: 10px 30px;
+        background-color: tomato;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .search-wrapper i {
+        color: #777;
+        margin-right:  5px;
+    }

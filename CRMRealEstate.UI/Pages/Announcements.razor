@@ -1,0 +1,208 @@
+﻿
+@page "/announcements"
+@using CRMRealEstate.UI.Models
+@inject HttpClient Http
+@inject NavigationManager NavManager
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Text
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
+
+<div class="container">
+    <div class="container">
+        <div class="search-wrapper">
+            
+            <input type="text" placeholder="Caută..."  @bind="searchText" @bind:event="oninput" />
+            <button @onclick="Search">Caută</button>
+            
+            
+            <input type="number" placeholder="Minim" @bind="minPrice" @bind:event="oninput" />
+            <input type="number" placeholder="Maxim" @bind="maxPrice" @bind:event="oninput" />
+            <button @onclick="FilterPrice">Caută</button>
+        </div>
+
+        <div class="cards">
+            @* cardurile tale *@
+        </div>
+    </div>
+
+
+    <div class="cards">
+        @if (announcements == null)
+        {
+            <div class="loading">Se încarcă anunțurile...</div>
+        }
+        else if (!announcements.Any())
+        {
+            <div class="empty">Nu există anunțuri disponibile.</div>
+        }
+        else
+        {
+            @foreach (var item in announcements)
+            {
+                <section class="card">
+                    <figure>
+                        <div class="img-overlay hot-home">
+                            <img src="/images/InterfataAnunt/ForEachAnnouncement.jpg" alt="Poză anunț" />
+                            <div class="overlay">
+                                <div class="icons-img">
+                                    <button class="btn-share"><i class="fas fa-share"></i></button>
+                                    <button class="btn-fav"><i class="fas fa-heart"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <figcaption>@item.Title</figcaption>
+                    </figure>
+
+                    <div class="card-content">
+                        <p class="premium-text">@item.Property.Details</p>
+
+                        <section class="icons-home">
+                            <div class="name-icon">
+                                <span>Camere</span>
+                                <div class="icon">
+                                    <i class="fas fa-bed"></i>
+                                    <span>@item.Property.RoomsNumber</span>
+                                </div>
+                            </div>
+                            <div class="name-icon">
+                                <span>Băi</span>
+                                <div class="icon">
+                                    <i class="fas fa-sink"></i>
+                                    <span>@item.Property.BathroomsNumber</span>
+                                </div>
+                            </div>
+                            <div class="name-icon">
+                                <span>Suprafață</span>
+                                <div class="icon">
+                                    <i class="fas fa-vector-square"></i>
+                                    <span>@item.Property.HouseTotalArea m²</span>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="price">
+                            <span>Pret: </span>
+                            <span>@($"{item.Property.Price} €")</span>
+                        </section>
+
+                        <div class="card-buttons">
+                            <button class="btn-detail" @onclick="() => GoToDetails(item.Id)">Detalii</button>
+
+                            <AuthorizeView Roles="SalesAgent">
+                                <Authorized>
+                                    <button class="btn-delete" @onclick="() => ConfirmDeleteAsync(item.Id)">Șterge</button>
+                                </Authorized>
+                            </AuthorizeView>
+                        </div>
+                    </div>
+                </section>
+            }
+        }
+    </div>
+</div>
+
+@code {
+    private List<AnnouncementResponseModel> announcements;
+    //private List<AnnouncementResponseModel> announcements = new();
+
+    private readonly string startDate = string.Empty;
+    private string searchText = string.Empty;
+    private string queryString = string.Empty;
+    private string queryStringForPrice = string.Empty;
+    private List<AnnouncementResponseModel> responseContent = new();
+    private double? priceFilter;
+
+    private double? minPrice;
+    private double? maxPrice;
+
+    private async Task Search()
+    {
+        queryString = BuildQueryString(searchText);
+        var apiUrl = queryString;
+
+        announcements = await Http.GetFromJsonAsync<List<AnnouncementResponseModel>>(apiUrl);
+    }
+
+    private async Task FilterPrice()
+    {
+        queryStringForPrice = BuildQueryStringForPrice(minPrice, maxPrice);
+        var apiUrl = queryStringForPrice;
+
+        announcements = await Http.GetFromJsonAsync<List<AnnouncementResponseModel>>(apiUrl);
+    }
+
+    private string BuildQueryString(string searchText)
+    {
+        var queryBuilder = new StringBuilder("announcement?");
+
+        if (!string.IsNullOrEmpty(startDate))
+        {
+            queryBuilder.Append($"startDate={startDate}&");
+        }
+
+        if (!string.IsNullOrEmpty(searchText))
+        {
+            queryBuilder.Append($"searchText={searchText}&");
+        }
+
+        if (queryBuilder.Length > 0)
+        {
+            queryBuilder.Length--;
+        }
+
+        var apiUrl = "announcement" + (!string.IsNullOrEmpty(queryString) ? "?" + queryString : "");
+
+        return queryBuilder.ToString();
+    }
+
+
+    private string BuildQueryStringForPrice(double? minPrice, double? maxPrice)
+    {
+        var queryBuilder = new StringBuilder("announcement?");
+
+        if (minPrice.HasValue)
+        {
+            queryBuilder.Append($"price={minPrice}&");
+        }
+
+        if (maxPrice.HasValue)
+        {
+            queryBuilder.Append($"maxValue={maxPrice}&");
+        }
+
+        if (queryBuilder.Length > 0)
+        {
+            queryBuilder.Length--;
+        }
+
+        return queryBuilder.ToString();
+    }
+
+
+    private AnnouncementResponseModel selectedAnnouncement;
+    
+
+    protected override async Task OnInitializedAsync()
+    {
+        announcements = await Http.GetFromJsonAsync<List<AnnouncementResponseModel>>("announcement");
+    }
+
+    private void GoToDetails(int id)
+    {
+        NavManager.NavigateTo($"/announcements/{id}");
+    }
+
+    private async Task ConfirmDeleteAsync(int id)
+    {
+        var confirm = await JSRuntime.InvokeAsync<bool>("confirm", "Sigur dorești să ștergi acest anunț?");
+        if (confirm)
+        {
+            await Http.DeleteAsync($"announcement/{id}");
+            announcements = await Http.GetFromJsonAsync<List<AnnouncementResponseModel>>("announcement");
+        }
+    }
+
+    [Inject] private IJSRuntime JSRuntime { get; set; }
+}

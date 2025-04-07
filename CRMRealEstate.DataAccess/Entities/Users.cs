@@ -36,7 +36,7 @@ public class Users
     [Phone]
     public string PhoneNumber { get; set; }
     
-    public int CompanyId { get; set; }
+    public int? CompanyId { get; set; }
     [ForeignKey("CompanyId")] public Company? Company { get; set; }
     
     [Required]

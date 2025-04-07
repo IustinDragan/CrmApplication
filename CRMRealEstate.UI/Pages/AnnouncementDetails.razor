@@ -1,0 +1,101 @@
+﻿@page "/announcements/{Id:int}"
+@using CRMRealEstate.DataAccess.Enums
+@using CRMRealEstate.UI.Models
+@inject HttpClient Http
+@inject NavigationManager NavManager
+@using Microsoft.AspNetCore.Components.Authorization
+
+@if (announcement == null)
+{
+    <div class="loading">Se încarcă detaliile anunțului...</div>
+}
+else
+{
+    <div class="details-container">
+        <div class="button-container">
+            <button class="btn-back" @onclick="@(() => NavManager.NavigateTo("/announcements"))">
+                &larr; Înapoi la anunțuri
+            </button>
+
+            <AuthorizeView Roles="SalesAgent">
+                <Authorized>
+                    <button class="btn-edit" @onclick="@(() => NavManager.NavigateTo($"/announcements/edit/{Id}"))">
+                        ✏ Editează anunțul
+                    </button>
+                </Authorized>
+            </AuthorizeView>
+        </div>
+
+        <h2 class="title">@announcement.Title</h2>
+
+        <!-- Galerie imagini mock -->
+        <div class="image-gallery">
+            <img src="/images/Apartamente/Apartament1a.jpg" alt="Poză anunț" />
+            <img src="/images/Apartamente/Apartament1b.jpg" alt="Poză anunț" />
+            <img src="/images/Apartamente/Apartament1c.jpg" alt="Poză anunț" />
+        </div>
+
+        <div class="details-grid">
+
+            <div><strong>Preț:</strong> @($"{announcement.Property.Price} €")</div>
+            <div><strong>An construcție:</strong> @announcement.Property.ConstructionYear</div>
+            <div><strong>Utilități:</strong> @announcement.Property.Utilities</div>
+
+            @if (announcement.Property.PropertyType == PropertyType.Apartment)
+            {
+                <div><strong>Camere:</strong> @announcement.Property.RoomsNumber</div>
+                <div><strong>Băi:</strong> @announcement.Property.BathroomsNumber</div>
+                <div><strong>Suprafață utilă:</strong> @announcement.Property.HouseUsableArea m²</div>
+                <div><strong>Etaj:</strong> @(announcement.Property.ApartamentFloor ?? 0)</div>
+                <div><strong>Etaje bloc:</strong> @announcement.Property.FloorsTotalNumber</div>
+                <div><strong>Lift:</strong> @(announcement.Property.Elevator == true ? "Da" : "Nu")</div>
+                <div><strong>Oraș:</strong> @announcement.Property.Adress</div>
+            }
+            else if (announcement.Property.PropertyType == PropertyType.House)
+            {
+                <div><strong>Camere:</strong> @announcement.Property.RoomsNumber</div>
+                <div><strong>Băi:</strong> @announcement.Property.BathroomsNumber</div>
+                <div><strong>Suprafață utilă:</strong> @announcement.Property.HouseUsableArea m²</div>
+                <div><strong>Suprafață teren:</strong> @announcement.Property.LandArea m²</div>
+                <div><strong>Număr etaje:</strong> @announcement.Property.FloorsTotalNumber</div>
+                <div><strong>Oraș:</strong> @announcement.Property.Adress</div>
+            }
+            else if (announcement.Property.PropertyType == PropertyType.Land)
+            {
+                <div><strong>Suprafață teren:</strong> @announcement.Property.LandArea m²</div>
+                <div><strong>Oraș:</strong> @announcement.Property.Adress</div>
+            }
+
+        </div>
+
+        <div class="description">
+            <h4>Descriere:</h4>
+            <p>@announcement.Property.Details</p>
+        </div>
+
+        <AuthorizeView Roles="Customer">
+            <Authorized>
+                <div class="contact-agent">
+                    <h4>Contactează agentul</h4>
+                    <p><strong>Nume:</strong> Andrei Popescu</p>
+                    <p><strong>Email:</strong> andrei.popescu@imobcrm.ro</p>
+                    <p><strong>Telefon:</strong> 0722 123 456</p>
+                    <button class="btn-contact">Trimite mesaj</button>
+                </div>
+            </Authorized>
+            <NotAuthorized> </NotAuthorized>
+        </AuthorizeView>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private AnnouncementResponseModel? announcement;
+
+    protected override async Task OnInitializedAsync()
+    {
+        announcement = await Http.GetFromJsonAsync<AnnouncementResponseModel>($"/announcement/{Id}");
+    }
+}

@@ -10,7 +10,7 @@ namespace CRMRealEstate.API.Controllers
 {
     [ApiController]
     [Route("announcement")]
-    [Authorize(Roles = "SalesAgent")]
+    //[Authorize(Roles = "SalesAgent")]
     [AllowAnonymous]
     public class AnnouncementsController : ControllerBase
     {
@@ -25,6 +25,7 @@ namespace CRMRealEstate.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "SalesAgent")]
         public async Task<IActionResult> CreateAnnouncementAsync(CreateAnnouncementRequestModel createAnnouncementRequestModel)
         {
             var validationResponse = _validator.GetValidationResult(createAnnouncementRequestModel.Property.Adress);
@@ -38,7 +39,7 @@ namespace CRMRealEstate.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "SalesAgent, Customer")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllAnnouncementsAsync([FromQuery] ReadAnnouncementRequestModel requestModel)
         {
             var announcementEntity = await _announcementService.ReadAllAsync(requestModel);
@@ -47,6 +48,7 @@ namespace CRMRealEstate.API.Controllers
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAnnouncementByIdAsync(int id)
         {
             var announcementEntityById = await _announcementService.ReadByIdAsync(id);
@@ -62,6 +64,7 @@ namespace CRMRealEstate.API.Controllers
         // }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "SalesAgent")]
         public async Task<IActionResult> UpdateAnnouncementAsync(int id,
             UpdateAnnouncementRequestModel updateAnnouncementRequestModel)
         {
@@ -75,6 +78,7 @@ namespace CRMRealEstate.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "SalesAgent")]
         public async Task<IActionResult> DeleteAnnouncementById(int id)
         {
             await _announcementService.DeleteAsync(id);

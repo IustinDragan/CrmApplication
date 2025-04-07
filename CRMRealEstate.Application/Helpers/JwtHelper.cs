@@ -32,7 +32,7 @@ public class JwtHelper
             Subject = claimIdentity,
             Expires = DateTime.Now.AddDays(7),
             SigningCredentials = new SigningCredentials(
-                new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySuperSecretKey")),
+                new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySuperSecretKeyMySuperSecretKey2")),
                 SecurityAlgorithms.HmacSha256Signature)
         };
 

@@ -1,0 +1,37 @@
+﻿<div class="search-bar">
+    <input type="text" class="form-control" placeholder="Caută..."
+           @bind="SearchText" @bind:event="oninput" />
+
+    <input type="number" class="form-control" placeholder="Preț minim"
+           @bind="MinPrice" />
+
+    <input type="number" class="form-control" placeholder="Preț maxim"
+           @bind="MaxPrice" />
+
+    <button class="btn btn-primary" @onclick="OnSearch">Caută</button>
+    <button class="btn btn-secondary" @onclick="OnFilterPrice">Filtru preț</button>
+</div>
+
+@code {
+    [Parameter] public string SearchText { get; set; }
+    [Parameter] public EventCallback<string> SearchTextChanged { get; set; }
+
+    [Parameter] public double? MinPrice { get; set; }
+    [Parameter] public EventCallback<double?> MinPriceChanged { get; set; }
+
+    [Parameter] public double? MaxPrice { get; set; }
+    [Parameter] public EventCallback<double?> MaxPriceChanged { get; set; }
+
+    [Parameter] public EventCallback OnSearchClicked { get; set; }
+    [Parameter] public EventCallback OnPriceFilterClicked { get; set; }
+
+    private async Task OnSearch()
+    {
+        await OnSearchClicked.InvokeAsync();
+    }
+
+    private async Task OnFilterPrice()
+    {
+        await OnPriceFilterClicked.InvokeAsync();
+    }
+}

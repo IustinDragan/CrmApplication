@@ -1,16 +1,115 @@
 ﻿@inherits LayoutComponentBase
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+@using Blazored.LocalStorage
+@using Microsoft.AspNetCore.Components.Authorization
+@using RealEstate.Web
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager Navigation
+@inject ILocalStorageService LocalStorage
+@inject IJSRuntime JS
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+<AuthorizeView>
+    <Authorized Context="auth">
+        <header class="header-nav">
+            <div class="container-nav">
+                <div class="nav-left">
+                    <a href="/" class="brand">CRM Real Estate</a>
+                    <a href="/properties" class="nav-link">
+                        <i class="bi bi-building me-1"></i> Proprietăți
+                    </a>
+                    <a href="/announcements" class="nav-link">
+                        <i class="bi bi-megaphone me-1"></i> Anunțuri
+                    </a>
+                    <AuthorizeView Roles="SalesAgent">
+                        <Authorized Context="_">
+                            <a href="/announcements/create" class="nav-link">
+                                <i class="bi bi-plus-circle me-1"></i> Adaugă anunț
+                            </a>
+                        </Authorized>
+                    </AuthorizeView>
+                </div>
+                <div class="nav-right">
+                    <a href="/profile" class="nav-link">
+                        <i class="bi bi-person-circle"></i>
+                    </a>
+                    <button @onclick="Logout" class="btn btn-outline-danger btn-sm">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </button>
+                    <nav class="navbar">
+                        <div class="nav-actions">
+                            <button @onclick="ToggleDarkMode" class="dark-toggle @(isDarkMode ? "active" : "")" title="Comută dark mode">
+                                <i class="bi @(isDarkMode ? "bi-sun-fill" : "bi-moon-stars")"></i>
+                            </button>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </header>
+    </Authorized>
+    <NotAuthorized>
+        <header class="header-nav">
+            <div class="container-nav">
+                <div class="nav-left">
+                    <a href="/" class="brand">CRM Real Estate</a>
+                    <a href="/properties" class="nav-link">
+                        <i class="bi bi-building me-1"></i> Proprietăți
+                    </a>
+                    <a href="/announcements" class="nav-link">
+                        <i class="bi bi-megaphone me-1"></i> Anunțuri
+                    </a>
+                </div>
+                <div class="nav-right">
+                    <a href="/login" class="btn btn-primary btn-sm">
+                        <i class="bi bi-box-arrow-in-right"></i> Login
+                    </a>
+                    <nav class="navbar">
+                        <div class="nav-actions">
+                            <button @onclick="ToggleDarkMode" class="dark-toggle @(isDarkMode ? "active" : "")" title="Comută dark mode">
+                                <i class="bi @(isDarkMode ? "bi-sun-fill" : "bi-moon-stars")"></i>
+                            </button>
+                        </div>
+                    </nav>
+                </div>
+               
+            </div>
+        </header>
+    </NotAuthorized>
+</AuthorizeView>
+
+<main class="container py-4">
+    @Body
+</main>
+
+<footer class="text-center text-muted py-4 border-top mt-5">
+    © 2025 CRM Real Estate. Toate drepturile rezervate.
+</footer>
+
+@code {
+    private async Task Logout()
+    {
+        await LocalStorage.RemoveItemAsync("user");
+        var authStateProvider = (JwtAuthenticationStateProvider)AuthenticationStateProvider;
+        await authStateProvider.GetAuthenticationStateAsync();
+        Navigation.NavigateTo("/login", true);
+    }
+
+    private bool isDarkMode = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            isDarkMode = await JS.InvokeAsync<bool>("getDarkMode");
+            await JS.InvokeVoidAsync("setBodyClass", isDarkMode);
+            StateHasChanged();
+        }
+    }
+
+    private async Task ToggleDarkMode()
+    {
+        isDarkMode = !isDarkMode;
+        await JS.InvokeVoidAsync("setDarkMode", isDarkMode);
+        await JS.InvokeVoidAsync("setBodyClass", isDarkMode);
+    }
+}
+
