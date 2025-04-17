@@ -1,21 +1,20 @@
-﻿
-@page "/announcements"
+﻿@page "/announcements"
 @using CRMRealEstate.UI.Models
 @inject HttpClient Http
 @inject NavigationManager NavManager
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 @using Microsoft.AspNetCore.Components.Authorization
 @using System.Text
+@inject NavigationManager Navigation
+@inject UserFavouriteAnnouncements userFavouriteAnnouncements;
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
 
 <div class="container">
     <div class="container">
         <div class="search-wrapper">
-            
             <input type="text" placeholder="Caută..."  @bind="searchText" @bind:event="oninput" />
             <button @onclick="Search">Caută</button>
-            
-            
             <input type="number" placeholder="Minim" @bind="minPrice" @bind:event="oninput" />
             <input type="number" placeholder="Maxim" @bind="maxPrice" @bind:event="oninput" />
             <button @onclick="FilterPrice">Caută</button>
@@ -47,7 +46,12 @@
                             <div class="overlay">
                                 <div class="icons-img">
                                     <button class="btn-share"><i class="fas fa-share"></i></button>
-                                    <button class="btn-fav"><i class="fas fa-heart"></i></button>
+
+                                    <AuthorizeView Roles="Customer">
+                                        <Authorized>
+                                            <button class="btn-fav" @onclick="() => AddToFavorites(item.Id)"><i class="fas fa-heart"></i></button>
+                                        </Authorized>
+                                    </AuthorizeView>
                                 </div>
                             </div>
                         </div>
@@ -105,8 +109,8 @@
 
 @code {
     private List<AnnouncementResponseModel> announcements;
-    //private List<AnnouncementResponseModel> announcements = new();
-
+    private List<AnnouncementResponseModel> favouriteAnnouncements;
+  
     private readonly string startDate = string.Empty;
     private string searchText = string.Empty;
     private string queryString = string.Empty;
@@ -116,6 +120,8 @@
 
     private double? minPrice;
     private double? maxPrice;
+
+    private int userId;
 
     private async Task Search()
     {
@@ -182,16 +188,43 @@
 
 
     private AnnouncementResponseModel selectedAnnouncement;
-    
+
 
     protected override async Task OnInitializedAsync()
     {
+        userId = await LocalStorage.GetItemAsync<int>("userId");
+
         announcements = await Http.GetFromJsonAsync<List<AnnouncementResponseModel>>("announcement");
     }
 
     private void GoToDetails(int id)
     {
         NavManager.NavigateTo($"/announcements/{id}");
+    }
+
+    public async Task<List<AnnouncementResponseModel>> GetFavoritesAsync()
+    {
+        return await Http.GetFromJsonAsync<List<AnnouncementResponseModel>>("favorites");
+    }
+
+    public async Task<bool> AddToFavoritesAsync(int userId, int announcementId)
+    {
+        var response = await Http.PostAsync($"/users/{userId}/favorites/{announcementId}", null);
+        return response.IsSuccessStatusCode;
+    }
+
+
+    public async Task AddToFavorites(int announcementId)
+    {
+        var success = await AddToFavoritesAsync(userId, announcementId);
+        if (success)
+        {
+            Console.WriteLine($"Anunțul {announcementId} a fost adăugat la favorite.");
+        }
+        else
+        {
+            Console.WriteLine("Eroare la adăugarea în favorite.");
+        }
     }
 
     private async Task ConfirmDeleteAsync(int id)

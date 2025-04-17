@@ -2,7 +2,9 @@
 using CRMRealEstate.Application.Helpers.Exceptions;
 using CRMRealEstate.Application.Helpers.Validators;
 using CRMRealEstate.Application.Models.UsersModels;
+using CRMRealEstate.Application.Services;
 using CRMRealEstate.Application.Services.Interfaces;
+using CRMRealEstate.DataAccess.Enums;
 using CRMRealEstate.Shared.Models.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -98,6 +100,29 @@ public class UsersController : ControllerBase
         var userEntityByIdForUpdate = await _usersServices.UpdateUserAsync(id, createUsersRequestModel);
 
         return Ok(userEntityByIdForUpdate);
+    }
+
+    [Authorize(Roles = "Customer")]
+    //[Authorize(Roles = "SalesAgent")]
+    [HttpPost("{userId}/favorites/{announcementId}")]
+    public async Task<IActionResult> AddToFavoriteAsync(int userId, int announcementId)
+    {
+        var response = await _usersServices.AddAnnouncementToFavoriteAsync(userId, announcementId);
+
+        if (response == null)
+            return NotFound("Announcement or User not found.");
+
+        return Ok(new { message = $"Announcement {announcementId} added to favorites." });
+    }
+
+    //[Authorize(Roles = "Customer")]
+    //[Authorize(Roles = "SalesAgent")]
+    [HttpGet("{userId}/favorites")]
+    public async Task<IActionResult> GetFavorites(int userId)
+    {
+        var favorites = await _usersServices.GetFavoriteAnnouncementsAsync(userId);
+
+        return Ok(favorites);
     }
 
     [HttpDelete("{id}")]

@@ -59,6 +59,9 @@
 
                 if (loginResponse is not null)
                 {
+                    await LocalStorage.SetItemAsync("token", loginResponse.Token);
+                    await LocalStorage.SetItemAsync("userId", loginResponse.Id);
+
                     await LocalStorage.SetItemAsync("user", loginResponse);
                     await AuthState.GetAuthenticationStateAsync();
                     NavManager.NavigateTo("/announcements");

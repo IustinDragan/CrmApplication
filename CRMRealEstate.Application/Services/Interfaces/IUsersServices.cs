@@ -1,4 +1,6 @@
-﻿using CRMRealEstate.Application.Models.UsersModels;
+﻿using CRMRealEstate.Application.Models.AnnouncementModels;
+using CRMRealEstate.Application.Models.UsersModels;
+using CRMRealEstate.DataAccess.Entities;
 using CRMRealEstate.Shared.Models.Users;
 
 namespace CRMRealEstate.Application.Services.Interfaces;
@@ -17,4 +19,8 @@ public interface IUsersServices
     Task<bool> isEmailUniqueAsync(string email);
 
     Task<int?> AddAnnouncementToFavoriteAsync(int userId, int announcementId);
+
+    Task<List<AnnouncementResponseModel>> GetFavoriteAnnouncementsAsync(int userId);
+
+    //Task<Users?> GetUserWithFavoritesAsync(int userId);
 }

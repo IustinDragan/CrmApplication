@@ -1,0 +1,43 @@
+﻿@page "/myProfileCustomerPage"
+@inject UserFavouriteAnnouncements UserFavouriteAnnouncements;
+@using CRMRealEstate.UI.Models
+@inject HttpClient Http
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Text
+@inject NavigationManager Navigation
+@inject UserFavouriteAnnouncements userFavouriteAnnouncements;
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
+
+<AuthorizeView Roles="Customer">
+    <Authorized>
+        <button class="btn btn-outline-primary" @onclick="() => GetFavouriteAnnouncementsAsync()">Vezi anunturi salvate la Favorite</button>
+    </Authorized>
+</AuthorizeView>
+
+@code{
+
+    private List<AnnouncementResponseModel> announcements;
+    private List<AnnouncementResponseModel> favouriteAnnouncements;
+    private int userId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        userId = await LocalStorage.GetItemAsync<int>("userId");
+    }
+
+    private void GoToProfile()
+    {
+        Navigation.NavigateTo("/myProfileCustomerPage");
+    }
+
+    public async Task GetFavouriteAnnouncementsAsync()
+    {
+        favouriteAnnouncements = await Http.GetFromJsonAsync<List<AnnouncementResponseModel>>($"/users/{userId}/favorites");
+
+        userFavouriteAnnouncements.FavouriteAnnouncements = favouriteAnnouncements;
+
+        Navigation.NavigateTo("/favouriteAnnouncements");
+    }
+}

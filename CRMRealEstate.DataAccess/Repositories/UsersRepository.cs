@@ -65,4 +65,42 @@ public class UsersRepository : IUsersRepository
             .Where(x => x.UserName == username)
             .FirstOrDefaultAsync();
     }
+
+    public async Task<Users?> GetUserWithFavoritesAsync(int userId)
+    {
+        return await _databaseContext.Users
+        .Include(u => u.FavoritesAnnouncements)
+            .ThenInclude(fav => fav.Announcement)
+        .Include(u => u.Company)
+        .FirstOrDefaultAsync(u => u.Id == userId);
+    }
+
+    public async Task AddFavoriteAnnouncementsAsync(UserAnnouncement userAnnouncement)
+    {
+        await _databaseContext.Set<UserAnnouncement>().AddAsync(userAnnouncement);
+        await _databaseContext.SaveChangesAsync();
+    }
+
+    public async Task<List<UserAnnouncement>> GetFavoriteAnnouncementsAsync(int userId)
+    {
+        return await _databaseContext.UsersAnnouncements
+            .Where(ua => ua.UserId == userId)
+            .Include(ua => ua.Announcement)
+                .ThenInclude(prop => prop.Property)
+            .ToListAsync();
+    }
+
+    public Task<UserAnnouncement?> GetFavoriteAnnouncementAsync(int userId, int announcementId)
+    {
+        throw new NotImplementedException();
+    }
+
+    //public async Task<List<Announcement>> GetFavoriteAnnouncementsAsync(int userId)
+    //{
+    //    return await _databaseContext.UsersAnnouncements
+    //        .Where(ua => ua.UserId == userId)
+    //        .Include(ua => ua.Announcement)
+    //        .Select(ua => ua.Announcement)
+    //        .ToListAsync();
+    //}
 }

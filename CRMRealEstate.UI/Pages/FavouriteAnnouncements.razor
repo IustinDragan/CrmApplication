@@ -1,0 +1,69 @@
+﻿@page "/favouriteAnnouncements"
+@inject UserFavouriteAnnouncements userFavouriteAnnouncements
+@inject NavigationManager Navigation
+
+<div class="cards">
+    @if (userFavouriteAnnouncements.FavouriteAnnouncements == null)
+    {
+        <div class="loading">Nu sunt anunțuri salvate la favorite.</div>
+    }
+    else
+    {
+        @foreach (var item in userFavouriteAnnouncements.FavouriteAnnouncements)
+        {
+            <section class="card">
+
+                <figure>
+                    <div class="img-overlay hot-home">
+                        <img src="/images/InterfataAnunt/ForEachAnnouncement.jpg" alt="Poză anunț" />
+                    </div>
+                    <figcaption>@item.Title</figcaption>
+                </figure>
+
+                <div class="card-content">
+                    <p class="premium-text">@item.Property.Details</p>
+
+                    <section class="icons-home">
+                        <div class="name-icon">
+                            <span>Camere</span>
+                            <div class="icon">
+                                <i class="fas fa-bed"></i>
+                                <span>@item.Property.RoomsNumber</span>
+                            </div>
+                        </div>
+                        <div class="name-icon">
+                            <span>Băi</span>
+                            <div class="icon">
+                                <i class="fas fa-sink"></i>
+                                <span>@item.Property.BathroomsNumber</span>
+                            </div>
+                        </div>
+                        <div class="name-icon">
+                            <span>Suprafață</span>
+                            <div class="icon">
+                                <i class="fas fa-vector-square"></i>
+                                <span>@item.Property.HouseTotalArea m²</span>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="card-buttons">
+                    <section class="price">
+                        <span>Pret: </span>
+                        <span>@($"{item.Property.Price} €")</span>
+                    </section>
+
+                    <button class="btn-detail" @onclick="() => GoToDetails(item.Id)">Detalii</button>
+                </div>
+            </section>
+        }
+    }
+</div>
+
+@code {
+    private void GoToDetails(int id)
+    {
+        Navigation.NavigateTo($"/announcements/{id}");
+    }
+}

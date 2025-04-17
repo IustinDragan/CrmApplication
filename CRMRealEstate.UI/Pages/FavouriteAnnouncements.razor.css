@@ -1,0 +1,118 @@
+﻿.cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.card {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* 3 coloane */
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    align-items: center;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    }
+
+/* Coloana 1: imagine + titlu */
+figure {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.img-overlay img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+figcaption {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+/* Coloana 2: informații */
+.card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.premium-text {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #444;
+}
+
+.icons-home {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.name-icon {
+    font-size: 0.85rem;
+    color: #555;
+}
+
+    .name-icon .icon {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        font-weight: bold;
+        color: #222;
+    }
+
+/* Coloana 3: preț + buton */
+.price {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #2a9d8f;
+    margin-bottom: 1rem;
+}
+
+.card-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.btn-detail {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+    .btn-detail:hover {
+        background-color: #0056b3;
+    }
+
+.loading {
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.2rem;
+      color:   #777;
+}

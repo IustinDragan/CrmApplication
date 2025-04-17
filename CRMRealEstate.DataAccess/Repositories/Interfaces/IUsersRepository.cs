@@ -18,7 +18,13 @@ public interface IUsersRepository
 
     Task<Users?> GetByUsername(string username);
 
-    //Task<UserAnnouncement?> GetFavoriteAnnouncementAsync(int userId, int announcementId);
+    Task<Users?> GetUserWithFavoritesAsync(int userId);
+
+    Task AddFavoriteAnnouncementsAsync(UserAnnouncement userAnnouncement);
+
+    Task<List<UserAnnouncement>> GetFavoriteAnnouncementsAsync(int userId);
+
+    Task<UserAnnouncement?> GetFavoriteAnnouncementAsync(int userId, int announcementId);
 
     //Task AddFavoriteAnnouncementsAsync(UserAnnouncement userAnnouncement);
 }

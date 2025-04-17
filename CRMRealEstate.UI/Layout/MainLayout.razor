@@ -6,7 +6,12 @@
 @inject NavigationManager Navigation
 @inject ILocalStorageService LocalStorage
 @inject IJSRuntime JS
-
+@using CRMRealEstate.UI.Models
+@inject HttpClient Http
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+@using System.Text
+@inject NavigationManager Navigation
+@inject UserFavouriteAnnouncements userFavouriteAnnouncements;
 
 <AuthorizeView>
     <Authorized Context="auth">
@@ -29,9 +34,8 @@
                     </AuthorizeView>
                 </div>
                 <div class="nav-right">
-                    <a href="/profile" class="nav-link">
-                        <i class="bi bi-person-circle"></i>
-                    </a>
+                    <button class="btn btn-outline-primary" @onclick="() => GoToProfile()">Profilul Meu</button>
+
                     <button @onclick="Logout" class="btn btn-outline-danger btn-sm">
                         <i class="bi bi-box-arrow-right"></i>
                     </button>
@@ -70,7 +74,7 @@
                         </div>
                     </nav>
                 </div>
-               
+
             </div>
         </header>
     </NotAuthorized>
@@ -85,6 +89,15 @@
 </footer>
 
 @code {
+    private List<AnnouncementResponseModel> announcements;
+    private List<AnnouncementResponseModel> favouriteAnnouncements;
+    private int userId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        userId = await LocalStorage.GetItemAsync<int>("userId");
+    }
+
     private async Task Logout()
     {
         await LocalStorage.RemoveItemAsync("user");
@@ -110,6 +123,20 @@
         isDarkMode = !isDarkMode;
         await JS.InvokeVoidAsync("setDarkMode", isDarkMode);
         await JS.InvokeVoidAsync("setBodyClass", isDarkMode);
+    }
+
+    private void GoToProfile()
+    {
+        Navigation.NavigateTo("/myProfileCustomerPage");
+    }
+
+    public async Task GetFavouriteAnnouncementsAsync()
+    {
+        favouriteAnnouncements = await Http.GetFromJsonAsync<List<AnnouncementResponseModel>>($"/users/{userId}/favorites");
+
+        userFavouriteAnnouncements.FavouriteAnnouncements = favouriteAnnouncements;
+
+        Navigation.NavigateTo("/myProfileCustomerPage");
     }
 }
 

@@ -1,20 +1,21 @@
 ﻿@page "/"
+@using System.Text
+@using CRMRealEstate.UI.Models
+@inject UserFavouriteAnnouncements userFavouriteAnnouncements
+@inject NavigationManager Navigation
+@inject HttpClient Http
 
 <div class="home-wrapper">
     <h1 class="hero-title">Bine ai venit la CRM Real Estate</h1>
     <p class="hero-sub">Administrează-ți anunțurile și proprietățile imobiliare cu ușurință.</p>
 
-    <div class="header-main-filter">
-        <div class="img-presentation-firstPage">
-            <img src="first_page_img4.jpg">
-            @* search bar 2 *@
-            <div class="imobiliare-search-bar">
-                <input type="text" placeholder="Caută...">
-                <button>
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-        </div>
+    <div class="search-wrapper">
+
+        <input type="text" placeholder="Caută..." @bind="searchText" @bind:event="oninput" />
+        <button @onclick="Search">Caută</button>
+        <input type="number" placeholder="Minim" @bind="minPrice" @bind:event="oninput" />
+        <input type="number" placeholder="Maxim" @bind="maxPrice" @bind:event="oninput" />
+        <button @onclick="FilterPrice">Caută</button>
     </div>
 
     <div class="dashboard-cards">
@@ -42,9 +43,88 @@
             </div>
             <h5>Profilul Meu</h5>
             <p>Actualizează datele contului tău și informațiile personale.</p>
-            <a class="btn btn-outline-primary" href="/profile">Vezi Profil</a>
+            <button class="btn btn-outline-primary" @onclick="GoToProfile">Profilul Meu</button>
         </div>
     </div>
 </div>
 
+@code{
+    private readonly string startDate = string.Empty;
+    private List<AnnouncementResponseModel> announcements;
+    private string searchText = string.Empty;
+    private string queryString = string.Empty;
+    private string queryStringForPrice = string.Empty;
+    private double? priceFilter;
 
+    private double? minPrice;
+    private double? maxPrice;
+    private async Task Search()
+    {
+        queryString = BuildQueryString(searchText);
+        var apiUrl = queryString;
+
+        announcements = await Http.GetFromJsonAsync<List<AnnouncementResponseModel>>(apiUrl);
+    }
+
+    private async Task FilterPrice()
+    {
+        queryStringForPrice = BuildQueryStringForPrice(minPrice, maxPrice);
+        var apiUrl = queryStringForPrice;
+
+        announcements = await Http.GetFromJsonAsync<List<AnnouncementResponseModel>>(apiUrl);
+    }
+
+    private string BuildQueryString(string searchText)
+    {
+        var queryBuilder = new StringBuilder("announcement?");
+
+        if (!string.IsNullOrEmpty(startDate))
+        {
+            queryBuilder.Append($"startDate={startDate}&");
+        }
+
+        if (!string.IsNullOrEmpty(searchText))
+        {
+            queryBuilder.Append($"searchText={searchText}&");
+        }
+
+        if (queryBuilder.Length > 0)
+        {
+            queryBuilder.Length--;
+        }
+
+        var apiUrl = "announcement" + (!string.IsNullOrEmpty(queryString) ? "?" + queryString : "");
+
+        return queryBuilder.ToString();
+    }
+
+
+    private string BuildQueryStringForPrice(double? minPrice, double? maxPrice)
+    {
+        var queryBuilder = new StringBuilder("announcement?");
+
+        if (minPrice.HasValue)
+        {
+            queryBuilder.Append($"price={minPrice}&");
+        }
+
+        if (maxPrice.HasValue)
+        {
+            queryBuilder.Append($"maxValue={maxPrice}&");
+        }
+
+        if (queryBuilder.Length > 0)
+        {
+            queryBuilder.Length--;
+        }
+
+        return queryBuilder.ToString();
+    }
+
+
+    private void GoToProfile()
+    {
+        Navigation.NavigateTo("/myProfileCustomerPage");
+    }
+}
+        

@@ -1,11 +1,14 @@
 ﻿using CRMRealEstate.Application.Helpers;
 using CRMRealEstate.Application.Helpers.Constants;
 using CRMRealEstate.Application.Helpers.Exceptions;
+using CRMRealEstate.Application.Models.AnnouncementModels;
 using CRMRealEstate.Application.Models.UsersModels;
 using CRMRealEstate.Application.Services.Interfaces;
+using CRMRealEstate.DataAccess.Entities;
 using CRMRealEstate.DataAccess.Enums;
 using CRMRealEstate.DataAccess.Repositories;
 using CRMRealEstate.DataAccess.Repositories.Interfaces;
+using CRMRealEstate.DataAccess.Scripts;
 using CRMRealEstate.Shared.Models.Users;
 using System.Data;
 
@@ -15,11 +18,13 @@ public class UsersService : IUsersServices
 {
     private readonly ICurrentUserService _currentUserService;
     private readonly IUsersRepository _usersRepository;
+    private readonly IAnnouncementRepository _announcementRepository;
 
-    public UsersService(IUsersRepository userRepository, ICurrentUserService currentUserService)
+    public UsersService(IUsersRepository userRepository, ICurrentUserService currentUserService, IAnnouncementRepository announcementRepository)
     {
         _usersRepository = userRepository;
         _currentUserService = currentUserService;
+        _announcementRepository = announcementRepository;
     }
 
     public async Task<IEnumerable<UsersResponseModel>> RealAllUsersAsync()
@@ -169,8 +174,71 @@ public class UsersService : IUsersServices
         return true;
     }
 
-    public Task<int?> AddAnnouncementToFavoriteAsync(int userId, int announcementId)
+    public async Task<int?> AddAnnouncementToFavoriteAsync(int userId, int announcementId)
     {
-        throw new NotImplementedException();
+        var user = await _usersRepository.GetUserWithFavoritesAsync(userId);
+        if (user == null)
+            throw new NotFoundException($"User with ID {userId} not found.");
+
+        var announcement = await _announcementRepository.ReadByIdAsync(announcementId);
+        if (announcement == null)
+            throw new NotFoundException($"Announcement with ID {announcementId} not found.");
+
+        var alreadyFavorite = user.FavoritesAnnouncements.Any(fav => fav.AnnouncementId == announcementId);
+
+        if (alreadyFavorite)
+            return announcementId;
+
+        var favorite = new UserAnnouncement
+        {
+            UserId = userId,
+            AnnouncementId = announcementId
+        };
+
+        await _usersRepository.AddFavoriteAnnouncementsAsync(favorite);
+
+        return announcementId;
+    }
+
+
+
+    //
+    //public async Task<int?> AddAnnouncementToFavoriteAsync(int userId, int announcementId)
+    //{
+    //    var currentUserId = _currentUserService.UserId;
+
+    //    if (currentUserId != userId)
+    //    {
+    //        throw new Exception("You can't add favorite announcements for someone else.");
+    //    }
+
+    //    var userAnnouncement = await this._usersRepository.GetFavoriteAnnouncementAsync(userId, announcementId);
+
+    //    if (userAnnouncement is not null)
+    //    {
+    //        throw new Exception("This announcement is already added to favorites.");
+    //    }
+
+    //    userAnnouncement = new UserAnnouncement
+    //    {
+    //        UserId = userId,
+    //        AnnouncementId = announcementId
+    //    };
+
+    //    await this._usersRepository.AddFavoriteAnnouncementsAsync(userAnnouncement);
+
+    //    return announcementId;
+    //}
+
+    public async Task<List<AnnouncementResponseModel>> GetFavoriteAnnouncementsAsync(int userId)
+    {
+        var favorites = await _usersRepository.GetFavoriteAnnouncementsAsync(userId);
+
+        var announcements = favorites
+            .Where(f => f != null && f.Announcement != null)
+            .Select(f => AnnouncementResponseModel.FromAnnouncement(f.Announcement))
+            .ToList();
+
+        return announcements;
     }
 }
