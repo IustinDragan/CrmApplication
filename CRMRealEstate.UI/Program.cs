@@ -4,6 +4,7 @@ using CRMRealEstate.UI;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using RealEstate.Web;
+using MudBlazor.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -16,6 +17,7 @@ builder.Services.AddScoped<AuthenticationStateProvider, JwtAuthenticationStatePr
 builder.Services.AddAuthorizationCore();
 
 builder.Services.AddScoped<UserFavouriteAnnouncements>();
+builder.Services.AddMudServices();
 
 
 await builder.Build().RunAsync();

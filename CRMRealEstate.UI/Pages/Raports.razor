@@ -1,0 +1,124 @@
+﻿@page "/rapoarte"
+@layout MainLayout
+@using CRMRealEstate.UI.Models
+@using CRMRealEstate.UI.Enums
+@using Microsoft.AspNetCore.WebUtilities
+@using MudBlazor
+@inject HttpClient Http
+
+<PageTitle>Rapoarte Tranzacții</PageTitle>
+
+@if (isProviderReady)
+{
+    <MudPaper Class="p-4">
+        <MudText Typo="Typo.h5" Class="mb-4">Filtre rapoarte</MudText>
+
+        <MudForm @ref="form">
+            <MudGrid>
+                <MudItem xs="12" md="4">
+                    @* <MudTextField Label="Nume agent" @bind-Value="agentName" /> *@
+                    <MudNumericField Label="Id Agent" @bind-Value="agentId" />
+                </MudItem>
+
+                <MudItem xs="12" md="4">
+                    <MudDatePicker Label="Dată (luna/an)" @bind-Date="selectedDate" />
+                </MudItem>
+
+                <MudItem xs="12" md="4">
+                    <MudSelect T="TransactionType?" @bind-Value="selectedTypeEnum" Label="Tip tranzacție">
+                        <MudSelectItem T="TransactionType?" Value="@((TransactionType?)null)">Toate</MudSelectItem>
+                        <MudSelectItem T="TransactionType?" Value="@TransactionType.Sale">Vânzare</MudSelectItem>
+                        <MudSelectItem T="TransactionType?" Value="@TransactionType.Rent">Închiriere</MudSelectItem>
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem xs="12" class="mt-4">
+                    <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="ApplyFilters">Generează raport</MudButton>
+                </MudItem>
+            </MudGrid>
+        </MudForm>
+    </MudPaper>
+
+    <MudPaper Class="p-4 mt-6" Elevation="1">
+        @if (transactions != null)
+        {
+            <MudTable Items="transactions" Hover="true" Dense="true">
+                <HeaderContent>
+                    <MudTh>Agent</MudTh>
+                    <MudTh>Proprietate</MudTh>
+                    <MudTh>Data</MudTh>
+                    <MudTh>Preț</MudTh>
+                    <MudTh>Status</MudTh>
+                    <MudTh>Tipul Tranzactiei</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.AgentName</MudTd>
+                    <MudTd>@context.PropertyTitle</MudTd>
+                    <MudTd>@context.Date.ToShortDateString()</MudTd>
+                    <MudTd>@context.Price</MudTd>
+                    <MudTd>@context.Status</MudTd>
+                    <MudTd>@context.TypeOfTransaction</MudTd>
+                </RowTemplate>
+            </MudTable>
+        }
+        else
+        {
+            <MudText Typo="Typo.body1" Color="Color.Secondary">
+                Completează filtrele pentru a genera raportul.
+            </MudText>
+        }
+    </MudPaper>
+}
+
+@code {
+    private MudForm form;
+    private string agentName;
+    private int agentId;
+    private DateTime? selectedDate;
+    private TransactionType? selectedTypeEnum = null;
+    private List<TransactionResponseModel>? transactions;
+    private bool isProviderReady = false;
+
+    private async Task ApplyFilters()
+    {
+        try
+        {
+            var queryParams = new Dictionary<string, string>();
+
+            // if (!string.IsNullOrEmpty(agentName))
+            //     queryParams.Add("agentName", agentName);
+
+            if(agentId > 0)
+            {
+                queryParams.Add("agentId", agentId.ToString());
+            }
+
+            if (selectedDate.HasValue)
+            {
+                queryParams.Add("year", selectedDate.Value.Year.ToString());
+                queryParams.Add("month", selectedDate.Value.Month.ToString());
+            }
+
+            if (selectedTypeEnum.HasValue)
+                queryParams.Add("type", selectedTypeEnum.Value.ToString());
+
+            var url = QueryHelpers.AddQueryString("/transaction/report", queryParams);
+            var result = await Http.GetFromJsonAsync<List<TransactionResponseModel>>(url);
+
+            transactions = result ?? new List<TransactionResponseModel>();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Eroare la filtrare: {ex.Message}");
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            isProviderReady = true;
+            StateHasChanged();
+        }
+    }
+}

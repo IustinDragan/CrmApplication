@@ -16,6 +16,9 @@
     </Authorized>
 </AuthorizeView>
 
+<button class="btn btn-outline-primary" @onclick="() => UploadDocuments()">Incarca Documente</button>
+
+
 @code{
 
     private List<AnnouncementResponseModel> announcements;
@@ -39,5 +42,10 @@
         userFavouriteAnnouncements.FavouriteAnnouncements = favouriteAnnouncements;
 
         Navigation.NavigateTo("/favouriteAnnouncements");
+    }
+
+    public async Task UploadDocuments()
+    {
+        Navigation.NavigateTo("/uploadDocuments");
     }
 }

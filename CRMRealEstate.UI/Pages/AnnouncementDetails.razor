@@ -1,9 +1,11 @@
 ﻿@page "/announcements/{Id:int}"
+@using Blazored.LocalStorage
 @using CRMRealEstate.DataAccess.Enums
 @using CRMRealEstate.UI.Models
 @inject HttpClient Http
 @inject NavigationManager NavManager
 @using Microsoft.AspNetCore.Components.Authorization
+@using MudBlazor
 
 @if (announcement == null)
 {
@@ -22,9 +24,61 @@ else
                     <button class="btn-edit" @onclick="@(() => NavManager.NavigateTo($"/announcements/edit/{Id}"))">
                         ✏ Editează anunțul
                     </button>
+
+
+                    <button @onclick="ShowDialog" class="btn btn-success">Finalizează tranzacția</button>
+
+                    @if (isDialogVisible)
+                    {
+                        <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+                            <div class="modal-dialog">
+                                <div class="modal-content p-4">
+                                    <h5 class="modal-title mb-3">Finalizează tranzacția</h5>
+
+                                    <div class="form-group mb-3">
+                                        <label>Preț final</label>
+                                        <input class="form-control" @bind="price" type="number" />
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        <label>Tip tranzacție</label>
+                                        <select class="form-control" @bind="selectedType">
+                                            <option value="">-- Alege --</option>
+                                            <option value="Sale">Vânzare</option>
+                                            <option value="Rent">Închiriere</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="d-flex justify-content-end">
+                                        <button class="btn btn-primary me-2" @onclick="FinalizeTransaction">Salvează</button>
+                                        <button class="btn btn-secondary" @onclick="HideDialog">Anulează</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+               @*      <MudButton OnClick="@OpenFinalizeDialog" Color="Color.Success">
+                        Finalizează tranzacția
+                    </MudButton>
+
+                    <MudDialog @bind-IsOpen="isDialogOpen">
+                        <DialogContent>
+                            <MudTextField Label="Preț final" @bind-Value="price" />
+                            <MudSelect T="TransactionType" @bind-Value="selectedType" Label="Tip tranzacție">
+                                <MudSelectItem Value="TransactionType.Sale">Vânzare</MudSelectItem>
+                                <MudSelectItem Value="TransactionType.Rent">Închiriere</MudSelectItem>
+                            </MudSelect>
+                        </DialogContent>
+                        <DialogActions>
+                            <MudButton OnClick="FinalizeTransaction" Color="Color.Primary">Salvează</MudButton>
+                            <MudButton OnClick="()=> isDialogOpen = false">Anulează</MudButton>
+                        </DialogActions>
+                    </MudDialog> *@
                 </Authorized>
             </AuthorizeView>
         </div>
+
 
         <h2 class="title">@announcement.Title</h2>
 
@@ -34,7 +88,7 @@ else
             <img src="/images/Apartamente/Apartament1b.jpg" alt="Poză anunț" />
             <img src="/images/Apartamente/Apartament1c.jpg" alt="Poză anunț" />
         </div>
-
+         
         <div class="details-grid">
 
             <div><strong>Preț:</strong> @($"{announcement.Property.Price} €")</div>
@@ -93,9 +147,80 @@ else
     public int Id { get; set; }
 
     private AnnouncementResponseModel? announcement;
+    private bool isDialogVisible;
+
+    private bool isDialogOpen;
+    private double price;
+    private TransactionType selectedType;
+
+    private PropertyResponseModel property;
+    [Inject] private ILocalStorageService LocalStorage{ get; set; }
+
+    private int userId;
+
+
 
     protected override async Task OnInitializedAsync()
     {
         announcement = await Http.GetFromJsonAsync<AnnouncementResponseModel>($"/announcement/{Id}");
-    }
+        property = await Http.GetFromJsonAsync<PropertyResponseModel?>($"/properties/{Id}");
+        userId = await LocalStorage.GetItemAsync<int>("userId");
+    }
+
+    private void ShowDialog() => isDialogVisible = true;
+    private void HideDialog() => isDialogVisible = false;
+
+    private async Task FinalizeTransaction()
+    {
+        if (announcement?.Property.Id == null)
+        {
+            Console.WriteLine("Nu există PropertyId");
+            return;
+        }
+
+        var model = new CreateTransactionRequestModel
+            {
+                PropertyId = announcement.Property.Id.Value,
+                AgentId = userId,
+                Price = price,
+                TypeOfTransaction = selectedType
+            };
+
+        var response = await Http.PostAsJsonAsync("/transaction", model);
+        if (response.IsSuccessStatusCode)
+        {
+            Console.WriteLine("Tranzacție salvată cu succes");
+            isDialogVisible = false;
+        }
+        else
+        {
+            Console.WriteLine("Eroare la salvarea tranzacției");
+        }
+    }
+
+    // private async Task OpenFinalizeDialog()
+    // {
+    //     isDialogOpen = true;
+    // }
+
+    // private async Task FinalizeTransaction()
+    // {
+    //     if (property?.Id == null)
+    //     {
+    //         Console.WriteLine("Property.Id este null! Nu se poate finaliza tranzacția.");
+    //         return;
+    //     }
+
+    //     var model = new CreateTransactionRequestModel
+    //         {
+    //             PropertyId = property.Id.Value, // de unde iei anunțul
+    //             AgentId = userId, // din localStorage / context
+    //             Price = price,
+    //             TypeOfTransaction = selectedType
+    //         };
+
+    //     await Http.PostAsJsonAsync("/transaction", model);
+    //     isDialogOpen = false;
+    // }
+}
 }
