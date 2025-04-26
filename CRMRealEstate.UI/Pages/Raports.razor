@@ -8,38 +8,34 @@
 
 <PageTitle>Rapoarte Tranzacții</PageTitle>
 
-@if (isProviderReady)
-{
-    <MudPaper Class="p-4">
-        <MudText Typo="Typo.h5" Class="mb-4">Filtre rapoarte</MudText>
+<div class="raports-page">
+    <MudPaper>
+        <MudText Typo="Typo.h5" Class="top-centered-text">Generează un raport financiar detaliat</MudText>
 
-        <MudForm @ref="form">
-            <MudGrid>
-                <MudItem xs="12" md="4">
-                    @* <MudTextField Label="Nume agent" @bind-Value="agentName" /> *@
-                    <MudNumericField Label="Id Agent" @bind-Value="agentId" />
-                </MudItem>
+        <MudForm @ref="form" Class="form-wrapper">
+            <div class="form-field">
+                <MudTextField Label="ID Agent" Variant="Variant.Outlined" @bind-Value="agentId" />
+            </div>
 
-                <MudItem xs="12" md="4">
-                    <MudDatePicker Label="Dată (luna/an)" @bind-Date="selectedDate" />
-                </MudItem>
+            <div class="form-field">
+                <MudDatePicker Label="Dată (Luna/An)" Variant="Variant.Outlined" PickerVariant="PickerVariant.Dialog" @bind-Date="selectedDate" />
+            </div>
 
-                <MudItem xs="12" md="4">
-                    <MudSelect T="TransactionType?" @bind-Value="selectedTypeEnum" Label="Tip tranzacție">
-                        <MudSelectItem T="TransactionType?" Value="@((TransactionType?)null)">Toate</MudSelectItem>
-                        <MudSelectItem T="TransactionType?" Value="@TransactionType.Sale">Vânzare</MudSelectItem>
-                        <MudSelectItem T="TransactionType?" Value="@TransactionType.Rent">Închiriere</MudSelectItem>
-                    </MudSelect>
-                </MudItem>
-
-                <MudItem xs="12" class="mt-4">
-                    <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="ApplyFilters">Generează raport</MudButton>
-                </MudItem>
-            </MudGrid>
+            <div class="form-field">
+                <MudSelect T="TransactionType?" Dense="true" @bind-Value="selectedTypeEnum" Label="Tip Tranzacție" Variant="Variant.Outlined">
+                    <MudSelectItem T="TransactionType?" Value="@(null)">Toate</MudSelectItem>
+                    <MudSelectItem T="TransactionType?" Value="TransactionType.Sale">Vânzare</MudSelectItem>
+                    <MudSelectItem T="TransactionType?" Value="TransactionType.Rent">Închiriere</MudSelectItem>
+                </MudSelect>
+            </div>
         </MudForm>
+
+        <MudButton Class="mt-4" Color="Color.Primary" Variant="Variant.Filled" OnClick="ApplyFilters">
+            Vezi rezultatele
+        </MudButton>
     </MudPaper>
 
-    <MudPaper Class="p-4 mt-6" Elevation="1">
+    <MudPaper Class="p-4 mt-6 table-container" Elevation="1">
         @if (transactions != null)
         {
             <MudTable Items="transactions" Hover="true" Dense="true">
@@ -47,16 +43,20 @@
                     <MudTh>Agent</MudTh>
                     <MudTh>Proprietate</MudTh>
                     <MudTh>Data</MudTh>
-                    <MudTh>Preț</MudTh>
+                    <MudTh Align="Right">Preț</MudTh>
                     <MudTh>Status</MudTh>
-                    <MudTh>Tipul Tranzactiei</MudTh>
+                    <MudTh>Tipul Tranzacției</MudTh>
                 </HeaderContent>
                 <RowTemplate>
                     <MudTd>@context.AgentName</MudTd>
                     <MudTd>@context.PropertyTitle</MudTd>
-                    <MudTd>@context.Date.ToShortDateString()</MudTd>
-                    <MudTd>@context.Price</MudTd>
-                    <MudTd>@context.Status</MudTd>
+                    <MudTd>@context.Date.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("ro-RO"))</MudTd>
+                    <MudTd Align="Right">@string.Format(new System.Globalization.CultureInfo("ro-RO"), "{0:N0} €", context.Price)</MudTd>
+                    <MudTd>
+                        <span class="status-chip @context.Status">
+                            @context.Status
+                        </span>
+                    </MudTd>
                     <MudTd>@context.TypeOfTransaction</MudTd>
                 </RowTemplate>
             </MudTable>
@@ -68,27 +68,30 @@
             </MudText>
         }
     </MudPaper>
-}
+    @if (isLoading)
+    {
+        <MudProgressCircular Color="Color.Primary" Style="width: 50px; height: 50px;" Indeterminate="true"  Class="centered-progress" />
+    }
+</div>
 
 @code {
     private MudForm form;
-    private string agentName;
     private int agentId;
     private DateTime? selectedDate;
     private TransactionType? selectedTypeEnum = null;
     private List<TransactionResponseModel>? transactions;
-    private bool isProviderReady = false;
+    private bool isLoading = false;
 
     private async Task ApplyFilters()
     {
         try
         {
+            isLoading = true;
+            StateHasChanged();
+
             var queryParams = new Dictionary<string, string>();
 
-            // if (!string.IsNullOrEmpty(agentName))
-            //     queryParams.Add("agentName", agentName);
-
-            if(agentId > 0)
+            if (agentId > 0)
             {
                 queryParams.Add("agentId", agentId.ToString());
             }
@@ -111,13 +114,9 @@
         {
             Console.WriteLine($"Eroare la filtrare: {ex.Message}");
         }
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
+        finally
         {
-            isProviderReady = true;
+            isLoading = false;
             StateHasChanged();
         }
     }

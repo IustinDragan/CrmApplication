@@ -1,0 +1,141 @@
+﻿
+/* Pagina rapoarte – design general */
+/*.raports-page {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #f7f9fc;
+    font-family: 'Segoe UI', sans-serif;
+}*/
+
+     /*MudPaper - card stilizat*/ 
+    .raports-page .mud-paper {
+        padding: 2rem;
+        border-radius: 20px;
+        background-color: white;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+ /*Formular – grid elegant*/ 
+.form-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+ /*Câmpuri formular*/ 
+.form-field {
+    display: flex;
+    flex-direction: column;
+}
+
+ /*Buton principal – rotunjit și modern*/
+.raports-page .mud-button {
+    /*    border-radius: 30px;
+    font-weight: 600;
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+    transition: all 0.3s ease-in-out;*/
+
+    border-radius: 30px; /* Colțuri rotunjite */
+    font-weight: 600;
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+    transition: all 0.3s ease-in-out;
+    margin-bottom: 1rem; /* Distanțare între butoane */
+}
+
+    .raports-page .mud-button:hover {
+        transform: scale(1.03);
+        cursor: pointer;
+    }
+    /* Păstrează efectul de focus pe buton */
+    .raports-page .mud-button:focus {
+        box-shadow: 0 0 0 2px rgba(30, 136, 229, 0.5); /* Adăugăm o umbră la focus pentru a îmbunătăți accesibilitatea */
+    }
+
+ /*Tabel*/ 
+.raports-page .mud-table {
+    border-radius: 12px;
+    overflow: hidden;
+    font-size: 0.95rem;
+}
+
+/*Cipuri status tranzacție*/
+.status-chip {
+    padding: 0.3rem 0.8rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: white;
+    display: inline-block;
+    text-transform: capitalize;
+    
+}
+
+     /*Culori pentru statusuri*/ 
+    .status-chip.Completed {
+        background-color: #4caf50;
+    }
+
+    .status-chip.Pending {
+        background-color: #ff9800;
+    }
+
+    .status-chip.Failed {
+        background-color: #f44336;
+    }
+
+    .status-chip.InProgress {
+        background-color: #2196f3;
+    }
+
+.raports-page .mud-paper.table-container {
+    width: 100%;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 20px;
+}
+
+.table-container {
+    width: 100%;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 20px;
+}
+
+.status-chip:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.mud-table thead {
+    background-color: #eef2f7;
+}
+
+.raports-page {
+    max-width: 100%;
+    padding: 2rem 4rem;
+    background-color: #f7f9fc;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Container pentru progresul circular */
+.centered-progress {
+    position: fixed; /* Folosim position: fixed pentru a-l plasa în mijlocul paginii */
+    top: 50%; /* Plasăm elementul la jumătatea înălțimii paginii */
+    left: 50%; /* Plasăm elementul la jumătatea lățimii paginii */
+    transform: translate(-50%, -50%); /* Folosim translate pentru a-l centra perfect */
+    z-index: 9999; /* Asigurăm că este deasupra altor elemente */
+}
+
+/* Centrare text pe partea de sus a paginii */
+.top-centered-text {
+    position: absolute; /* Fixează elementul pe ecran */
+    top: 90px; /* Plasează textul la 20px de sus (poți ajusta această valoare dacă vrei mai mult spațiu) */
+    left: 50%; /* Plasează elementul la mijlocul lățimii */
+    transform: translateX(-50%); /* Ajustează poziția pentru a-l centra perfect pe orizontală */
+    font-weight: bold; /* Face textul bold */
+    font-size: 2rem; /* Dimensiune mai mare pentru text */
+    text-align: center; /* Centrează textul în container */
+}

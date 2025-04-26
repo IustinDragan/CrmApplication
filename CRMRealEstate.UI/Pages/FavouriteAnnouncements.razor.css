@@ -9,7 +9,7 @@
 
 .card {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr; /* 3 coloane */
+    grid-template-columns: 1fr 1fr 1fr;  3 coloane 
     background-color: #ffffff;
     border: 1px solid #e0e0e0;
     border-radius: 12px;
@@ -26,7 +26,7 @@
         box-shadow: 0 6px 16px rgba(0,0,0,0.1);
     }
 
-/* Coloana 1: imagine + titlu */
+ Coloana 1: imagine + titlu 
 figure {
     margin: 0;
     display: flex;
@@ -48,7 +48,7 @@ figcaption {
     font-weight: bold;
 }
 
-/* Coloana 2: informații */
+ Coloana 2: informații 
 .card-content {
     display: flex;
     flex-direction: column;
@@ -80,7 +80,7 @@ figcaption {
         color: #222;
     }
 
-/* Coloana 3: preț + buton */
+ Coloana 3: preț + buton 
 .price {
     font-size: 1.2rem;
     font-weight: 600;
@@ -114,5 +114,5 @@ figcaption {
     text-align: center;
     padding: 2rem;
     font-size: 1.2rem;
-      color:   #777;
+    color: #777;
 }

@@ -104,5 +104,60 @@
     text-align: center;
     padding: 2rem;
     font-size: 1.2rem;
-      color:   #666;
+    color: #666;
 }
+
+.details-container {
+    padding: 2rem;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);  Umbra mai subtilă 
+    max-width: 700px;  Lărgire controlată a containerului 
+    margin: 2rem auto;
+    transition: transform 0.3s ease-in-out;  Adăugăm o tranziție pentru apariția pop-up-ului 
+}
+
+    .details-container:hover {
+        transform: translateY(-5px);  Mișcare ușoară în sus când se trece cu mouse-ul pe pop-up 
+    }
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;  Aliniază butoanele la dreapta 
+    gap: 10px;  Spațiu între butoane 
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 0.7rem 1.2rem;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #0071BC;
+    color: white;
+    border: none;
+}
+
+    .btn-primary:hover {
+        background-color: #005fa3;
+    }
+
+.btn-secondary {
+    background-color: #f1f1f1;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+    .btn-secondary:hover {
+        background-color: #ddd;
+    }
+
+    .btn-primary:focus,
+    .btn-secondary:focus {
+        outline: none;
+        box-shadow: 0 0 5px rgba(0, 115, 187, 0.5);  Efect de focus pe buton 
+    }

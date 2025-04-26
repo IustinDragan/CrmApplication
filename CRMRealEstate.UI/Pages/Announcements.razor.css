@@ -30,7 +30,7 @@ body {
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 
-/**/
+
 
 
 .container {
@@ -67,22 +67,22 @@ body {
 
 .img-overlay {
     width: 100%;
-    height: 100px; /* mai mic decât 100px */
+    height: 100px;  mai mic decât 100px 
     position: relative;
     overflow: hidden;
     display: flex;
-    align-items: flex-start; /* împinge imaginea sus */
+    align-items: flex-start;  împinge imaginea sus 
     justify-content: center;
-    padding-top: 20px; /* ridică și mai mult imaginea */
+    padding-top: 20px;  ridică și mai mult imaginea 
 }
 
     .img-overlay img {
-        width: 60%; /* mai îngust decât 100% */
+        width: 60%;  mai îngust decât 100% 
         height: auto;
         object-fit: cover;
         object-position: top;
         z-index: 1;
-        margin-top: -10px; /* opțional, trage imaginea mai sus în container */
+        margin-top: -10px;  opțional, trage imaginea mai sus în container 
     }
 
 figcaption {
@@ -145,7 +145,7 @@ figcaption {
     align-items: center;
 }
 
-.btn-detail,
+/*.btn-detail,*/
 .btn-delete {
     padding: 0.3rem 0.6rem;
     font-size: 12px;
@@ -156,11 +156,11 @@ figcaption {
     transition: all 0.2s ease;
 }
 
-.btn-detail {
+/*.btn-detail {
     background-color: transparent;
     border: 1px solid var(--border-view-color);
     color: var(--border-view-color);
-}
+}*/
 
     .btn-detail:hover {
         background-color: var(--blue-hover);
@@ -242,7 +242,7 @@ figcaption {
         transition: color 0.2s ease;
     }
 
-        /* Culoare implicită: roșu */
+         Culoare implicită: roșu 
         .icons-img .btn-share i {
             color: #e74c3c;
         }
@@ -251,14 +251,14 @@ figcaption {
             color: #e74c3c;
         }
 
-        /* Hover pe share – afectează DOAR iconița din interiorul butonului .btn-share */
+         Hover pe share – afectează DOAR iconița din interiorul butonului .btn-share 
         .icons-img .btn-share:hover i {
             color: #c0392b;
         }
 
-        /* Hover pe favorite – afectează DOAR iconița din interiorul butonului .btn-fav */
+         Hover pe favorite – afectează DOAR iconița din interiorul butonului .btn-fav 
         .icons-img .btn-fav:hover i {
-            color:   #c0392b;
+            color: #c0392b;
         }
 
 
@@ -298,10 +298,10 @@ figcaption {
 }
 
     .btn-delete:hover {
-        background-color:   #c0392b;
+        background-color: #c0392b;
     }
 
-/* Fade-in animation for cards */
+ Fade-in animation for cards 
 @keyframes fadeInUp {
     0% {
         opacity: 0;
@@ -325,7 +325,7 @@ figcaption {
         box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
     }
 
-/* Badge: Nou / Promovat etc. */
+ Badge: Nou / Promovat etc. 
 .badge {
     position: absolute;
     top: 10px;
@@ -346,7 +346,7 @@ figcaption {
     border-top-right-radius: 12px;
 }
 
-/* Dark Mode */
+ Dark Mode 
 @media (prefers-color-scheme: dark) {
     :root {
         --bg-body: #121212;
@@ -410,5 +410,5 @@ figcaption {
 
     .search-wrapper i {
         color: #777;
-        margin-right:  5px;
+        margin-right: 5px;
     }

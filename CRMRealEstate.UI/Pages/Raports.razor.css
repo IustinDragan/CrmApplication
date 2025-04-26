@@ -1,0 +1,45 @@
+﻿/*:deep(.mud-paper) {
+    border-radius: 16px;
+    background-color: var(--mud-palette-background);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 2rem;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+}
+
+:deep(.mud-text-field-input),
+:deep(.mud-select-input),
+:deep(.mud-input-control) {
+    border-radius: 12px;
+    font-size: 1rem;
+}
+
+:deep(.mud-button) {
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.75rem 2rem;
+    border-radius: 12px;
+    transition: background-color 0.3s ease;
+}
+
+:deep(.mud-button:hover) {
+    filter: brightness(0.95);
+}
+
+:deep(.mud-table) {
+    margin-top: 2rem;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+:deep(.mud-table-cell) {
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+}
+
+:deep(.mud-text) {
+    text-align: center;
+    margin-top: 2rem;
+    color: var(--mud-palette-text-secondary);
+}
+*/

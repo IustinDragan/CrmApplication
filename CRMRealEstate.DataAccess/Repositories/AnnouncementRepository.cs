@@ -101,12 +101,6 @@ namespace CRMRealEstate.DataAccess.Repositories
                 .FirstOrDefaultAsync();
         }
 
-        // public Task<List<Announcement>> SearchAnnouncements(string searchText)
-        // {
-        //     return _databaseContext.Announcement
-        //         .Where(a => a.Title.Contains(searchText) || a.Property.Details.Contains(searchText)).ToListAsync();
-        // }
-
         public async Task DeleteAsync(int id)
         {
             var announcement = await ReadByIdAsync(id);

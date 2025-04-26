@@ -18,6 +18,12 @@
 
 <button class="btn btn-outline-primary" @onclick="() => UploadDocuments()">Incarca Documente</button>
 
+ <AuthorizeView Roles="SalesAgent">
+    <Authorized>
+<button class="btn btn-outline-primary" @onclick="() => GoToRaportGenerator()">Genereaza rapoarte</button>
+    </Authorized>
+</AuthorizeView>
+
 
 @code{
 
@@ -47,5 +53,9 @@
     public async Task UploadDocuments()
     {
         Navigation.NavigateTo("/uploadDocuments");
+    }    
+    public async Task GoToRaportGenerator()
+    {
+        Navigation.NavigateTo("/rapoarte");
     }
 }

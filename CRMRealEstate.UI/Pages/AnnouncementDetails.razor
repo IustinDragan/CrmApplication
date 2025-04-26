@@ -57,24 +57,6 @@ else
                             </div>
                         </div>
                     }
-
-               @*      <MudButton OnClick="@OpenFinalizeDialog" Color="Color.Success">
-                        Finalizează tranzacția
-                    </MudButton>
-
-                    <MudDialog @bind-IsOpen="isDialogOpen">
-                        <DialogContent>
-                            <MudTextField Label="Preț final" @bind-Value="price" />
-                            <MudSelect T="TransactionType" @bind-Value="selectedType" Label="Tip tranzacție">
-                                <MudSelectItem Value="TransactionType.Sale">Vânzare</MudSelectItem>
-                                <MudSelectItem Value="TransactionType.Rent">Închiriere</MudSelectItem>
-                            </MudSelect>
-                        </DialogContent>
-                        <DialogActions>
-                            <MudButton OnClick="FinalizeTransaction" Color="Color.Primary">Salvează</MudButton>
-                            <MudButton OnClick="()=> isDialogOpen = false">Anulează</MudButton>
-                        </DialogActions>
-                    </MudDialog> *@
                 </Authorized>
             </AuthorizeView>
         </div>
