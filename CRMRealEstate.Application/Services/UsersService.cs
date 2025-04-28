@@ -6,9 +6,7 @@ using CRMRealEstate.Application.Models.UsersModels;
 using CRMRealEstate.Application.Services.Interfaces;
 using CRMRealEstate.DataAccess.Entities;
 using CRMRealEstate.DataAccess.Enums;
-using CRMRealEstate.DataAccess.Repositories;
 using CRMRealEstate.DataAccess.Repositories.Interfaces;
-using CRMRealEstate.DataAccess.Scripts;
 using CRMRealEstate.Shared.Models.Users;
 using System.Data;
 

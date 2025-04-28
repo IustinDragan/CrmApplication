@@ -1,5 +1,4 @@
 ﻿using CRMRealEstate.DataAccess.Enums;
-using System.Transactions;
 
 namespace CRMRealEstate.DataAccess.Entities
 {

@@ -16,6 +16,7 @@ public class DatabaseContext : DbContext
     public DbSet<Property> Properties { get; set; }
     public DbSet<Adress> Addresses { get; set; }
     public DbSet<Transaction> Transactions { get; set; }
+    public DbSet<Request> Requests { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

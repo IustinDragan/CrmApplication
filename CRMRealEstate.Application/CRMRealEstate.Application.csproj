@@ -17,6 +17,7 @@
         <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.3.0" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.3.0" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.0" />
+        <PackageReference Include="Minio" Version="6.0.4" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.2.1" />
     </ItemGroup>
 

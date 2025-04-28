@@ -13,6 +13,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using CRMRealEstate.Application.Models.AdressModels;
 using CRMRealEstate.Application.Validators;
+using CRMRealEstate.Application;
+using Minio;
 
 internal class Program
 {
@@ -98,10 +100,18 @@ internal class Program
         builder.Services.AddScoped<IValidator<CreateAdressRequestModel>, AddressRequestModelValidator>();
         builder.Services.AddScoped<ITransactionService, TransactionService>();
         builder.Services.AddScoped<ITransactionsRepository, TransactionRepository>();
+        builder.Services.AddScoped<StorageService>();
+        builder.Services.AddMinio(configureClient =>
+        {
+            configureClient.WithEndpoint("localhost:9000");
+            configureClient.WithCredentials("minioadmin", "minioadmin");
+            configureClient.WithSSL(false);
+        });
 
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddControllers().AddJsonOptions(options => { });
-
+        builder.Services.AddScoped<IRequestService, RequestService>();
+        builder.Services.AddScoped<IRequestRepository, RequestRepository>();
 
 
         var app = builder.Build();
