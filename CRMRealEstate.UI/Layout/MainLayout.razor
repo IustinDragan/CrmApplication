@@ -24,9 +24,11 @@
                         <div class="container-nav">
                             <div class="nav-left">
                                 <a href="/" class="brand">CRM Real Estate</a>
-                                <a href="/properties" class="nav-link">
-                                    <i class="bi bi-building me-1"></i> Proprietăți
+                                <AuthorizeView Roles="Customer">
+                                <a href="/send-request" class="nav-link">
+                                    <i class="bi bi-building me-1"></i> Contacteaza un agent
                                 </a>
+                                </AuthorizeView>
                                 <a href="/announcements" class="nav-link">
                                     <i class="bi bi-megaphone me-1"></i> Anunțuri
                                 </a>
@@ -34,6 +36,9 @@
                                     <Authorized Context="_">
                                         <a href="/announcements/create" class="nav-link">
                                             <i class="bi bi-plus-circle me-1"></i> Adaugă anunț
+                                        </a>
+                                        <a href="/agent-requests" class="nav-link">
+                                            <i class="bi bi-building me-1"></i> Vezi solicitari de la clienti
                                         </a>
                                     </Authorized>
                                 </AuthorizeView>
@@ -60,8 +65,8 @@
                         <div class="container-nav">
                             <div class="nav-left">
                                 <a href="/" class="brand">CRM Real Estate</a>
-                                <a href="/properties" class="nav-link">
-                                    <i class="bi bi-building me-1"></i> Proprietăți
+                                <a href="/send-request" class="nav-link">
+                                    <i class="bi bi-building me-1"></i> Contacteaza un agent
                                 </a>
                                 <a href="/announcements" class="nav-link">
                                     <i class="bi bi-megaphone me-1"></i> Anunțuri

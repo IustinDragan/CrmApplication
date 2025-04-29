@@ -20,9 +20,12 @@ namespace CRMRealEstate.API.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         //[Authorize(Roles = "Customer")]
-        public async Task<IActionResult> CreateRequestAsync(CreateRequestModel createRequestModel)
+        public async Task<IActionResult> CreateRequestAsync([FromBody] CreateRequestModel createRequestModel)
         {
+            //var customerId = int.Parse(User.FindFirst("id").Value);
+
             var createRequest = await _requestService.CreateRequestsAsync(createRequestModel);
 
             return Created("", createRequest);

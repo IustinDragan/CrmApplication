@@ -1,0 +1,98 @@
+﻿@page "/send-request"
+@using CRMRealEstate.DataAccess.Enums
+@using CRMRealEstate.UI.Models
+@using Microsoft.AspNetCore.Components.Authorization
+
+@inject AuthenticationStateProvider AuthState
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<h3>Trimite un mesaj către agent</h3>
+
+<EditForm Model="requestModel" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label for="title">Titlu</label>
+        <InputText id="title" class="form-control" @bind-Value="requestModel.Title" />
+    </div>
+
+    <div class="mb-3">
+        <label for="message">Mesaj</label>
+        <InputTextArea id="message" class="form-control" @bind-Value="requestModel.CustomerMessage" />
+    </div>
+
+    <div class="mb-3">
+        <label for="agent">Selectează agentul</label>
+        <select class="form-select form-select-sm" @bind="requestModel.AgentId">
+            <option value="">-- Selectează un agent --</option>
+            @foreach (var agent in agents)
+            {
+                <option value="@agent.Id">@agent.UserName</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-sm">Trimite</button>
+</EditForm>
+
+@code {
+        private CreateRequestModel requestModel = new CreateRequestModel();
+        private List<UserModel> agents = new List<UserModel>();
+
+        private async Task HandleValidSubmit()
+        {
+            var authState = await AuthState.GetAuthenticationStateAsync();
+            var user = authState.User;
+
+            if (user.Identity != null && user.Identity.IsAuthenticated)
+            {
+                var customerIdClaim = user.FindFirst("id")?.Value;
+
+                if (!string.IsNullOrWhiteSpace(customerIdClaim))
+                {
+                    requestModel.CustomerId = int.Parse(customerIdClaim);
+                }
+
+                requestModel.Status = RequestStatus.Pending;
+
+                var response = await Http.PostAsJsonAsync("/requests", requestModel);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    NavigationManager.NavigateTo("/");
+                }
+                else
+                {
+                    Console.WriteLine("Eroare la trimiterea cererii!");
+                }
+            }
+        }
+
+        protected override async Task OnInitializedAsync()
+        {
+            var users = await Http.GetFromJsonAsync<List<UserModel>>("/users");
+
+            // Selectăm doar utilizatorii care au rolul "SalesAgent"
+        agents = users.Where(u => u.RoleName == Roles.SalesAgent).ToList();
+        
+        }
+
+        public class UserModel
+        {
+            // public int Id { get; set; }
+            // public string Name { get; set; }
+            // public string Role { get; set; }
+
+        public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string? UserName { get; set; }
+        public string EmailAddress { get; set; }
+        public string PhoneNumber { get; set; }
+        public Roles RoleName { get; set; }
+        public DateTime UserCreatedAt { get; set; }
+        
+    }
+}

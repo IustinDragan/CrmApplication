@@ -1,0 +1,129 @@
+﻿@page "/agent-requests"
+@using CRMRealEstate.DataAccess.Enums
+@using CRMRealEstate.UI.Models
+@using Microsoft.AspNetCore.Components.Authorization
+
+@inject HttpClient Http
+@inject AuthenticationStateProvider AuthState
+
+<h3>Cereri de la clienți</h3>
+
+@if (requests == null)
+{
+    <p>Se încarcă cererile...</p>
+}
+else if (!requests.Any())
+{
+    <p>Nu există cereri în așteptare.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Titlu</th>
+                <th>Mesaj</th>
+                <th>Client</th>
+                <th>Acțiuni</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var request in requests)
+            {
+                <tr>
+                    <td>@request.Title</td>
+                    <td>@request.CustomerMessage</td>
+                    <td>@request.CustomerId</td> @* Sau putem aduce numele clientului ulterior *@
+                    <td>
+                        <button class="btn btn-success btn-sm" @onclick="() => ApproveRequest(request)">Aprobă</button>
+                        <button class="btn btn-danger btn-sm" @onclick="() => RejectRequest(request)">Respinge</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    //private List<RequestResponseModel> requests; // Folosim ResponseModel-ul, nu entitatea direct
+
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     var authState = await AuthState.GetAuthenticationStateAsync();
+    //     var user = authState.User;
+
+    //     if (user.Identity != null && user.Identity.IsAuthenticated)
+    //     {
+    //         // Luăm toate requesturile
+    //         requests = await Http.GetFromJsonAsync<List<RequestResponseModel>>("/requests");
+
+    //         // Filtrăm doar cele cu Status = Pending
+    //         requests = requests.Where(r => r.Status == RequestStatus.Pending).ToList();
+    //     }
+    // }
+
+    // private async Task ApproveRequest(RequestResponseModel request)
+    // {
+    //     request.Status = RequestStatus.Completed;
+
+    //     //await Http.PutAsJsonAsync($"api/request/{request.Id}", request);
+    //     await Http.PutAsJsonAsync($"/requests", request);
+
+    //     // Reîncărcăm lista după modificare
+    //     await OnInitializedAsync();
+    // }
+
+    // private async Task RejectRequest(RequestResponseModel request)
+    // {
+    //     request.Status = RequestStatus.Rejected;
+
+    //     //await Http.PutAsJsonAsync($"/request/{request.Id}", request);
+    //     await Http.PutAsJsonAsync($"/requests/{request.Id}", request);
+
+    //     // Reîncărcăm lista după modificare
+    //     await OnInitializedAsync();
+    // }
+
+
+    private List<RequestResponseModel> requests;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthState.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity != null && user.Identity.IsAuthenticated)
+        {
+            requests = await Http.GetFromJsonAsync<List<RequestResponseModel>>("/requests");
+            requests = requests.Where(r => r.Status == RequestStatus.Pending).ToList();
+        }
+    }
+
+    private async Task ApproveRequest(RequestResponseModel request)
+    {
+        var response = await Http.PutAsJsonAsync($"/requests/{request.Id}", RequestStatus.Completed);
+
+        if (response.IsSuccessStatusCode)
+        {
+            await OnInitializedAsync(); // Reload după update
+        }
+        else
+        {
+            Console.WriteLine("Eroare la aprobare");
+        }
+    }
+
+    private async Task RejectRequest(RequestResponseModel request)
+    {
+        var response = await Http.PutAsJsonAsync($"/requests/{request.Id}", RequestStatus.Rejected);
+
+        if (response.IsSuccessStatusCode)
+        {
+            await OnInitializedAsync(); // Reload după update
+        }
+        else
+        {
+            Console.WriteLine("Eroare la respingere");
+        }
+    }
+}
