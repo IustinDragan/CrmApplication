@@ -101,6 +101,16 @@ namespace CRMRealEstate.DataAccess.Repositories
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<List<Announcement>> GetAnnouncementsByAgentIdAsync(int agentId)
+        {
+            return await _databaseContext
+                .Announcements
+                .Where(x => x.UserId == agentId)
+                .Include(a => a.Property)
+                .ThenInclude(p => p.Adress)
+                .ToListAsync();
+        }
+
         public async Task DeleteAsync(int id)
         {
             var announcement = await ReadByIdAsync(id);

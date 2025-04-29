@@ -14,12 +14,10 @@ namespace CRMRealEstate.DataAccess.Entities
         public DateTime EndDate { get; set; }
         public Property Property { get; set; }
 
-        public ICollection<UserAnnouncement> UserAnnouncements { get; set; }
-
         public int? UserId { get; set; }
 
         public Users? User { get; set; }
 
-        public IEnumerable<UserAnnouncement> Users { get; set; }
+        public ICollection<UserAnnouncement> UserAnnouncements { get; set; }
     }
 }

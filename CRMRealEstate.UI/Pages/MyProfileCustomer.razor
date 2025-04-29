@@ -21,6 +21,7 @@
  <AuthorizeView Roles="SalesAgent">
     <Authorized>
 <button class="btn btn-outline-primary" @onclick="() => GoToRaportGenerator()">Genereaza rapoarte</button>
+<button class="btn btn-outline-primary" @onclick="() => GoToMyAnnouncements()">Anunturile mele</button>
     </Authorized>
 </AuthorizeView>
 
@@ -54,8 +55,14 @@
     {
         Navigation.NavigateTo("/uploadDocuments");
     }    
+
     public async Task GoToRaportGenerator()
     {
         Navigation.NavigateTo("/rapoarte");
+    }
+
+    public async Task GoToMyAnnouncements()
+    {
+        Navigation.NavigateTo("/my-announcements");
     }
 }

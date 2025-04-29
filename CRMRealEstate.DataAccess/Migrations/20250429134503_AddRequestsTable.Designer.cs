@@ -3,6 +3,7 @@ using System;
 using CRMRealEstate.DataAccess.Scripts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CRMRealEstate.DataAccess.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20250429134503_AddRequestsTable")]
+    partial class AddRequestsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -249,23 +252,20 @@ namespace CRMRealEstate.DataAccess.Migrations
 
             modelBuilder.Entity("CRMRealEstate.DataAccess.Entities.UserAnnouncement", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AnnouncementId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("AnnouncementId1")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId", "AnnouncementId");
 
                     b.HasIndex("AnnouncementId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("AnnouncementId1");
 
                     b.ToTable("UsersAnnouncements");
                 });
@@ -396,10 +396,14 @@ namespace CRMRealEstate.DataAccess.Migrations
             modelBuilder.Entity("CRMRealEstate.DataAccess.Entities.UserAnnouncement", b =>
                 {
                     b.HasOne("CRMRealEstate.DataAccess.Entities.Announcement", "Announcement")
-                        .WithMany("UserAnnouncements")
+                        .WithMany("Users")
                         .HasForeignKey("AnnouncementId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("CRMRealEstate.DataAccess.Entities.Announcement", null)
+                        .WithMany("UserAnnouncements")
+                        .HasForeignKey("AnnouncementId1");
 
                     b.HasOne("CRMRealEstate.DataAccess.Entities.Users", "User")
                         .WithMany("FavoritesAnnouncements")
@@ -428,6 +432,8 @@ namespace CRMRealEstate.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("UserAnnouncements");
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("CRMRealEstate.DataAccess.Entities.Company", b =>

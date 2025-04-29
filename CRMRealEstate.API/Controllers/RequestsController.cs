@@ -100,14 +100,3 @@ namespace CRMRealEstate.API.Controllers
         }
     }
 }
-
-
-//Task<RequestResponseModel> CreateRequestsAsync(CreateRequestModel requestModel);
-//Task<List<RequestResponseModel>> GetAllRequestsAsync();
-//Task<RequestResponseModel> UpdateRequestsStatusAsync(int requestId, RequestStatus status, int agentId);
-//Task<List<RequestResponseModel>> GetRequestsForCustomerAsync(int customerId);
-//Task<List<RequestResponseModel>> GetRequestsForAgentAsync(int agentId);
-
-
-
-//Task DeleteRequestsAsync(int requestId);

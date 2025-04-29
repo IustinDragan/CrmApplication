@@ -1,11 +1,6 @@
 ﻿using CRMRealEstate.Application.Models.AnnouncementModels;
 using CRMRealEstate.Application.Services.Interfaces;
 using CRMRealEstate.DataAccess.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CRMRealEstate.Application.Services
 {
@@ -18,9 +13,9 @@ namespace CRMRealEstate.Application.Services
             _announcementRepository = announcementRepository ?? throw new ArgumentException(nameof(announcementRepository));
         }
 
-        public async Task<AnnouncementResponseModel> CreateAsync(CreateAnnouncementRequestModel requestModel)
+        public async Task<AnnouncementResponseModel> CreateAsync(CreateAnnouncementRequestModel requestModel, int agentId)
         {
-            var announcement = requestModel.ToAnnouncement();
+            var announcement = requestModel.ToAnnouncement(agentId);
             var addedAnnouncement = await _announcementRepository.InsertAsync(announcement);
 
             return AnnouncementResponseModel.FromAnnouncement(addedAnnouncement);
@@ -64,6 +59,12 @@ namespace CRMRealEstate.Application.Services
         //     return await _announcementRepository.SearchAnnouncements(searchText);
         // }
 
+        public async Task<List<AnnouncementResponseModel?>> GetMyAnnouncementsAsync(int agentId)
+        {
+            var announcements = await _announcementRepository.GetAnnouncementsByAgentIdAsync(agentId);
+
+            return announcements.Select(AnnouncementResponseModel.FromAnnouncement).ToList(); 
+        }
         public async Task DeleteAsync(int id)
         {
             await _announcementRepository.DeleteAsync(id);

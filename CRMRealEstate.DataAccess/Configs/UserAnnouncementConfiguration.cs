@@ -1,22 +1,19 @@
 ﻿using CRMRealEstate.DataAccess.Entities;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
 
-namespace CRMRealEstate.DataAccess.Configs
+class UserAnnouncementConfiguration : IEntityTypeConfiguration<UserAnnouncement>
 {
-    class UserAnnouncementConfiguration : IEntityTypeConfiguration<UserAnnouncement>
+    public void Configure(EntityTypeBuilder<UserAnnouncement> builder)
     {
-        public void Configure(EntityTypeBuilder<UserAnnouncement> builder)
-        {
-            builder.HasKey(ua => new { ua.UserId, ua.AnnouncementId });
+        builder.HasKey(ua => ua.Id);
 
-            builder.HasOne(x => x.Announcement)
-                .WithMany(x => x.Users)
-                .HasForeignKey(x => x.AnnouncementId);
+        builder.HasOne(ua => ua.Announcement)
+            .WithMany(a => a.UserAnnouncements)  // << corect
+            .HasForeignKey(ua => ua.AnnouncementId);
 
-            builder.HasOne(x => x.User)
-                .WithMany(x => x.FavoritesAnnouncements)
-                .HasForeignKey(x => x.UserId);
-        }
+        builder.HasOne(ua => ua.User)
+            .WithMany(u => u.FavoritesAnnouncements) // << corect
+            .HasForeignKey(ua => ua.UserId);
     }
 }

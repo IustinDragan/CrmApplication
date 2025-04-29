@@ -1,0 +1,72 @@
+﻿@page "/my-announcements"
+@using CRMRealEstate.UI.Models
+@using Microsoft.AspNetCore.Components.Authorization
+@inject HttpClient Http
+@inject AuthenticationStateProvider AuthState
+@using MudBlazor
+
+
+<PageTitle>Anunțurile Mele</PageTitle>
+
+<h3>Anunțurile Mele</h3>
+
+@if (isLoading)
+{
+    <p>Se încarcă anunțurile...</p>
+}
+else if (announcements == null || !announcements.Any())
+{
+    <p>Nu ai anunțuri create.</p>
+}
+else
+{
+    <MudTable Items="announcements" Hover="true" Striped="true" Dense="true" Bordered="true" Elevation="6">
+        <HeaderContent>
+            <MudTh>Titlu</MudTh>
+            <MudTh>Data start</MudTh>
+            <MudTh>Data sfârșit</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>
+                <MudLink Href="@($"/announcements/{context.Id}")" Target="_blank">
+                    @context.Title
+                </MudLink>
+            </MudTd>
+            <MudTd>@context.StartDate.ToShortDateString()</MudTd>
+            <MudTd>@context.EndDate.ToShortDateString()</MudTd>
+        </RowTemplate>
+    </MudTable>
+}
+
+@code {
+    private List<AnnouncementResponseModel> announcements;
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+
+        var authState = await AuthState.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            var agentIdClaim = user.FindFirst("id")?.Value;
+
+            if (!string.IsNullOrEmpty(agentIdClaim))
+            {
+                var agentId = int.Parse(agentIdClaim);
+
+                // Apelam API-ul /announcement/agentId/{agentId}
+                var response = await Http.GetAsync($"announcement/agentId/{agentId}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    announcements = await response.Content.ReadFromJsonAsync<List<AnnouncementResponseModel>>();
+                }
+            }
+        }
+
+        isLoading = false;
+    }
+}

@@ -10,6 +10,7 @@ namespace CRMRealEstate.Application.Models.AnnouncementModels
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public PropertyResponseModel Property { get; set; }
+        public int? AgentId {  get; set; }
 
         public static AnnouncementResponseModel FromAnnouncement(Announcement announcement)
         {
@@ -21,7 +22,8 @@ namespace CRMRealEstate.Application.Models.AnnouncementModels
                 EndDate = announcement.EndDate,
                 Property = announcement.Property != null
                     ? PropertyResponseModel.FromProperty(announcement.Property)
-                    : null
+                    : null,
+                AgentId = announcement.UserId,
             };
         }
     }

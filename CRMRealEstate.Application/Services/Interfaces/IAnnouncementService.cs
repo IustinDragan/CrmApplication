@@ -5,7 +5,7 @@ namespace CRMRealEstate.Application.Services.Interfaces
     public interface IAnnouncementService
     {
         Task<AnnouncementResponseModel> CreateAsync(
-            CreateAnnouncementRequestModel requestModel);
+            CreateAnnouncementRequestModel requestModel, int agentId);
 
         Task<AnnouncementResponseModel> UpdateAsync(int id,
             UpdateAnnouncementRequestModel requestModel);
@@ -14,6 +14,8 @@ namespace CRMRealEstate.Application.Services.Interfaces
             ReadAnnouncementRequestModel requestModel);
 
         Task<AnnouncementResponseModel> ReadByIdAsync(int id);
+
+        Task<List<AnnouncementResponseModel?>> GetMyAnnouncementsAsync(int agentId);
 
         //Task<List<Announcement>> SearchAsync(string searchText);
 

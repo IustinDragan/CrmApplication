@@ -19,6 +19,8 @@ namespace CRMRealEstate.DataAccess.Repositories.Interfaces
 
         public Task<Announcement> ReadByIdAsync(int id);
 
+        Task<List<Announcement?>> GetAnnouncementsByAgentIdAsync(int agentId);
+
         //Task<List<Announcement>> SearchAnnouncements(string searchText);
 
         public Task DeleteAsync(int id);

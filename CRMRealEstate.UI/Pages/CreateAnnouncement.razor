@@ -3,6 +3,9 @@
 @using CRMRealEstate.UI.Models
 @inject HttpClient Http
 @inject NavigationManager Navigation
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthState
+
 
 <div class="announcement-wizard">
     <h2 class="wizard-title">Adaugă un anunț</h2>
@@ -23,23 +26,24 @@
     </div>
 
     @using CRMRealEstate.DataAccess.Enums
+@using Microsoft.AspNetCore.Components.Authorization
 
     <!-- Tip proprietate -->
     <div class="wizard-step">
         <h5>Selectează tipul proprietății</h5>
         <div class="option-grid">
             <div class="option-box @(selectedPropertyType == PropertyType.Apartment ? "active" : null)"
-                 @onclick='() => SelectPropertyType(PropertyType.Apartment)'>
+            @onclick='() => SelectPropertyType(PropertyType.Apartment)'>
                 <img src="/images/apartment-icon.png" alt="apartament" />
                 <span>Apartament</span>
             </div>
             <div class="option-box @(selectedPropertyType == PropertyType.House ? "active" : null)"
-                 @onclick='() => SelectPropertyType(PropertyType.House)'>
+            @onclick='() => SelectPropertyType(PropertyType.House)'>
                 <img src="/images/house-icon.png" alt="casă" />
                 <span>Casă</span>
             </div>
             <div class="option-box @(selectedPropertyType == PropertyType.Land ? "active" : null)"
-                 @onclick='() => SelectPropertyType(PropertyType.Land)'>
+            @onclick='() => SelectPropertyType(PropertyType.Land)'>
                 <img src="/images/land-icon.png" alt="teren" />
                 <span>Teren</span>
             </div>
@@ -102,9 +106,9 @@
                 <div class="form-group">
                     <i class="bi bi-box-arrow-in-down"></i>
                     <select id="elevator"
-                            class="form-input"
-                            @bind-value="_announcementRequestModel.Property.Elevator"
-                            @bind-value:event="oninput">
+                    class="form-input"
+                    @bind-value="_announcementRequestModel.Property.Elevator"
+                    @bind-value:event="oninput">
                         <option value="" disabled selected hidden>Lift</option>
                         <option value="true">Da</option>
                         <option value="false">Nu</option>
@@ -113,7 +117,7 @@
                 <div class="form-group">
                     <i class="bi bi-tools"></i>
                     <input class="form-input" type="text" placeholder="Utilități (ex: apă, gaz, electricitate)"
-                           @bind="_announcementRequestModel.Property.Utilities"   />
+                    @bind="_announcementRequestModel.Property.Utilities"   />
                 </div>
 
                 <div class="form-group">
@@ -193,7 +197,7 @@
                 <div class="form-group">
                     <i class="bi bi-tools"></i>
                     <input class="form-input" type="text" placeholder="Utilități (ex: apă, gaz, electricitate)"
-                           @bind="_announcementRequestModel.Property.Utilities"   />
+                    @bind="_announcementRequestModel.Property.Utilities"   />
                 </div>
 
                 <div class="form-group">
@@ -235,7 +239,7 @@
             <div class="form-group">
                 <i class="bi bi-tools"></i>
                 <input class="form-input" type="text" placeholder="Utilități (ex: apă, gaz, electricitate)"
-                       @bind="_announcementRequestModel.Property.Utilities"   />
+                @bind="_announcementRequestModel.Property.Utilities"   />
             </div>
 
             <div class="form-group">
@@ -304,7 +308,14 @@
 
         try
         {
-            var response = await Http.PostAsJsonAsync("announcement", _announcementRequestModel);
+            var authState = await AuthState.GetAuthenticationStateAsync();
+
+            var user = authState.User;
+            var agentIdClaim = user.FindFirst("id")?.Value;
+
+            var agentId = int.Parse(agentIdClaim);
+
+            var response = await Http.PostAsJsonAsync($"announcement/{agentId}", _announcementRequestModel);
             if (response.IsSuccessStatusCode)
             {
                 successMessage = "Anunțul a fost publicat cu succes!";

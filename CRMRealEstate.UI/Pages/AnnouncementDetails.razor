@@ -6,6 +6,7 @@
 @inject NavigationManager NavManager
 @using Microsoft.AspNetCore.Components.Authorization
 @using MudBlazor
+@using static MudBlazor.Icons
 
 @if (announcement == null)
 {
@@ -19,14 +20,16 @@ else
                 &larr; Înapoi la anunțuri
             </button>
 
+
             <AuthorizeView Roles="SalesAgent">
                 <Authorized>
                     <button class="btn-edit" @onclick="@(() => NavManager.NavigateTo($"/announcements/edit/{Id}"))">
                         ✏ Editează anunțul
                     </button>
 
+                    <button @onclick="ShowDialog" class="btn-finalize">Finalizează tranzacția</button>
 
-                    <button @onclick="ShowDialog" class="btn btn-success">Finalizează tranzacția</button>
+                    
 
                     @if (isDialogVisible)
                     {
@@ -48,6 +51,8 @@ else
                                             <option value="Rent">Închiriere</option>
                                         </select>
                                     </div>
+
+                                    
 
                                     <div class="d-flex justify-content-end">
                                         <button class="btn btn-primary me-2" @onclick="FinalizeTransaction">Salvează</button>

@@ -14,14 +14,14 @@
     text-align: center;
 }
 
-.button-container {
+/*.button-container {
     display: flex;
     justify-content: space-between;
     margin-bottom: 1rem;
-}
+}*/
 
-.btn-back,
-.btn-edit {
+
+/*.btn-edit {
     background-color: #0071BC;
     color: white;
     border: none;
@@ -30,12 +30,12 @@
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.2s;
-}
+}*/
 
-    .btn-back:hover,
+/*    .btn-back:hover,
     .btn-edit:hover {
         background-color: #005fa3;
-    }
+    }*/
 
 .image-gallery {
     display: flex;
@@ -121,11 +121,11 @@
         transform: translateY(-5px);  Mișcare ușoară în sus când se trece cu mouse-ul pe pop-up 
     }
 
-.button-container {
+/*.button-container {
     display: flex;
     justify-content: flex-end;  Aliniază butoanele la dreapta 
     gap: 10px;  Spațiu între butoane 
-}
+}*/
 
 .btn-primary,
 .btn-secondary {
@@ -161,3 +161,49 @@
         outline: none;
         box-shadow: 0 0 5px rgba(0, 115, 187, 0.5);  Efect de focus pe buton 
     }
+
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+    .button-container button {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.8rem;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .button-container .btn-edit {
+        background-color: #1976d2;
+        color: white;
+    }
+
+    .button-container .btn-finalize
+    {
+        background-color: #2e7d32;
+         color:  white;
+    }
+
+    .button-container .btn-back {
+        background-color: transparent;
+        color: #1976d2;
+        border: 2px solid #1976d2;
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        min-width: 150px;
+        text-align: center;
+    }
+
+        .button-container .btn-back:hover {
+            background-color: #1976d2;
+            color: #ffffff;
+        }

@@ -24,16 +24,23 @@ namespace CRMRealEstate.API.Controllers
             _validator = validator;
         }
 
-        [HttpPost]
+        [HttpPost("{agentId:int}")]
         [Authorize(Roles = "SalesAgent")]
-        public async Task<IActionResult> CreateAnnouncementAsync(CreateAnnouncementRequestModel createAnnouncementRequestModel)
+        public async Task<IActionResult> CreateAnnouncementAsync(int agentId, CreateAnnouncementRequestModel createAnnouncementRequestModel)
         {
             var validationResponse = _validator.GetValidationResult(createAnnouncementRequestModel.Property.Adress);
             if (validationResponse != null)
                 return validationResponse;
 
 
-            var announcementEntity = await _announcementService.CreateAsync(createAnnouncementRequestModel);
+            //var userAgentId = int.Parse(User.FindFirst("id").Value);
+            //if (agentId != userAgentId)
+            //{
+            //    return Forbid();
+            //}
+
+
+            var announcementEntity = await _announcementService.CreateAsync(createAnnouncementRequestModel, agentId);
 
             return Created("", announcementEntity);
         }
@@ -76,6 +83,25 @@ namespace CRMRealEstate.API.Controllers
 
             return Ok(announcementEntityByIdForUpdate);
         }
+
+        [HttpGet("agentId/{agentId:int}")]
+        public async Task<IActionResult> GetMyAnnouncements(int agentId)
+        {
+            //recomandare Gpt:
+            //var agentId = int.Parse(User.FindFirst("agentId").Value);
+            //var userAgentId = int.Parse(User.FindFirst("id").Value);
+
+            //if (agentId != userAgentId)
+            //{
+            //    return Forbid();
+            //}
+
+            var announcementsByAgentId = await _announcementService.GetMyAnnouncementsAsync(agentId);
+
+            return Ok(announcementsByAgentId);
+
+        }
+
 
         [HttpDelete("{id}")]
         [Authorize(Roles = "SalesAgent")]

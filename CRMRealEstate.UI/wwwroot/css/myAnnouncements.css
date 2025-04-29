@@ -1,0 +1,68 @@
+﻿/* Stil pentru titlu */
+h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: #374151; /* Darker gray */
+}
+
+/* Stil pentru texte informative */
+p {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #6B7280;
+    margin-top: 2rem;
+}
+
+/* Stilizare tabel MudBlazor */
+body .mud-table-root {
+    border-radius: 12px;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    margin-top: 2rem;
+    background-color: #ffffff;
+}
+
+    /* Stilizare head tabel */
+    body .mud-table-root thead th {
+        background-color: #f1f5f9 !important; /* Light gray-blue */
+        font-weight: 700 !important; /* Bold clar */
+        font-size: 1rem !important;
+        text-transform: uppercase;
+        padding: 1rem !important;
+        color: #2d3748; /* Gri elegant */
+        border-bottom: 2px solid #cbd5e1;
+        letter-spacing: 0.05em;
+    }
+
+    /* Stilizare celule tabel */
+    body .mud-table-root tbody td {
+        background-color: #f8fafc !important;
+        padding: 1rem !important;
+        font-size: 0.95rem;
+        color: #374151; /* Gri închis, clar, profesional */
+        font-weight: 500; /* Semi-bold pentru un text mai clar */
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    /* Hover efect clar */
+    body .mud-table-root tbody tr:hover {
+        background-color: #d1fae5 !important;
+        transition: background-color 0.3s ease;
+        cursor: pointer;
+    }
+
+    /* Alternare fundal pe rânduri (striped) */
+    body .mud-table-root tbody tr:nth-child(even) td {
+        background-color: #f1f5f9  !important;
+    }
+
+.mud-link {
+    font-weight: 600;
+    color: #3b82f6 !important; /* Albastru elegant */
+}
+
+    .mud-link:hover {
+        text-decoration:  underline;
+    }
