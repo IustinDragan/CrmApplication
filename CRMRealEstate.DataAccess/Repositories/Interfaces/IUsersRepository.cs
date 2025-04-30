@@ -23,8 +23,4 @@ public interface IUsersRepository
     Task AddFavoriteAnnouncementsAsync(UserAnnouncement userAnnouncement);
 
     Task<List<UserAnnouncement>> GetFavoriteAnnouncementsAsync(int userId);
-
-    Task<UserAnnouncement?> GetFavoriteAnnouncementAsync(int userId, int announcementId);
-
-    //Task AddFavoriteAnnouncementsAsync(UserAnnouncement userAnnouncement);
 }

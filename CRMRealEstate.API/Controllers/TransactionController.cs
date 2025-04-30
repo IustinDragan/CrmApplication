@@ -97,23 +97,6 @@ namespace CRMRealEstate.API.Controllers
             return NoContent();
         }
 
-        //[HttpGet("report")]
-        //public async Task<IActionResult> GetReport([FromQuery] string? agentName, [FromQuery] int? year, [FromQuery] int? month, [FromQuery] string? type)
-        //{
-        //    var all = await _transactionService.ReadAllTransactionsAsync();
-
-        //    if (!string.IsNullOrEmpty(agentName))
-        //        all = all.Where(t => t.AgentName.Contains(agentName, StringComparison.OrdinalIgnoreCase)).ToList();
-
-        //    if (year.HasValue && month.HasValue)
-        //        all = all.Where(t => t.Date.Year == year && t.Date.Month == month).ToList();
-
-        //    if (!string.IsNullOrEmpty(type))
-        //        all = all.Where(t => t.TypeOfTransaction.ToString().Equals(type, StringComparison.OrdinalIgnoreCase)).ToList();
-
-        //    return Ok(all);
-        //}
-
         [HttpGet("report")]
         public async Task<IActionResult> GetReport([FromQuery] int? agentId, [FromQuery] int? year, [FromQuery] int? month, [FromQuery] TransactionType? type)
         {

@@ -89,18 +89,4 @@ public class UsersRepository : IUsersRepository
                 .ThenInclude(prop => prop.Property)
             .ToListAsync();
     }
-
-    public Task<UserAnnouncement?> GetFavoriteAnnouncementAsync(int userId, int announcementId)
-    {
-        throw new NotImplementedException();
-    }
-
-    //public async Task<List<Announcement>> GetFavoriteAnnouncementsAsync(int userId)
-    //{
-    //    return await _databaseContext.UsersAnnouncements
-    //        .Where(ua => ua.UserId == userId)
-    //        .Include(ua => ua.Announcement)
-    //        .Select(ua => ua.Announcement)
-    //        .ToListAsync();
-    //}
 }

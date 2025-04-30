@@ -10,7 +10,6 @@ namespace CRMRealEstate.Application.Models.TransactionsModel
         public double Price { get; set; }
         public TransactionType TypeOfTransaction { get; set; }
 
-
         public Transaction ToTransaction()
         {
             return new Transaction
@@ -22,7 +21,6 @@ namespace CRMRealEstate.Application.Models.TransactionsModel
                 Status = TransactionStatusEnum.Pending,
                 TypeOfTransaction = TypeOfTransaction
             };
-
         }
     }
 }

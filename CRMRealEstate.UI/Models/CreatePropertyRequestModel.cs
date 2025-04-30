@@ -22,9 +22,6 @@ namespace CRMRealEstate.UI.Models
         public string? Details { get; set; }
         public double? Price { get; set; }
         public PropertyType PropertyType { get; set; }
-        //public HouseLandDetails HouseLandDetails { get; set; }
-        //public HeatingSource HeatingSource { get; set; }
-        //public Utilities Utilities { get; set; }
         public CreateAdressRequestModel Adress { get; set; }
     }
 }

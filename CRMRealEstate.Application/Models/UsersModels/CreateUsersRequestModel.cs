@@ -15,50 +15,6 @@ public class CreateUsersRequestModel
     public bool isAgent { get; set; }
     public CreateCompanyRequestModel? Company { get; set; }
 
-    //public Users ToUser()
-    //{
-    //    return new Users
-    //    {
-    //        FirstName = FirstName,
-    //        LastName = LastName,
-    //        UserName = UserName,
-    //        Email = Email,
-    //        Password = Password,
-    //        PhoneNumber = PhoneNumber,
-    //        Company = !isAgent
-    //            ? null
-    //            : new Company
-    //            {
-    //                CompanyName = Company.CompanyName,
-    //                CompanyIdentityNumber = Company.CompanyIdentityNumber,
-    //                CompanyPhoneNumber = Company.CompanyPhoneNumber,
-    //                CompanyCreatedAt = Company.CompanyCreatedAt
-    //            }
-    //    };
-    //}
-
-    //public Users ToUser()
-    //{
-    //    return new Users
-    //    {
-    //        FirstName = FirstName,
-    //        LastName = LastName,
-    //        UserName = UserName,
-    //        Email = Email,
-    //        Password = Password,
-    //        PhoneNumber = PhoneNumber,
-    //        Company = isAgent && Company != null
-    //            ? new Company
-    //            {
-    //                CompanyName = Company.CompanyName,
-    //                CompanyIdentityNumber = Company.CompanyIdentityNumber,
-    //                CompanyPhoneNumber = Company.CompanyPhoneNumber,
-    //                CompanyCreatedAt = Company.CompanyCreatedAt
-    //            }
-    //           : null
-    //    };
-    //}
-
     public Users ToUser()
     {
         var user = new Users

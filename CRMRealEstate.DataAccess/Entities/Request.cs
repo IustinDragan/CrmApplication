@@ -21,7 +21,7 @@ namespace CRMRealEstate.DataAccess.Entities
         public string? CustomerMessage {  get; set; }
         public string? AgentMessage { get; set; }
 
-        //public string fileName {  get; set; }
+        //public string fileName {  get; set; } --cred ca va trebui adaugat
         [ForeignKey(nameof(AnnouncementId))]
         public Announcement? Announcement { get; set; }
 

@@ -1,14 +1,4 @@
-﻿
-/* Pagina rapoarte – design general */
-/*.raports-page {
-    max-width: 1000px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background-color: #f7f9fc;
-    font-family: 'Segoe UI', sans-serif;
-}*/
-
-     /*MudPaper - card stilizat*/ 
+﻿     /*MudPaper - card stilizat*/ 
     .raports-page .mud-paper {
         padding: 2rem;
         border-radius: 20px;
@@ -31,11 +21,6 @@
 
  /*Buton principal – rotunjit și modern*/
 .raports-page .mud-button {
-    /*    border-radius: 30px;
-    font-weight: 600;
-    padding: 0.6rem 1.5rem;
-    font-size: 1rem;
-    transition: all 0.3s ease-in-out;*/
 
     border-radius: 30px; /* Colțuri rotunjite */
     font-weight: 600;

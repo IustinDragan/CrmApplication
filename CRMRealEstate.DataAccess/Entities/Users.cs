@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 using CRMRealEstate.DataAccess.Enums;
 
 namespace CRMRealEstate.DataAccess.Entities;
-
 public class Users
 {
     public Users()

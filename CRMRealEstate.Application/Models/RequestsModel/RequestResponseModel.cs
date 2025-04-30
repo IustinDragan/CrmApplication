@@ -32,7 +32,7 @@ namespace CRMRealEstate.Application.Models.RequestsModel
                 CustomerMessage = requests.CustomerMessage,
                 AgentMessage = requests.AgentMessage
 
-                //title, customerMessage = required + idAnnouncemet
+                //recomandare Alex: title, customerMessage = required + idAnnouncemet
             };
         }
     }

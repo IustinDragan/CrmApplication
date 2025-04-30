@@ -10,7 +10,6 @@ namespace CRMRealEstate.API.Controllers
 {
     [ApiController]
     [Route("announcement")]
-    //[Authorize(Roles = "SalesAgent")]
     [AllowAnonymous]
     public class AnnouncementsController : ControllerBase
     {
@@ -31,14 +30,6 @@ namespace CRMRealEstate.API.Controllers
             var validationResponse = _validator.GetValidationResult(createAnnouncementRequestModel.Property.Adress);
             if (validationResponse != null)
                 return validationResponse;
-
-
-            //var userAgentId = int.Parse(User.FindFirst("id").Value);
-            //if (agentId != userAgentId)
-            //{
-            //    return Forbid();
-            //}
-
 
             var announcementEntity = await _announcementService.CreateAsync(createAnnouncementRequestModel, agentId);
 
@@ -63,22 +54,11 @@ namespace CRMRealEstate.API.Controllers
             return Ok(announcementEntityById);
         }
 
-        // [HttpGet("search/{searchText}")]
-        // public async Task<IActionResult> SearchAnnouncements(string searchText)
-        // {
-        //     return Ok(await _announcementService.SearchAsync(searchText));
-        //
-        // }
-
         [HttpPut("{id}")]
         [Authorize(Roles = "SalesAgent")]
         public async Task<IActionResult> UpdateAnnouncementAsync(int id,
             UpdateAnnouncementRequestModel updateAnnouncementRequestModel)
         {
-            //var validationResponse = _validator.GetValidationResult(updateAnnouncementRequestModel.Property.Adress);
-            //if (validationResponse != null)
-            //    return validationResponse;
-
             var announcementEntityByIdForUpdate = await _announcementService.UpdateAsync(id, updateAnnouncementRequestModel);
 
             return Ok(announcementEntityByIdForUpdate);
@@ -87,21 +67,12 @@ namespace CRMRealEstate.API.Controllers
         [HttpGet("agentId/{agentId:int}")]
         public async Task<IActionResult> GetMyAnnouncements(int agentId)
         {
-            //recomandare Gpt:
-            //var agentId = int.Parse(User.FindFirst("agentId").Value);
-            //var userAgentId = int.Parse(User.FindFirst("id").Value);
-
-            //if (agentId != userAgentId)
-            //{
-            //    return Forbid();
-            //}
 
             var announcementsByAgentId = await _announcementService.GetMyAnnouncementsAsync(agentId);
 
             return Ok(announcementsByAgentId);
 
         }
-
 
         [HttpDelete("{id}")]
         [Authorize(Roles = "SalesAgent")]

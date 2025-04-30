@@ -21,18 +21,14 @@ namespace CRMRealEstate.API.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        //[Authorize(Roles = "Customer")]
         public async Task<IActionResult> CreateRequestAsync([FromBody] CreateRequestModel createRequestModel)
         {
-            //var customerId = int.Parse(User.FindFirst("id").Value);
-
             var createRequest = await _requestService.CreateRequestsAsync(createRequestModel);
 
             return Created("", createRequest);
         }
 
         [HttpGet]
-        //[Authorize(Roles="Admin")]
         public async Task<IActionResult> GetAllRequestsAsync()
         {
             var requestsEntity = await _requestService.GetAllRequestsAsync(); 
@@ -41,7 +37,6 @@ namespace CRMRealEstate.API.Controllers
         }
 
         [HttpGet("customer/{customerId:int}")]
-        //[Authorize(Roles = "Customer")]
         public async Task<IActionResult> GetCustomerRequestsByIdAsync(int customerId)
         { 
             var requestById = await _requestService.GetRequestsForCustomerAsync(customerId);
@@ -56,7 +51,6 @@ namespace CRMRealEstate.API.Controllers
 
         
         [HttpGet("agent/{agentId:int}")]
-        //[Authorize(Roles="SalesAgent")]
         public async Task<IActionResult> GetAgentRequestsByIdAsync(int agentId)
         {
             var requestById = await _requestService.GetRequestsForAgentAsync(agentId);
@@ -71,7 +65,6 @@ namespace CRMRealEstate.API.Controllers
 
 
         [HttpPut("{id:int}")]
-        //[Authorize(Roles = "Agent")]
         public async Task<IActionResult> UpdateRequestStatusAsync(int id, [FromBody] RequestStatus newStatus)
         {
             if (!Enum.IsDefined(typeof(RequestStatus), newStatus))

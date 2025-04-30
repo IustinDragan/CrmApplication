@@ -57,7 +57,6 @@ else
             {
                 var agentId = int.Parse(agentIdClaim);
 
-                // Apelam API-ul /announcement/agentId/{agentId}
                 var response = await Http.GetAsync($"announcement/agentId/{agentId}");
 
                 if (response.IsSuccessStatusCode)

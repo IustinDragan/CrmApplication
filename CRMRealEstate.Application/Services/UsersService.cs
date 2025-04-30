@@ -11,7 +11,6 @@ using CRMRealEstate.Shared.Models.Users;
 using System.Data;
 
 namespace CRMRealEstate.Application.Services;
-
 public class UsersService : IUsersServices
 {
     private readonly ICurrentUserService _currentUserService;
@@ -69,29 +68,6 @@ public class UsersService : IUsersServices
 
         return UsersResponseModel.FromUser(newUser);
     }
-
-    //public async Task<UsersResponseModel> CreateUserAsync(CreateUsersRequestModel requestModel)
-    //{
-    //    var user = requestModel.ToUser();
-    //    user.Roles = requestModel.isAgent ? Roles.SalesAgent : Roles.Customer;
-
-    //    // dacă este agent, trebuie să aibă companie
-    //    if (requestModel.isAgent && requestModel.Company != null)
-    //    {
-    //        // presupunem că adaugi compania în baza de date și primești ID-ul
-    //        var newCompany = await _companyRepository.AddAsync(requestModel.Company);
-    //        user.CompanyId = newCompany.Id;
-    //    }
-    //    else
-    //    {
-    //        // client simplu — fără companie
-    //        user.CompanyId = null;
-    //    }
-
-    //    await _usersRepository.AddAsync(user);
-
-    //    return UsersResponseModel.FromUser(user);
-    //}
 
     public async Task<UsersResponseModel> UpdateUserAsync(int id, CreateUsersRequestModel requestModel)
     {
@@ -152,7 +128,6 @@ public class UsersService : IUsersServices
 
         var token = JwtHelper.GenerateToken(user, "MySuperSecretKeyMySuperSecretKey2");
 
-
         return new LoginResponseModel
         {
             Username = user.UserName,
@@ -197,36 +172,6 @@ public class UsersService : IUsersServices
 
         return announcementId;
     }
-
-
-
-    //
-    //public async Task<int?> AddAnnouncementToFavoriteAsync(int userId, int announcementId)
-    //{
-    //    var currentUserId = _currentUserService.UserId;
-
-    //    if (currentUserId != userId)
-    //    {
-    //        throw new Exception("You can't add favorite announcements for someone else.");
-    //    }
-
-    //    var userAnnouncement = await this._usersRepository.GetFavoriteAnnouncementAsync(userId, announcementId);
-
-    //    if (userAnnouncement is not null)
-    //    {
-    //        throw new Exception("This announcement is already added to favorites.");
-    //    }
-
-    //    userAnnouncement = new UserAnnouncement
-    //    {
-    //        UserId = userId,
-    //        AnnouncementId = announcementId
-    //    };
-
-    //    await this._usersRepository.AddFavoriteAnnouncementsAsync(userAnnouncement);
-
-    //    return announcementId;
-    //}
 
     public async Task<List<AnnouncementResponseModel>> GetFavoriteAnnouncementsAsync(int userId)
     {

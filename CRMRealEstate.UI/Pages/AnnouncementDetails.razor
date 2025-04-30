@@ -184,30 +184,4 @@ else
             Console.WriteLine("Eroare la salvarea tranzacției");
         }
     }
-
-    // private async Task OpenFinalizeDialog()
-    // {
-    //     isDialogOpen = true;
-    // }
-
-    // private async Task FinalizeTransaction()
-    // {
-    //     if (property?.Id == null)
-    //     {
-    //         Console.WriteLine("Property.Id este null! Nu se poate finaliza tranzacția.");
-    //         return;
-    //     }
-
-    //     var model = new CreateTransactionRequestModel
-    //         {
-    //             PropertyId = property.Id.Value, // de unde iei anunțul
-    //             AgentId = userId, // din localStorage / context
-    //             Price = price,
-    //             TypeOfTransaction = selectedType
-    //         };
-
-    //     await Http.PostAsJsonAsync("/transaction", model);
-    //     isDialogOpen = false;
-    // }
-}
 }

@@ -75,14 +75,6 @@ namespace CRMRealEstate.DataAccess.Repositories
                 .OrderByDescending(x=>x.CreatedAt).ToListAsync();
         }
 
-        //public async Task<Request> UpdateAsync(Request request)
-        //{
-        //    _databaseContext.Requests.Update(request);
-        //    await _databaseContext.SaveChangesAsync();
-        //    return request;
-        //}
-
-
         public async Task<Request> UpdateAsync(int id)
         {
             var updatedEntity = await _databaseContext.Requests.Where(x => x.Id == id).FirstAsync();

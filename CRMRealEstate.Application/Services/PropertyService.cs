@@ -15,7 +15,7 @@ namespace CRMRealEstate.Application.Services
         }
 
         public async Task<IEnumerable<PropertyResponseModel>>
-            GetPropertiesAsync(ReadPropertyRequestModel requestModel) //ReadAllAsync
+            GetPropertiesAsync(ReadPropertyRequestModel requestModel)
         {
             var property =
                 await _propertyRepository.ReadAllAsync(requestModel.OrderBy, requestModel.page, requestModel.PageCount);
@@ -24,7 +24,7 @@ namespace CRMRealEstate.Application.Services
         }
 
         public async Task<PropertyResponseModel>
-            CreatePropertyAsync(CreatePropertyRequestModel createPropertyRequestModel) //createAsync
+            CreatePropertyAsync(CreatePropertyRequestModel createPropertyRequestModel)
         {
             var property = createPropertyRequestModel.ToProperty();
 
@@ -52,7 +52,6 @@ namespace CRMRealEstate.Application.Services
             propertyFromDb.Price = updateUsersRequestModel.Price;
             propertyFromDb.PropertyType = updateUsersRequestModel.PropertyType;
             propertyFromDb.Adress = updateUsersRequestModel.Adress.toAdress();
-
 
             await _propertyRepository.UpdateAsync(propertyFromDb);
 

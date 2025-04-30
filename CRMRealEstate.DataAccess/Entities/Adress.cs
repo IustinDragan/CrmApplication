@@ -11,14 +11,13 @@ namespace CRMRealEstate.DataAccess.Entities
 
         public string Street { get; set; }
         public int StreetNumber { get; set; }
-        public string? Country { get; set; } //judet
-        public string City { get; set; } //oras/comuna
+        public string? Country { get; set; }
+        public string City { get; set; }
         public int? AppartamentNumber { get; set; }
 
         [ForeignKey("PropertyId")]
         public Property? Property { get; set; }
         public int? PropertyId { get; set; }
-
 
         public override string ToString()
         {

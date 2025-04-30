@@ -17,10 +17,6 @@ public class CreateUsersRequestValidator : AbstractValidator<CreateUsersRequestM
 
         if (new CreateUsersRequestModel().isAgent != false)
             RuleFor(x => x.Company).NotNull().When(x => x.isAgent).WithMessage("The Company field is required for agents.");
-
-       // RuleFor(x => x.Company).NotNull().SetValidator(new CompanyValidator());
-
-
     }
 }
 

@@ -8,13 +8,9 @@ namespace CRMRealEstate.DataAccess.Entities
     {
         [Key]
         public int Id { get; set; }
-
         public int UserId { get; set; }
         public Users User { get; set; }
-
         public int AnnouncementId { get; set; }
-
         public Announcement Announcement { get; set; }
-        
     }
 }

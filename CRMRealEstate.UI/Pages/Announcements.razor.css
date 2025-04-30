@@ -156,12 +156,6 @@ figcaption {
     transition: all 0.2s ease;
 }
 
-/*.btn-detail {
-    background-color: transparent;
-    border: 1px solid var(--border-view-color);
-    color: var(--border-view-color);
-}*/
-
     .btn-detail:hover {
         background-color: var(--blue-hover);
         color: var(--icon-image-color);

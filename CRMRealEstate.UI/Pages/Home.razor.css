@@ -9,7 +9,6 @@ body {
 }
 
 .dashboard-card {
-    /* ... restul proprietăților existente ... */
     opacity: 0;
     transform: translateY(20px);
     animation: fadeInUp 0.6s ease-out forwards;
@@ -61,9 +60,6 @@ body {
     font-weight: 500;
     border-radius:  20px;
 }
-
-
-
 
 @keyframes fadeInUp {
     to {
@@ -179,7 +175,6 @@ body.dark-mode {
 
 .card-icon {
     font-size: 2.6rem;
-   /* color: #ff6f00;*/ /* portocaliu intens */
     color: #000000; /* portocaliu intens */
     margin-bottom: 1rem;
 }

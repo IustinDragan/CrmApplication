@@ -1,9 +1,4 @@
 ﻿using CRMRealEstate.DataAccess.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CRMRealEstate.DataAccess.Repositories.Interfaces
 {
@@ -20,8 +15,6 @@ namespace CRMRealEstate.DataAccess.Repositories.Interfaces
         public Task<Announcement> ReadByIdAsync(int id);
 
         Task<List<Announcement?>> GetAnnouncementsByAgentIdAsync(int agentId);
-
-        //Task<List<Announcement>> SearchAnnouncements(string searchText);
 
         public Task DeleteAsync(int id);
     }

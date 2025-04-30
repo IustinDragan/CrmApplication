@@ -20,5 +20,4 @@ public class Company
     public string CompanyPhoneNumber { get; set; }
     public DateTime CompanyCreatedAt { get; set; }
     public List<Users> Users { get; set; } = new();
-    //public ICollection<Users> Users { get; set; }
 }

@@ -9,7 +9,7 @@ namespace CRMRealEstate.Application.Models.AnnouncementModels
         public string Title { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public PropertyResponseModel Property { get; set; }
+        public PropertyResponseModel? Property { get; set; }
         public int? AgentId {  get; set; }
 
         public static AnnouncementResponseModel FromAnnouncement(Announcement announcement)

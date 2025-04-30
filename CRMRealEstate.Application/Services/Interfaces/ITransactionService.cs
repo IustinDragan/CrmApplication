@@ -11,7 +11,6 @@ namespace CRMRealEstate.Application.Services.Interfaces
         Task<List<TransactionResponseModel>> GetByMonthAsync(int year, int month);
         Task<List<TransactionResponseModel>> GetByStatusAsync(TransactionStatusEnum status);
         Task<double> GetTotalValueByAgentIdAsync(int agentId);
-
         Task<TransactionResponseModel> FinalizeTransactionAsync(CreateTransactionRequestModel createTransactionRequestModel);
         Task<List<TransactionResponseModel>> GetByPropertyIdAsync(int propertyId);
         Task DeleteTransactionAsync(int id);

@@ -19,9 +19,6 @@ namespace CRMRealEstate.DataAccess.Configs
                 .WithMany()
                 .HasForeignKey(t => t.AgentId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            //builder.Property(t => t.Status).HasConversion<string>();
-            //builder.Property(t => t.TypeOfTransaction).HasConversion<string>();
         }
     }
 }

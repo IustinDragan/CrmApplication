@@ -17,8 +17,6 @@ namespace CRMRealEstate.Application.Services.Interfaces
 
         Task<List<AnnouncementResponseModel?>> GetMyAnnouncementsAsync(int agentId);
 
-        //Task<List<Announcement>> SearchAsync(string searchText);
-
         Task DeleteAsync(int id);
     }
 }

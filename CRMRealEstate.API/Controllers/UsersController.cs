@@ -2,9 +2,7 @@
 using CRMRealEstate.Application.Helpers.Exceptions;
 using CRMRealEstate.Application.Helpers.Validators;
 using CRMRealEstate.Application.Models.UsersModels;
-using CRMRealEstate.Application.Services;
 using CRMRealEstate.Application.Services.Interfaces;
-using CRMRealEstate.DataAccess.Enums;
 using CRMRealEstate.Shared.Models.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +11,6 @@ namespace CRMRealEstate.API.Controllers;
 
 [ApiController]
 [Route("Users")]
-//[Authorize(Roles = "Admin")]
 public class UsersController : ControllerBase
 {
     private readonly IUsersServices _usersServices;
@@ -32,7 +29,6 @@ public class UsersController : ControllerBase
 
         if (!result.IsValid)
             return BadRequest(result.Errors);
-        //return BadRequest(result.Errors[0].ErrorMessage);
 
         if (!await _usersServices.isEmailUniqueAsync(createUsersRequestModel.Email))
             return Conflict(UsersConstants.EMAIL_ALREADY_ASSOCIATED_WITH_AN_ACCOUNT);
@@ -103,7 +99,6 @@ public class UsersController : ControllerBase
     }
 
     [Authorize(Roles = "Customer")]
-    //[Authorize(Roles = "SalesAgent")]
     [HttpPost("{userId}/favorites/{announcementId}")]
     public async Task<IActionResult> AddToFavoriteAsync(int userId, int announcementId)
     {
@@ -115,8 +110,6 @@ public class UsersController : ControllerBase
         return Ok(new { message = $"Announcement {announcementId} added to favorites." });
     }
 
-    //[Authorize(Roles = "Customer")]
-    //[Authorize(Roles = "SalesAgent")]
     [HttpGet("{userId}/favorites")]
     public async Task<IActionResult> GetFavorites(int userId)
     {

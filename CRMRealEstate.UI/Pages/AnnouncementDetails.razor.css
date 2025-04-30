@@ -14,24 +14,6 @@
     text-align: center;
 }
 
-/*.button-container {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-}*/
-
-
-/*.btn-edit {
-    background-color: #0071BC;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}*/
-
 /*    .btn-back:hover,
     .btn-edit:hover {
         background-color: #005fa3;
@@ -120,12 +102,6 @@
     .details-container:hover {
         transform: translateY(-5px);  Mișcare ușoară în sus când se trece cu mouse-ul pe pop-up 
     }
-
-/*.button-container {
-    display: flex;
-    justify-content: flex-end;  Aliniază butoanele la dreapta 
-    gap: 10px;  Spațiu între butoane 
-}*/
 
 .btn-primary,
 .btn-secondary {

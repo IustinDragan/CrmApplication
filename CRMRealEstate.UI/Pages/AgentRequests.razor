@@ -33,7 +33,7 @@ else
                 <tr>
                     <td>@request.Title</td>
                     <td>@request.CustomerMessage</td>
-                    <td>@request.CustomerId</td> @* Sau putem aduce numele clientului ulterior *@
+                    <td>@request.CustomerId</td>
                     <td>
                         <button class="btn btn-success btn-sm" @onclick="() => ApproveRequest(request)">Aprobă</button>
                         <button class="btn btn-danger btn-sm" @onclick="() => RejectRequest(request)">Respinge</button>
@@ -45,46 +45,6 @@ else
 }
 
 @code {
-    //private List<RequestResponseModel> requests; // Folosim ResponseModel-ul, nu entitatea direct
-
-    // protected override async Task OnInitializedAsync()
-    // {
-    //     var authState = await AuthState.GetAuthenticationStateAsync();
-    //     var user = authState.User;
-
-    //     if (user.Identity != null && user.Identity.IsAuthenticated)
-    //     {
-    //         // Luăm toate requesturile
-    //         requests = await Http.GetFromJsonAsync<List<RequestResponseModel>>("/requests");
-
-    //         // Filtrăm doar cele cu Status = Pending
-    //         requests = requests.Where(r => r.Status == RequestStatus.Pending).ToList();
-    //     }
-    // }
-
-    // private async Task ApproveRequest(RequestResponseModel request)
-    // {
-    //     request.Status = RequestStatus.Completed;
-
-    //     //await Http.PutAsJsonAsync($"api/request/{request.Id}", request);
-    //     await Http.PutAsJsonAsync($"/requests", request);
-
-    //     // Reîncărcăm lista după modificare
-    //     await OnInitializedAsync();
-    // }
-
-    // private async Task RejectRequest(RequestResponseModel request)
-    // {
-    //     request.Status = RequestStatus.Rejected;
-
-    //     //await Http.PutAsJsonAsync($"/request/{request.Id}", request);
-    //     await Http.PutAsJsonAsync($"/requests/{request.Id}", request);
-
-    //     // Reîncărcăm lista după modificare
-    //     await OnInitializedAsync();
-    // }
-
-
     private List<RequestResponseModel> requests;
 
     protected override async Task OnInitializedAsync()
@@ -105,7 +65,7 @@ else
 
         if (response.IsSuccessStatusCode)
         {
-            await OnInitializedAsync(); // Reload după update
+            await OnInitializedAsync();
         }
         else
         {
@@ -119,7 +79,7 @@ else
 
         if (response.IsSuccessStatusCode)
         {
-            await OnInitializedAsync(); // Reload după update
+            await OnInitializedAsync();
         }
         else
         {

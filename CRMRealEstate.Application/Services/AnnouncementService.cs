@@ -8,7 +8,7 @@ namespace CRMRealEstate.Application.Services
     {
         private readonly IAnnouncementRepository _announcementRepository;
 
-        public AnnouncementService(IAnnouncementRepository announcementRepository) //,DatabaseContext databaseContext )
+        public AnnouncementService(IAnnouncementRepository announcementRepository)
         {
             _announcementRepository = announcementRepository ?? throw new ArgumentException(nameof(announcementRepository));
         }
@@ -53,11 +53,6 @@ namespace CRMRealEstate.Application.Services
 
             return AnnouncementResponseModel.FromAnnouncement(announcement);
         }
-
-        // public async Task<List<Announcement>> SearchAsync(string searchText)
-        // {
-        //     return await _announcementRepository.SearchAnnouncements(searchText);
-        // }
 
         public async Task<List<AnnouncementResponseModel?>> GetMyAnnouncementsAsync(int agentId)
         {

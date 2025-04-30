@@ -15,7 +15,6 @@ namespace CRMRealEstate.DataAccess.Repositories
             _databaseContext = databaseContext;
         }
 
-
         public async Task<Announcement> InsertAsync(Announcement announcement)
         {
             var addedEntity = await _databaseContext.Announcements.AddAsync(announcement);

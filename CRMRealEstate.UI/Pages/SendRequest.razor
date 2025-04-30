@@ -38,53 +38,48 @@
 </EditForm>
 
 @code {
-        private CreateRequestModel requestModel = new CreateRequestModel();
-        private List<UserModel> agents = new List<UserModel>();
+    private CreateRequestModel requestModel = new CreateRequestModel();
+    private List<UserModel> agents = new List<UserModel>();
 
-        private async Task HandleValidSubmit()
+    private async Task HandleValidSubmit()
+    {
+        var authState = await AuthState.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity != null && user.Identity.IsAuthenticated)
         {
-            var authState = await AuthState.GetAuthenticationStateAsync();
-            var user = authState.User;
+            var customerIdClaim = user.FindFirst("id")?.Value;
 
-            if (user.Identity != null && user.Identity.IsAuthenticated)
+            if (!string.IsNullOrWhiteSpace(customerIdClaim))
             {
-                var customerIdClaim = user.FindFirst("id")?.Value;
+                requestModel.CustomerId = int.Parse(customerIdClaim);
+            }
 
-                if (!string.IsNullOrWhiteSpace(customerIdClaim))
-                {
-                    requestModel.CustomerId = int.Parse(customerIdClaim);
-                }
+            requestModel.Status = RequestStatus.Pending;
 
-                requestModel.Status = RequestStatus.Pending;
+            var response = await Http.PostAsJsonAsync("/requests", requestModel);
 
-                var response = await Http.PostAsJsonAsync("/requests", requestModel);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    NavigationManager.NavigateTo("/");
-                }
-                else
-                {
-                    Console.WriteLine("Eroare la trimiterea cererii!");
-                }
+            if (response.IsSuccessStatusCode)
+            {
+                NavigationManager.NavigateTo("/");
+            }
+            else
+            {
+                Console.WriteLine("Eroare la trimiterea cererii!");
             }
         }
+    }
 
-        protected override async Task OnInitializedAsync()
-        {
-            var users = await Http.GetFromJsonAsync<List<UserModel>>("/users");
+    protected override async Task OnInitializedAsync()
+    {
+        var users = await Http.GetFromJsonAsync<List<UserModel>>("/users");
 
-            // Selectăm doar utilizatorii care au rolul "SalesAgent"
         agents = users.Where(u => u.RoleName == Roles.SalesAgent).ToList();
         
-        }
+    }
 
-        public class UserModel
-        {
-            // public int Id { get; set; }
-            // public string Name { get; set; }
-            // public string Role { get; set; }
-
+    public class UserModel
+    {
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -93,6 +88,5 @@
         public string PhoneNumber { get; set; }
         public Roles RoleName { get; set; }
         public DateTime UserCreatedAt { get; set; }
-        
     }
 }

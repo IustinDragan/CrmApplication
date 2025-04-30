@@ -1,28 +1,23 @@
 ﻿using CRMRealEstate.Application.Models.RequestsModel;
 using CRMRealEstate.Application.Services.Interfaces;
-using CRMRealEstate.DataAccess.Entities;
 using CRMRealEstate.DataAccess.Enums;
 using CRMRealEstate.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
-using System.Runtime.CompilerServices;
 
 namespace CRMRealEstate.Application.Services
 {
     public class RequestService : IRequestService
     {
-
         private readonly IRequestRepository _requestRepository;
         private readonly StorageService _storageService;
 
         public RequestService(IRequestRepository requestRepository, StorageService storageService)
         {
-          
             _requestRepository = requestRepository;
             _storageService = storageService;
         }
         public async Task<RequestResponseModel> CreateRequestsAsync(CreateRequestModel requestModel)
         {
-
             var newRequest = requestModel.ToRequest();
 
             await _requestRepository.CreateAsync(newRequest); 
@@ -58,17 +53,13 @@ namespace CRMRealEstate.Application.Services
 
         public async Task UploadAsync(int requestId, IFormFile formFile)
         {
-            //Adu request din DB
+            //sa mai verific odata aici ca e ok
 
-            var request = _requestRepository.GetByIdAsync(requestId);// new Request
-            //{
-            //    Id = 5
-            //};
+            var request = _requestRepository.GetByIdAsync(requestId);
 
             await _storageService.SaveFileAsync(formFile);
-            
-            
         }
+
         public async Task<RequestResponseModel> UpdateRequestsStatusAsync(int requestId, RequestStatus status, int agentId)
         {
             var requestFromDb = await _requestRepository.GetByIdAsync(requestId);
@@ -100,7 +91,5 @@ namespace CRMRealEstate.Application.Services
 
             return null;  
         }
-
-
     }
 }

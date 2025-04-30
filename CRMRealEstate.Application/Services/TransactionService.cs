@@ -7,9 +7,7 @@ namespace CRMRealEstate.Application.Services
 {
     public class TransactionService : ITransactionService
     {
-
         private readonly ITransactionsRepository _transactionsRepository;
-
         public TransactionService(ITransactionsRepository transactionsRepository)
         {
             _transactionsRepository = transactionsRepository;
