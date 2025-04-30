@@ -1,16 +1,48 @@
 ﻿@page "/"
 @using System.Text
+@using Blazored.LocalStorage
 @using CRMRealEstate.UI.Models
+@using Microsoft.AspNetCore.Components.Authorization
+@using MudBlazor
+@using RealEstate.Web
 @inject UserFavouriteAnnouncements userFavouriteAnnouncements
 @inject NavigationManager Navigation
 @inject HttpClient Http
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ILocalStorageService LocalStorage
 
 <div class="home-wrapper">
     <h1 class="hero-title">Bine ai venit la CRM Real Estate</h1>
     <p class="hero-sub">Administrează-ți anunțurile și proprietățile imobiliare cu ușurință.</p>
 
+    @if (isAuthResolved)
+    {
+        <AuthorizeView>
+            <Authorized Context="authState">
+                <h4>Bine ai revenit, @authState.User.Identity.Name!</h4>
+                <p>Iată câteva acțiuni rapide pe care le poți face astăzi:</p>
+            </Authorized>
+            <NotAuthorized>
+                <h4>De ce să alegi CRM Real Estate?</h4>
+                <ul>
+                    <li>✔ Publică rapid anunțuri imobiliare</li>
+                    <li>✔ Contact direct cu agenții tăi</li>
+                    <li>✔ Istoric, rapoarte și anunțuri favorite</li>
+                    <li>✔ Interfață modernă, intuitivă</li>
+                </ul>
+                <br/>
+                <a class="btn btn-primary" href="/register">Creează cont</a>
+                <a class="btn btn-outline-secondary" href="/login">Am deja cont</a>
+                <br />
+            </NotAuthorized>
+        </AuthorizeView>
+    }
+    else
+    {
+       <MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Large" Class="my-4 mx-auto d-block" />
+    }
+    <br />
     <div class="search-wrapper">
-
         <input type="text" placeholder="Caută..." @bind="searchText" @bind:event="oninput" />
         <button @onclick="Search">Caută</button>
         <input type="number" placeholder="Minim" @bind="minPrice" @bind:event="oninput" />
@@ -21,11 +53,31 @@
     <div class="dashboard-cards">
         <div class="dashboard-card">
             <div class="card-icon">
-                <i class="bi bi-box"></i>
+                <i class="bi bi-whatsapp"></i>
             </div>
-            <h5>Proprietăți</h5>
-            <p>Vizualizează, adaugă și gestionează proprietățile tale listate.</p>
-            <a class="btn btn-outline-primary" href="/properties">Vezi Proprietăți</a>
+            <AuthorizeView Roles="Customer">
+                <Authorized>
+                    <h5>Contacteaza un agent</h5>
+                    <p>Ia legatura cu unul dintre agentii nostri</p>
+                    <a class="btn btn-outline-primary" href="/send-request">Contacteaza un agent</a>
+                </Authorized>
+            </AuthorizeView>
+
+            <AuthorizeView Roles="SalesAgent">
+                <Authorized>
+                    <h5>Solicitari clienti</h5>
+                    <p>Acceseaza solicitari active din partea clientilor</p>
+                    <a class="btn btn-outline-primary" href="/agent-requests">Vezi solicitarile clientilor</a>
+                </Authorized>
+            </AuthorizeView>
+
+            <AuthorizeView>
+                <NotAuthorized>
+                    <h5>Contacteaza un agent</h5>
+                    <p>Pentru a putea contacta un agent trebuie sa te logezi</p>
+                    <a class="btn btn-outline-primary" href="/login">Intra in contul tau</a>
+                </NotAuthorized>
+            </AuthorizeView>
         </div>
 
         <div class="dashboard-card">
@@ -37,18 +89,120 @@
             <a class="btn btn-outline-primary" href="/announcements">Gestionare Anunțuri</a>
         </div>
 
-        <div class="dashboard-card">
-            <div class="card-icon">
-                <i class="bi bi-person"></i>
-            </div>
-            <h5>Profilul Meu</h5>
-            <p>Actualizează datele contului tău și informațiile personale.</p>
-            <button class="btn btn-outline-primary" @onclick="GoToProfile">Profilul Meu</button>
-        </div>
+        <AuthorizeView Roles="Customer">
+            <Authorized>
+                <div class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="bi bi-building-down"></i>
+                    </div>
+                    <h5>Anunțuri care ți-ar putea plăcea</h5>
+                    <p>Explorează proprietăți similare cu cele salvate de tine.</p>
+                    <button class="btn btn-outline-primary" href="/announcements">Vezi sugestiile</button>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="bi bi-building-down"></i>
+                    </div>
+                    <h5>Favoritele mele</h5>
+                    <p>Vezi cele mai recente anunțuri pe care le-ai salvat.</p>
+                    <button class="btn btn-outline-primary" @onclick="GoToAgentAnnouncements">Accesează favorite</button>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="bi bi-question-circle"></i>
+                    </div>
+                    <h5>Ai nevoie de ajutor?</h5>
+                    <p>Trimite o solicitare și te vom contacta în cel mai scurt timp.</p>
+                    <button class="btn btn-outline-primary" @onclick="GoToCustomerRequests">Trimite solicitare</button>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="bi bi-person"></i>
+                    </div>
+                    <h5>Profilul Meu</h5>
+                    <p>Actualizează datele contului tău și informațiile personale.</p>
+                    <button class="btn btn-outline-primary" @onclick="GoToProfile">Profilul Meu</button>
+                </div>
+            </Authorized>
+        </AuthorizeView>
+
+        <AuthorizeView Roles="SalesAgent">
+            <Authorized>
+                <div class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="bi bi-building-down"></i>
+                    </div>
+                    <h5>Proprietățile mele</h5>
+                    <p>Vezi toate anunțurile publicate de tine.</p>
+                    <button class="btn btn-outline-primary" @onclick="GoToAgentAnnouncements">Vezi anunțurile</button>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="bi bi-inbox"></i>
+                    </div>
+                    <h5>Solicitări recente de la clienți</h5>
+                    <p>Răspunde rapid solicitărilor venite recent.</p>
+                    <button class="btn btn-outline-primary" @onclick="GoToAgentReceivedRequests">Accesează solicitările</button>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="bi bi-file-medical"></i>
+                    </div>
+                    <h5>Generează un raport</h5>
+                    <p>Urmărește evoluția vânzărilor tale.</p>
+                    <button class="btn btn-outline-primary" @onclick="GoToReports">Generează raport</button>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="bi bi-person"></i>
+                    </div>
+                    <h5>Profilul Meu</h5>
+                    <p>Actualizează datele contului tău și informațiile personale.</p>
+                    <button class="btn btn-outline-primary" @onclick="GoToProfile">Profilul Meu</button>
+                </div>
+            </Authorized>
+        </AuthorizeView>
+
+        <AuthorizeView Roles="Admin">
+            <Authorized>
+                <div class="dashboard-card">
+                    <h5>Statistici generale</h5>
+                    <p>Vizualizează date agregate despre activitatea platformei.</p>
+                    <button class="btn btn-outline-secondary">Vezi statistici</button>
+                </div>
+
+                <div class="dashboard-card">
+                    <h5>Gestionează utilizatori</h5>
+                    <p>Adaugă, editează sau suspendă conturi din sistem.</p>
+                    <button class="btn btn-outline-secondary">Panou administrare</button>
+                </div>
+
+                <div class="dashboard-card">
+                    <h5>Tranzacții recente</h5>
+                    <p>Monitorizează cele mai recente vânzări sau închirieri.</p>
+                    <button class="btn btn-outline-secondary">Vezi tranzacțiile</button>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="bi bi-person"></i>
+                    </div>
+                    <h5>Profilul Meu</h5>
+                    <p>Actualizează datele contului tău și informațiile personale.</p>
+                    <button class="btn btn-outline-primary" @onclick="GoToProfile">Profilul Meu</button>
+                </div>
+            </Authorized>
+        </AuthorizeView>
     </div>
 </div>
 
-@code{
+@code {
     private readonly string startDate = string.Empty;
     private List<AnnouncementResponseModel> announcements;
     private string searchText = string.Empty;
@@ -58,6 +212,10 @@
 
     private double? minPrice;
     private double? maxPrice;
+
+    private int userId;
+    private bool isAuthResolved = false;
+
     private async Task Search()
     {
         queryString = BuildQueryString(searchText);
@@ -93,11 +251,8 @@
             queryBuilder.Length--;
         }
 
-        var apiUrl = "announcement" + (!string.IsNullOrEmpty(queryString) ? "?" + queryString : "");
-
         return queryBuilder.ToString();
     }
-
 
     private string BuildQueryStringForPrice(double? minPrice, double? maxPrice)
     {
@@ -121,10 +276,36 @@
         return queryBuilder.ToString();
     }
 
-
     private void GoToProfile()
     {
         Navigation.NavigateTo("/myProfileCustomerPage");
+    }    
+    
+    private void GoToAgentAnnouncements()
+    {
+        Navigation.NavigateTo("/my-announcements");
+    }    
+    
+    private void GoToAgentReceivedRequests()
+    {
+        Navigation.NavigateTo("/agent-requests");
+    }     
+    
+    private void GoToCustomerRequests()
+    {
+        Navigation.NavigateTo("/send-request");
+    }    
+    
+    private void GoToReports()
+    {
+        Navigation.NavigateTo("/rapoarte");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        userId = await LocalStorage.GetItemAsync<int>("userId");
+
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        isAuthResolved = true;
     }
 }
-        
