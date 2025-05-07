@@ -1,6 +1,4 @@
 ﻿using CRMRealEstate.Application.Models.RequestsModel;
-using CRMRealEstate.Application.Models.UsersModels;
-using CRMRealEstate.Application.Services;
 using CRMRealEstate.Application.Services.Interfaces;
 using CRMRealEstate.DataAccess.Enums;
 using Microsoft.AspNetCore.Authorization;
@@ -26,6 +24,23 @@ namespace CRMRealEstate.API.Controllers
             var createRequest = await _requestService.CreateRequestsAsync(createRequestModel);
 
             return Created("", createRequest);
+        }
+
+        [HttpPost("{requestId:int}/respond")]
+        public async Task<IActionResult> RespondToRequestAsync(int requestId,[FromBody] RespondToRequestModel respondToRequestModel)
+        {
+            try
+            {
+                //var agentId = int.Parse(User.FindFirst("id").Value);
+
+                var result = await _requestService.RespondToRequestAsync(requestId, respondToRequestModel);
+
+                return Ok(result);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return Forbid($"Nu poti raspunde la aceasta solicitare");
+            }
         }
 
         [HttpGet]

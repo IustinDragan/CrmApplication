@@ -1,0 +1,106 @@
+﻿@* @page "/transaction-count-chart"
+@inject HttpClient Http
+
+@using MudBlazor
+
+<PageTitle>Tranzacții per Agent</PageTitle>
+
+<MudPaper Class="pa-4">
+    <MudText Typo="Typo.h5">Statistici tranzacții pe agent</MudText>
+
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="LoadTransactionCounts">Încarcă date</MudButton>
+
+    <MudDivider Class="my-4" />
+
+    <MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="() => SelectChart(ChartType.Bar)">Bar Chart</MudButton>
+    <MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="() => SelectChart(ChartType.Pie)">Pie Chart</MudButton>
+
+    <MudDivider Class="my-4" />
+
+    @if (HasData)
+    {
+        <MudChart ChartType="@SelectedChart" Labels="@AgentNames" Datasets="@ChartDataset" Style="height:400px;" />
+    }
+    else if (TriedLoading)
+    {
+        <MudText Color="Color.Error">Nu există date disponibile pentru afișare.</MudText>
+    }
+</MudPaper>
+
+@code {
+
+    private string[] AgentNames = Array.Empty<string>();
+    private object[] TransactionCounts = Array.Empty<object>();
+    private ChartType SelectedChart = ChartType.Bar;
+    private bool HasData = false;
+    private bool TriedLoading = false;
+
+    private ChartSeries[] ChartDataset => new[]
+    {
+    new ChartSeries
+    {
+        Name = "Nr. Tranzacții",
+        Data = TransactionCounts.Select(x => Convert.ToDouble(x)).ToArray()
+}
+};
+
+    private async Task LoadTransactionCounts()
+    {
+        TriedLoading = false;
+        HasData = false;
+        try
+        {
+            var result = await Http.GetFromJsonAsync<Dictionary<string, int>>("Transaction/count-by-agent");
+            if (result != null && result.Count > 0)
+            {
+                AgentNames = result.Keys.ToArray();
+                TransactionCounts = result.Values.Select(v => (object)v).ToArray();
+                HasData = true;
+
+                StateHasChanged();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Eroare la apelarea endpointului count-by-agent: " + ex.Message);
+        }
+        TriedLoading = true;
+    }
+
+    private void SelectChart(ChartType type)
+    {
+        SelectedChart = type;
+    }
+}
+ *@
+@* 
+v2 *@
+
+@* @page "/pie-chart"
+@using MudBlazor
+
+<MudPaper Class="pa-4">
+    <MudText Typo="Typo.h5">Pie Chart – Tranzacții pe Agent</MudText>
+
+    <MudChart ChartType="ChartType.Pie"
+              Labels="@AgentLabels"
+              Datasets="@AgentDataset"
+              Style="height:400px;" />
+
+    <MudDivider Class="my-2" />
+    <MudText>Labels: @string.Join(", ", AgentLabels)</MudText>
+    <MudText>Data: @string.Join(", ", AgentDataset[0].Data)</MudText>
+</MudPaper>
+
+@code {
+    private string[] AgentLabels = new[] { "Agent A", "Agent B", "Agent C" };
+
+    private ChartSeries[] AgentDataset = new[]
+    {
+        new ChartSeries
+        {
+            Name = "Nr. Tranzacții",
+            Data = new double[] { 7, 4, 9 }
+  }
+};
+} *@

@@ -3,6 +3,7 @@ using CRMRealEstate.Application.Services.Interfaces;
 using CRMRealEstate.DataAccess.Enums;
 using CRMRealEstate.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
+using System.Net;
 
 namespace CRMRealEstate.Application.Services
 {
@@ -89,7 +90,28 @@ namespace CRMRealEstate.Application.Services
                 return updatedRequestModel;
             }
 
-            return null;  
+            return null;
+        }
+       
+        public async Task<RespondToRequestModel> RespondToRequestAsync(int requestId, RespondToRequestModel model)
+        {
+            var request = await _requestRepository.GetByIdAsync(requestId);
+
+            model.ApplyToRequest(request);
+            
+            if (!string.IsNullOrWhiteSpace(model.AgentMessage))
+            {
+                request.Status = RequestStatus.Completed;
+            }
+
+            //if (!string.IsNullOrWhiteSpace(model.AgentId.ToString()))
+            //{
+            //    request.AgentId = model.AgentId;  
+            //}
+
+            await _requestRepository.UpdateMessageAsync(request);
+
+            return model;
         }
     }
 }

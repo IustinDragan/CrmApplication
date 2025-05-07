@@ -13,5 +13,6 @@ namespace CRMRealEstate.Application.Services.Interfaces
         Task<List<RequestResponseModel>> GetRequestsForCustomerAsync(int customerId);   
         Task<List<RequestResponseModel>> GetRequestsForAgentAsync(int agentId);
         Task UploadAsync(int requestId, IFormFile formFile);
+        Task<RespondToRequestModel> RespondToRequestAsync(int requestId, RespondToRequestModel model);
     }
 }

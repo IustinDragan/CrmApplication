@@ -2,6 +2,7 @@
 @using CRMRealEstate.DataAccess.Enums
 @using CRMRealEstate.UI.Models
 @using Microsoft.AspNetCore.Components.Authorization
+@using MudBlazor
 
 @inject HttpClient Http
 @inject AuthenticationStateProvider AuthState
@@ -37,6 +38,7 @@ else
                     <td>
                         <button class="btn btn-success btn-sm" @onclick="() => ApproveRequest(request)">Aprobă</button>
                         <button class="btn btn-danger btn-sm" @onclick="() => RejectRequest(request)">Respinge</button>
+                        <button class="btn btn-info btn-sm" @onclick="() => OpenRespondDialog(request)">Răspunde</button>
                     </td>
                 </tr>
             }
@@ -84,6 +86,41 @@ else
         else
         {
             Console.WriteLine("Eroare la respingere");
+        }
+    }
+
+    [Inject] IDialogService DialogService { get; set; }
+
+    private async Task OpenRespondDialog(RequestResponseModel request)
+    {
+        var parameters = new DialogParameters
+            {
+                ["RequestId"] = request.Id
+            };
+
+        var dialog = DialogService.Show<RespondToRequestDialog>("Răspunde la cerere", parameters);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            string agentMessage = result.Data.ToString();
+
+            var respondModel = new RespondToRequestModel
+                {
+                    RequestId = request.Id,
+                    AgentMessage = agentMessage
+                };
+
+            var response = await Http.PostAsJsonAsync($"/requests/{request.Id}/respond", respondModel);
+
+            if (response.IsSuccessStatusCode)
+            {
+                await OnInitializedAsync();
+            }
+            else
+            {
+                Console.WriteLine("Eroare la trimiterea răspunsului.");
+            }
         }
     }
 }

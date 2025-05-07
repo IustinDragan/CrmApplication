@@ -11,6 +11,7 @@
 @inject UserFavouriteAnnouncements userFavouriteAnnouncements;
 @using MudBlazor
 
+
 <MudMainContent>
     <AuthorizeView>
         <Authorized Context="auth">
@@ -93,9 +94,10 @@
 
 </MudMainContent>
 
-<MudDialogProvider />
+@* <MudDialogProvider />
 <MudSnackbarProvider />
-<MudPopoverProvider />
+<MudPopoverProvider /> *@
+
 
 @code {
     private List<AnnouncementResponseModel> announcements;

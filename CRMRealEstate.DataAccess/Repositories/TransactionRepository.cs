@@ -94,7 +94,7 @@ namespace CRMRealEstate.DataAccess.Repositories
         {
             return await _databaseContext.Transactions
                 .Where(t => t.AgentId == agentId && t.Status == TransactionStatusEnum.Completed)
-                .SumAsync(t => t.Price);
+                .SumAsync(t => (double)t.Price);
         }
 
         public async Task<int> GetTotalPropertyCountByAgentIdAsync(int agentId)
@@ -102,6 +102,53 @@ namespace CRMRealEstate.DataAccess.Repositories
             return await _databaseContext.Transactions
                 .Where(t=> t.AgentId == agentId && t.Status == TransactionStatusEnum.Completed)
                 .CountAsync(t => t.Status == TransactionStatusEnum.Completed);
+        }
+
+        public async Task<double> GetTotalAmountByDateRangeAsync(DateTime startDate, DateTime endDate)
+        {
+            return await _databaseContext.Transactions
+                .Where(t => t.Date >= startDate && t.Date <= endDate)
+                .SumAsync(t => (double)t.Price);
+        }
+
+        public async Task<Dictionary<string, int>> GetTransactionCountByAgentAsync()
+        {
+            return await _databaseContext.Transactions
+                .Include(t =>t.Agent)
+                .GroupBy(t => t.Agent.UserName)
+                .ToDictionaryAsync(x => x.Key, x => x.Count());
+
+            //.Select(g => new { AgentName = g.Key, Count = g.Count() })
+        }
+
+        //public async Task<Dictionary<string, double>> GetMonthlyTotalsAsync()
+        //{
+        //    return await _databaseContext.Transactions
+        //        .GroupBy(t => new { t.Date.Year, t.Date.Month })
+        //        .Select(g => new
+        //        {
+        //            Month = $"{g.Key.Month:00}/{g.Key.Year}",
+        //            Total = g.Sum(x => x.Price)
+        //        })
+        //        .ToDictionaryAsync(x => x.Month, x => x.Total);
+        //}
+
+        public async Task<Dictionary<string, double>> GetMonthlyTotalsAsync()
+        {
+            return await _databaseContext.Transactions
+                .GroupBy(t => t.Date.ToString("yyyy-MM"))
+                .OrderBy(g => g.Key)
+                .ToDictionaryAsync(g => g.Key, g => g.Sum(t => t.Price));
+        }
+
+        public async Task<double> GetTotalAmountAsync(DateTime startDate, DateTime endDate)
+        {
+            var adjustedStart = startDate.Date;
+            var adjustedEnd = endDate.Date.AddDays(1).AddTicks(-1);
+
+            return await _databaseContext.Transactions
+                .Where(t => t.Date >= adjustedStart && t.Date <= adjustedEnd)
+                .SumAsync(t => t.Price);
         }
     }
 }

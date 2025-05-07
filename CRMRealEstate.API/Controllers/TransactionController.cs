@@ -2,6 +2,7 @@
 using CRMRealEstate.Application.Services.Interfaces;
 using CRMRealEstate.DataAccess.Enums;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CRMRealEstate.API.Controllers
 {
@@ -79,7 +80,7 @@ namespace CRMRealEstate.API.Controllers
         [HttpGet("{propertyId}")]
         public async Task<IActionResult> GetTransactionByPropertyId(int propertyId)
         {
-            var result = _transactionService.GetByPropertyIdAsync(propertyId);
+            var result = await _transactionService.GetByPropertyIdAsync(propertyId);
             return Ok(result);
         }
 
@@ -117,6 +118,29 @@ namespace CRMRealEstate.API.Controllers
                     .ToList();
 
             return Ok(transactions);
+        }
+
+        [HttpGet("total-amount")]
+        public async Task<IActionResult> GetTotalAmount([FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
+        {
+            //var total = await _transactionService.GetTotalAmountByDateRangeAsync(startDate, endDate);
+            var total = await _transactionService.GetTotalAmountAsync(startDate, endDate);
+
+            return Ok(total);
+        }
+
+        [HttpGet("count-by-agent")]
+        public async Task<IActionResult> GetTransactionCountByAgent()
+        {
+            var counts = await _transactionService.GetTransactionCountByAgentAsync();
+            return Ok(counts);
+        }
+
+        [HttpGet("monthly-totals)")]
+        public async Task<IActionResult> GetMonthlyTotals()
+        {
+            var totals = await _transactionService.GetMonthlyTotalsAsync();
+            return Ok(totals);
         }
     }
 }

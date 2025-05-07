@@ -19,7 +19,8 @@
     {
         <AuthorizeView>
             <Authorized Context="authState">
-                <h4>Bine ai revenit, @authState.User.Identity.Name!</h4>
+                <h4>Bine ai revenit!</h4>
+
                 <p>Iată câteva acțiuni rapide pe care le poți face astăzi:</p>
             </Authorized>
             <NotAuthorized>
@@ -39,7 +40,7 @@
     }
     else
     {
-       <MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Large" Class="my-4 mx-auto d-block" />
+        <MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Large" Class="my-4 mx-auto d-block" />
     }
     <br />
     <div class="search-wrapper">
@@ -106,7 +107,7 @@
                     </div>
                     <h5>Favoritele mele</h5>
                     <p>Vezi cele mai recente anunțuri pe care le-ai salvat.</p>
-                    <button class="btn btn-outline-primary" @onclick="GoToAgentAnnouncements">Accesează favorite</button>
+                    <button class="btn btn-outline-primary" @onclick="GetFavouriteAnnouncementsAsync">Accesează favorite</button>
                 </div>
 
                 <div class="dashboard-card">
@@ -216,6 +217,10 @@
     private int userId;
     private bool isAuthResolved = false;
 
+    private string greeting = "";
+
+    private List<AnnouncementResponseModel> favouriteAnnouncements;
+
     private async Task Search()
     {
         queryString = BuildQueryString(searchText);
@@ -280,25 +285,32 @@
     {
         Navigation.NavigateTo("/myProfileCustomerPage");
     }    
-    
+
     private void GoToAgentAnnouncements()
     {
         Navigation.NavigateTo("/my-announcements");
     }    
-    
+
     private void GoToAgentReceivedRequests()
     {
         Navigation.NavigateTo("/agent-requests");
     }     
-    
+
     private void GoToCustomerRequests()
     {
         Navigation.NavigateTo("/send-request");
     }    
-    
+
     private void GoToReports()
     {
         Navigation.NavigateTo("/rapoarte");
+    }    
+
+    public async Task GetFavouriteAnnouncementsAsync()
+    {
+        favouriteAnnouncements = await Http.GetFromJsonAsync<List<AnnouncementResponseModel>>($"/users/{userId}/favorites");
+        userFavouriteAnnouncements.FavouriteAnnouncements = favouriteAnnouncements;
+        Navigation.NavigateTo("/favouriteAnnouncements");
     }
 
     protected override async Task OnInitializedAsync()

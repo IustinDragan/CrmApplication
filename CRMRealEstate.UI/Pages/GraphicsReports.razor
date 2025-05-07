@@ -1,0 +1,227 @@
+﻿@* @page "/charts"
+@inject HttpClient Http
+@using MudBlazor
+
+<MudPaper Class="pa-4">
+    <MudText Typo="Typo.h5">Dashboard Tranzacții</MudText>
+
+    <MudDateRangePicker @bind-DateRange="_dateRange" Label="Selectează intervalul" Class="mb-4" />
+
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="LoadAllCharts" Class="mb-4">
+        Generează Grafice
+    </MudButton>
+
+    @if (!_chartsLoaded)
+    {
+        <MudProgressCircular Indeterminate="true" Color="Color.Primary" />
+    }
+    else
+    {
+        <MudGrid GutterSize="3">
+            <MudItem xs="12" md="6">
+                <MudText Typo="Typo.subtitle1">Valoare totală tranzacții (interval)</MudText>
+                <MudChart ChartType="ChartType.Bar" Labels="_totalAmountLabels" Data="_totalAmountData" />
+            </MudItem>
+
+            <MudItem xs="12" md="6">
+                <MudText Typo="Typo.subtitle1">Număr tranzacții per agent</MudText>
+                <MudChart ChartType="ChartType.Bar" Labels="_agentLabels" Data="_agentData" />
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudText Typo="Typo.subtitle1">Totaluri lunare</MudText>
+                <MudChart ChartType="ChartType.Line" Labels="_monthlyLabels" Data="_monthlyData" />
+            </MudItem>
+        </MudGrid>
+    }
+</MudPaper>
+
+@code {
+    private DateRange _dateRange = new(DateTime.Today.AddMonths(-3), DateTime.Today);
+    private bool _chartsLoaded = false;
+
+    private string[] _totalAmountLabels = Array.Empty<string>();
+    private double[][] _totalAmountData = new double[1][];
+
+    private string[] _agentLabels = Array.Empty<string>();
+    private double[][] _agentData = new double[1][];
+
+    private string[] _monthlyLabels = Array.Empty<string>();
+    private double[][] _monthlyData = new double[1][];
+
+    private async Task LoadAllCharts()
+    {
+        _chartsLoaded = false;
+        await LoadTotalAmount();
+        await LoadCountByAgent();
+        //await LoadMonthlyTotals();
+        _chartsLoaded = true;
+        StateHasChanged();
+    }
+
+    private async Task LoadTotalAmount()
+    {
+        if (_dateRange.Start is null || _dateRange.End is null)
+            return;
+
+        string start = _dateRange.Start.Value.ToString("yyyy-MM-dd");
+        string end = _dateRange.End.Value.ToString("yyyy-MM-dd");
+
+        try
+        {
+            var total = await Http.GetFromJsonAsync<double>($"/transaction/total-amount?startDate={start}&endDate={end}");
+            _totalAmountLabels = new[] { "Total" };
+            _totalAmountData = new[] { new[] { total } };
+        }
+        catch
+        {
+            _totalAmountLabels = new[] { "Eroare" };
+            _totalAmountData = new[] { new[] { 0.0 } };
+        }
+    }
+
+    private async Task LoadCountByAgent()
+    {
+        try
+        {
+            var result = await Http.GetFromJsonAsync<Dictionary<string, int>>("/transaction/count-by-agent");
+            if (result != null && result.Any())
+            {
+                _agentLabels = result.Keys.ToArray();
+                _agentData = new[] { result.Values.Select(v => (double)v).ToArray() };
+            }
+            else
+            {
+                _agentLabels = new[] { "Fără date" };
+                _agentData = new[] { new[] { 0.0 } };
+            }
+        }
+        catch
+        {
+            _agentLabels = new[] { "Eroare" };
+            _agentData = new[] { new[] { 0.0 } };
+        }
+    }
+
+    private async Task LoadMonthlyTotals()
+    {
+        try
+        {
+            var result = await Http.GetFromJsonAsync<Dictionary<string, double>>("/transaction/monthly-totals");
+            if (result != null && result.Any())
+            {
+                _monthlyLabels = result.Keys.ToArray();
+                _monthlyData = new[] { result.Values.ToArray() };
+            }
+            else
+            {
+                _monthlyLabels = new[] { "Fără date" };
+                _monthlyData = new[] { new[] { 0.0 } };
+            }
+        }
+        catch
+        {
+            _monthlyLabels = new[] { "Eroare" };
+            _monthlyData = new[] { new[] { 0.0 } };
+        }
+    }
+} *@
+
+
+@* @page "/charts"
+@using MudBlazor
+
+<MudPaper Class="pa-4" Style="min-height: 400px;">
+    <MudText Typo="Typo.h5">Dashboard Tranzacții (Mock)</MudText>
+
+    <MudDateRangePicker @bind-DateRange="_dateRange" Label="Selectează intervalul" Class="mb-4" />
+
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="LoadAllCharts" Class="mb-4">
+        Generează Grafice
+    </MudButton>
+
+    @if (!_chartsLoaded)
+    {
+        <MudProgressCircular Indeterminate="true" Color="Color.Primary" />
+    }
+    else
+    {
+        <MudGrid GutterSize="3">
+            <MudItem xs="12" md="6">
+                <MudText Typo="Typo.subtitle1">Valoare totală tranzacții (interval)</MudText>
+                <MudChart ChartType="ChartType.Bar" Labels="_totalAmountLabels" Data="_totalAmountData" />
+            </MudItem>
+
+            <MudItem xs="12" md="6">
+                <MudText Typo="Typo.subtitle1">Număr tranzacții per agent</MudText>
+                <MudChart ChartType="ChartType.Bar" Labels="_agentLabels" Data="_agentData" />
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudText Typo="Typo.subtitle1">Totaluri lunare</MudText>
+                <MudChart ChartType="ChartType.Line" Labels="_monthlyLabels" Data="_monthlyData" />
+            </MudItem>
+        </MudGrid>
+    }
+</MudPaper>
+
+@code {
+    private DateRange _dateRange = new(DateTime.Today.AddMonths(-3), DateTime.Today);
+    private bool _chartsLoaded = false;
+
+    private string[] _totalAmountLabels = Array.Empty<string>();
+    private double[][] _totalAmountData = new double[1][];
+
+    private string[] _agentLabels = Array.Empty<string>();
+    private double[][] _agentData = new double[1][];
+
+    private string[] _monthlyLabels = Array.Empty<string>();
+    private double[][] _monthlyData = new double[1][];
+
+    private async Task LoadAllCharts()
+    {
+        _chartsLoaded = false;
+        await Task.Delay(500); // Simulează delay
+        LoadTotalAmountMock();
+        LoadCountByAgentMock();
+        LoadMonthlyTotalsMock();
+        _chartsLoaded = true;
+        StateHasChanged();
+    }
+
+    private void LoadTotalAmountMock()
+    {
+        _totalAmountLabels = new[] { "Total" };
+        _totalAmountData = new[] { new[] { 138000.0 } };
+    }
+
+    private void LoadCountByAgentMock()
+    {
+        _agentLabels = new[] { "Andrei Popescu", "Maria Ionescu", "Elena Matei" };
+        _agentData = new[] { new double[] { 5, 3, 7 } };
+    }
+
+    private void LoadMonthlyTotalsMock()
+    {
+        _monthlyLabels = new[] { "2025-01", "2025-02", "2025-03", "2025-04", "2025-05" };
+        _monthlyData = new[] { new double[] { 24000, 38000, 18000, 26000, 32000 } };
+    }
+} *@
+
+
+@page "/minimal-chart"
+@using MudBlazor
+
+<MudPaper Class="pa-4" Style="min-height:400px;">
+    <MudText Typo="Typo.h6">Exemplu Minimal Chart</MudText>
+
+    <MudChart ChartType="ChartType.Bar"
+              Labels="@_labels"
+              Data="@_data"
+              Style="width: 300px; height:200px" />
+</MudPaper>
+
+@code {
+    private string[] _labels = new[] { "Ianuarie", "Februarie", "Martie" };
+    private double[][] _data = new[] { new double[] { 10000, 20000, 15000 } };
+}

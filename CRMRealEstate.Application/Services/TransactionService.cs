@@ -1,6 +1,7 @@
 ﻿using CRMRealEstate.Application.Models.TransactionsModel;
 using CRMRealEstate.Application.Services.Interfaces;
 using CRMRealEstate.DataAccess.Enums;
+using CRMRealEstate.DataAccess.Repositories;
 using CRMRealEstate.DataAccess.Repositories.Interfaces;
 
 namespace CRMRealEstate.Application.Services
@@ -59,6 +60,16 @@ namespace CRMRealEstate.Application.Services
             return transaction.Select(TransactionResponseModel.FromTransaction).ToList();
         }
 
+        public async Task<Dictionary<string, double>> GetMonthlyTotalsAsync()
+        {
+            return await _transactionsRepository.GetMonthlyTotalsAsync();
+        }
+
+        public async Task<double> GetTotalAmountByDateRangeAsync(DateTime start, DateTime end)
+        {
+            return await _transactionsRepository.GetTotalAmountByDateRangeAsync(start, end);
+        }
+
         public async Task<int> GetTotalPropertyCountByAgentIdAsync(int agentId)
         {
             return await _transactionsRepository.GetTotalPropertyCountByAgentIdAsync(agentId);
@@ -81,10 +92,17 @@ namespace CRMRealEstate.Application.Services
             return TransactionResponseModel.FromTransaction(transaction);
         }
 
+        public async Task<Dictionary<string, int>> GetTransactionCountByAgentAsync()
+        {
+            return await _transactionsRepository.GetTransactionCountByAgentAsync();
+        }
+
         public async Task<List<TransactionResponseModel>> ReadAllTransactionsAsync()
         {
             var transactions = await _transactionsRepository.ReadAllAsync();
             return transactions.Select(TransactionResponseModel.FromTransaction).ToList();
         }
+
+        public async Task<double> GetTotalAmountAsync(DateTime startDate, DateTime endDate)  => await _transactionsRepository.GetTotalAmountAsync(startDate, endDate);
     }
 }

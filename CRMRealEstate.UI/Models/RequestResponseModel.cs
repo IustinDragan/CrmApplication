@@ -14,5 +14,6 @@ namespace CRMRealEstate.UI.Models
         public string? Title { get; set; }
         public string? CustomerMessage { get; set; }
         public string? AgentMessage { get; set; }
+        //public string AgentName {  get; set; }
     }
 }

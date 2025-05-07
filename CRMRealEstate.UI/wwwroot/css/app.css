@@ -1,6 +1,6 @@
 /*:root {
     --bg-body: #121212;*/ /* fundal închis default */
-    /*--h2-text-color: #e0e0e0;
+/*--h2-text-color: #e0e0e0;
     --p-text-color: #b0b0b0;
     --price-text-color: #4dd0e1;
     --border-view-color: #4dd0e1;
@@ -12,7 +12,7 @@
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     background-color: var(--bg-body);*/ /* fundal global unificat */
-    /*color: var(--h2-text-color);*/ /* culoare text global? */
+/*color: var(--h2-text-color);*/ /* culoare text global? */
 /*}*/
 
 
@@ -38,7 +38,7 @@ a, .btn-link {
 
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 .content {

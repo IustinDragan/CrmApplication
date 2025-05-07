@@ -83,5 +83,13 @@ namespace CRMRealEstate.DataAccess.Repositories
 
             return updatedEntity;
         }
+
+        public async Task<Request> UpdateMessageAsync(Request request)
+        {
+            _databaseContext.Requests.Update(request);
+            
+            await _databaseContext.SaveChangesAsync();
+            return request;
+        }
     }
 }

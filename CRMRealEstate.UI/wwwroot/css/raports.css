@@ -1,27 +1,26 @@
-﻿     /*MudPaper - card stilizat*/ 
-    .raports-page .mud-paper {
-        padding: 2rem;
-        border-radius: 20px;
-        background-color: white;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    }
+﻿/*MudPaper - card stilizat*/
+.raports-page .mud-paper {
+    padding: 2rem;
+    border-radius: 20px;
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
 
- /*Formular – grid elegant*/ 
+/*Formular – grid elegant*/
 .form-wrapper {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 1.5rem;
 }
 
- /*Câmpuri formular*/ 
+/*Câmpuri formular*/
 .form-field {
     display: flex;
     flex-direction: column;
 }
 
- /*Buton principal – rotunjit și modern*/
+/*Buton principal – rotunjit și modern*/
 .raports-page .mud-button {
-
     border-radius: 30px; /* Colțuri rotunjite */
     font-weight: 600;
     padding: 0.6rem 1.5rem;
@@ -39,7 +38,7 @@
         box-shadow: 0 0 0 2px rgba(30, 136, 229, 0.5); /* Adăugăm o umbră la focus pentru a îmbunătăți accesibilitatea */
     }
 
- /*Tabel*/ 
+/*Tabel*/
 .raports-page .mud-table {
     border-radius: 12px;
     overflow: hidden;
@@ -55,10 +54,9 @@
     color: white;
     display: inline-block;
     text-transform: capitalize;
-    
 }
 
-     /*Culori pentru statusuri*/ 
+    /*Culori pentru statusuri*/
     .status-chip.Completed {
         background-color: #4caf50;
     }

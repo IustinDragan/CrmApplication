@@ -15,5 +15,10 @@ namespace CRMRealEstate.Application.Services.Interfaces
         Task<List<TransactionResponseModel>> GetByPropertyIdAsync(int propertyId);
         Task DeleteTransactionAsync(int id);
         Task<int> GetTotalPropertyCountByAgentIdAsync(int agentId);
+        Task<double> GetTotalAmountByDateRangeAsync(DateTime start, DateTime end);
+        Task<Dictionary<string, int>> GetTransactionCountByAgentAsync();
+        Task<Dictionary<string, double>> GetMonthlyTotalsAsync();
+        Task<double> GetTotalAmountAsync(DateTime startDate, DateTime endDate);
+
     }
 }

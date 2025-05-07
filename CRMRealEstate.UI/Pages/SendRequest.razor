@@ -7,35 +7,85 @@
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
 
-<h3>Trimite un mesaj către agent</h3>
+<h3 class="mb-4">Trimite un mesaj către agent</h3>
 
-<EditForm Model="requestModel" OnValidSubmit="HandleValidSubmit">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+<div class="card shadow-sm p-4 mb-5 rounded custom-form">
+    <EditForm Model="requestModel" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
 
-    <div class="mb-3">
-        <label for="title">Titlu</label>
-        <InputText id="title" class="form-control" @bind-Value="requestModel.Title" />
+        <div class="mb-4">
+            <label for="title" class="form-label fw-semibold">Titlu</label>
+            <InputText id="title" class="form-control form-control-lg" @bind-Value="requestModel.Title" />
+        </div>
+
+        <div class="mb-4">
+            <label for="message" class="form-label fw-semibold">Mesaj</label>
+            <InputTextArea id="message" class="form-control form-control-lg" rows="4" @bind-Value="requestModel.CustomerMessage" />
+        </div>
+
+        <div class="mb-4">
+            <label for="agent" class="form-label fw-semibold">Selectează agentul</label>
+            <select id="agent" class="form-select form-select-lg" @bind="requestModel.AgentId">
+                <option value="">-- Selectează un agent --</option>
+                @foreach (var agent in agents)
+                {
+                    <option value="@agent.Id">@agent.UserName</option>
+                }
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary px-4 py-2 rounded-pill">Trimite</button>
+    </EditForm>
+</div>
+
+@if (myRequests != null && myRequests.Any())
+{
+    <h4 class="mt-5 mb-3">Istoric cereri și răspunsuri</h4>
+    <div class="table-responsive">
+        <table class="table table-hover custom-table rounded">
+            <thead class="table-dark text-white">
+                <tr>
+                    <th class="fw-bold">Titlu</th>
+                    <th class="fw-bold">Mesajul tău</th>
+                    <th class="fw-bold">Status</th>
+                    <th class="fw-bold">Răspunsul agentului</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var req in myRequests)
+                {
+                    <tr>
+                        <td class="text-capitalize">@req.Title</td>
+                        <td>@req.CustomerMessage</td>
+                        <td>
+                            <span class="badge
+                                @(req.Status == RequestStatus.Completed ? "bg-success" :
+                                  req.Status == RequestStatus.Rejected ? "bg-danger" :
+                                  req.Status == RequestStatus.Pending ? "bg-warning text-dark" :
+                                  "bg-secondary")">
+                                @req.Status.ToString()
+                            </span>
+
+
+                        </td>
+                        <td>
+                            @if (!string.IsNullOrWhiteSpace(req.AgentMessage))
+                            {
+                                <span>@req.AgentMessage</span>
+                            }
+                            else
+                            {
+                                <em class="text-muted">În așteptare</em>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
+}
 
-    <div class="mb-3">
-        <label for="message">Mesaj</label>
-        <InputTextArea id="message" class="form-control" @bind-Value="requestModel.CustomerMessage" />
-    </div>
-
-    <div class="mb-3">
-        <label for="agent">Selectează agentul</label>
-        <select class="form-select form-select-sm" @bind="requestModel.AgentId">
-            <option value="">-- Selectează un agent --</option>
-            @foreach (var agent in agents)
-            {
-                <option value="@agent.Id">@agent.UserName</option>
-            }
-        </select>
-    </div>
-
-    <button type="submit" class="btn btn-primary btn-sm">Trimite</button>
-</EditForm>
 
 @code {
     private CreateRequestModel requestModel = new CreateRequestModel();
@@ -61,7 +111,9 @@
 
             if (response.IsSuccessStatusCode)
             {
-                NavigationManager.NavigateTo("/");
+                requestModel = new CreateRequestModel();
+
+                await OnInitializedAsync();
             }
             else
             {
@@ -75,7 +127,19 @@
         var users = await Http.GetFromJsonAsync<List<UserModel>>("/users");
 
         agents = users.Where(u => u.RoleName == Roles.SalesAgent).ToList();
-        
+
+        var authState = await AuthState.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity?.IsAuthenticated == true)
+        {
+            var customerId = user.FindFirst("id")?.Value;
+            if (!string.IsNullOrWhiteSpace(customerId))
+            {
+                myRequests = await Http.GetFromJsonAsync<List<RequestResponseModel>>($"/requests/customer/{customerId}");
+            }
+        }
+
     }
 
     public class UserModel
@@ -89,4 +153,6 @@
         public Roles RoleName { get; set; }
         public DateTime UserCreatedAt { get; set; }
     }
+
+    private List<RequestResponseModel> myRequests = new();
 }

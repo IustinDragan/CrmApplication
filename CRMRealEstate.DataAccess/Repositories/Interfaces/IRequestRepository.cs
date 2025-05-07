@@ -11,5 +11,6 @@ namespace CRMRealEstate.DataAccess.Repositories.Interfaces
         Task<Request> GetByIdAsync(int id);
         Task<List<Request>> GetRequestForCustomerAsync(int customerId);
         Task<List<Request>> GetRequestForAgentAsync(int agentId);
+        Task<Request> UpdateMessageAsync(Request request);
     }
 }

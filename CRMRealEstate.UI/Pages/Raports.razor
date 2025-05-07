@@ -4,17 +4,20 @@
 @using CRMRealEstate.UI.Enums
 @using Microsoft.AspNetCore.WebUtilities
 @using MudBlazor
+@using MudBlazor.Charts
 @inject HttpClient Http
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
 <PageTitle>Rapoarte Tranzacții</PageTitle>
 
 <div class="raports-page">
     <MudPaper>
-        <MudText Typo="Typo.h5" Class="top-centered-text">Generează un raport financiar detaliat</MudText>
+        @* <MudText Typo="Typo.h5" Class="top-centered-text">Generează un raport financiar detaliat</MudText> *@
 
         <MudForm @ref="form" Class="form-wrapper">
             <div class="form-field">
                 <MudTextField Label="ID Agent" Variant="Variant.Outlined" @bind-Value="agentId" />
+                @* <MudTextField Label="Agent Name" Variant="Variant.Outlined" @bind-Value="agentName" ReadOnly="true" /> *@
             </div>
 
             <div class="form-field">
@@ -33,10 +36,15 @@
         <MudButton Class="mt-4" Color="Color.Primary" Variant="Variant.Filled" OnClick="ApplyFilters">
             Vezi rezultatele
         </MudButton>
+@*         <MudButton Class="mt-4" Color="Color.Secondary" Variant="Variant.Filled" OnClick="ApplyReportFilters">
+            Vezi Raportul Grafic
+        </MudButton> *@
+
     </MudPaper>
 
+
     <MudPaper Class="p-4 mt-6 table-container" Elevation="1">
-        @if (transactions != null)
+        @if (transactions != null && transactions.Any())
         {
             <MudTable Items="transactions" Hover="true" Dense="true">
                 <HeaderContent>
@@ -68,19 +76,27 @@
             </MudText>
         }
     </MudPaper>
+
+
     @if (isLoading)
     {
-        <MudProgressCircular Color="Color.Primary" Style="width: 50px; height: 50px;" Indeterminate="true"  Class="centered-progress" />
+        <MudProgressCircular Color="Color.Primary" Style="width: 50px; height: 50px;" Indeterminate="true" Class="centered-progress" />
     }
 </div>
 
 @code {
     private MudForm form;
+    private MudForm chartForm;
     private int agentId;
+    private string agentName;
     private DateTime? selectedDate;
     private TransactionType? selectedTypeEnum = null;
     private List<TransactionResponseModel>? transactions;
     private bool isLoading = false;
+
+    private string[]? chartLabels;
+    private double[][]? chartData;
+
 
     private async Task ApplyFilters()
     {
@@ -92,9 +108,8 @@
             var queryParams = new Dictionary<string, string>();
 
             if (agentId > 0)
-            {
                 queryParams.Add("agentId", agentId.ToString());
-            }
+
 
             if (selectedDate.HasValue)
             {
@@ -107,8 +122,8 @@
 
             var url = QueryHelpers.AddQueryString("/transaction/report", queryParams);
             var result = await Http.GetFromJsonAsync<List<TransactionResponseModel>>(url);
-
             transactions = result ?? new List<TransactionResponseModel>();
+
         }
         catch (Exception ex)
         {
@@ -120,4 +135,9 @@
             StateHasChanged();
         }
     }
-}
+
+
+    
+
+} 
+
