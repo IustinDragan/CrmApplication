@@ -258,10 +258,8 @@ figcaption {
 
         /* Hover pe favorite – afectează DOAR iconița din interiorul butonului .btn-fav */
         .icons-img .btn-fav:hover i {
-            color:   #c0392b;
+            color: #c0392b;
         }
-
-
 
 
 .card-buttons {
@@ -298,7 +296,7 @@ figcaption {
 }
 
     .btn-delete:hover {
-        background-color:   #c0392b;
+        background-color: #c0392b;
     }
 
 /* Fade-in animation for cards */
@@ -410,5 +408,5 @@ figcaption {
 
     .search-wrapper i {
         color: #777;
-        margin-right:  5px;
+        margin-right: 5px;
     }

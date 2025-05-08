@@ -12,16 +12,62 @@
 
 <AuthorizeView Roles="Customer">
     <Authorized>
-        <button class="btn btn-outline-primary" @onclick="() => GetFavouriteAnnouncementsAsync()">Vezi anunturi salvate la Favorite</button>
+        <MudStack>
+            <MudButton Variant="Variant.Outlined"
+                       Color="Color.Primary"
+                       Size="Size.Large"
+                       Style="min-width: 280px;"
+                       StartIcon="@Icons.Material.Filled.Favorite"
+                       OnClick="GetFavouriteAnnouncementsAsync">
+                Vezi anunțuri salvate la Favorite
+            </MudButton>
+        </MudStack>
     </Authorized>
 </AuthorizeView>
 
-<button class="btn btn-outline-primary" @onclick="() => UploadDocuments()">Incarca Documente</button>
+<MudStack Row Spacing="2" Class="mb-4 flex-wrap">
+    <MudButton Variant="Variant.Outlined"
+               Color="Color.Primary"
+               Size="Size.Large"
+               Style="min-width: 280px;"
+               StartIcon="@Icons.Material.Filled.UploadFile"
+               OnClick="UploadDocuments">
+        Încarcă Documente
+    </MudButton>
+</MudStack>
 
- <AuthorizeView Roles="SalesAgent">
+
+<AuthorizeView Roles="SalesAgent">
     <Authorized>
-<button class="btn btn-outline-primary" @onclick="() => GoToRaportGenerator()">Genereaza rapoarte</button>
-<button class="btn btn-outline-primary" @onclick="() => GoToMyAnnouncements()">Anunturile mele</button>
+        <MudStack Row Spacing="2" Class="mb-4 flex-wrap">
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Large" Style="min-width: 280px;" OnClick="GoToRaportGenerator" StartIcon="@Icons.Material.Filled.Assessment">
+                Generează rapoarte
+            </MudButton>
+        </MudStack>
+        <MudStack Row Spacing="2" Class="mb-4 flex-wrap">
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Large" Style="min-width: 280px;" OnClick="GoToMyAnnouncements" StartIcon="@Icons.Material.Filled.Notes">
+                Anunțurile mele
+            </MudButton>
+        </MudStack>
+        <MudStack Row Spacing="2" Class="mb-4 flex-wrap">
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Large" Style="min-width: 280px;" OnClick="GoToTransactionChartsBarForTwoPeriods" StartIcon="@Icons.Material.Filled.BarChart">
+                Chart Bar – Distribuție pe Tranzacții
+            </MudButton>
+            </MudStack>
+        <MudStack Row Spacing="2" Class="mb-4 flex-wrap">
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Large" Style="min-width: 280px;" OnClick="GoToTransactionChartsPieTransactionType" StartIcon="@Icons.Material.Filled.PieChart">
+                Chart Pie – Distribuție pe Tipuri de Tranzacții
+            </MudButton>
+        </MudStack>
+        <MudStack Row Spacing="2" Class="mb-4 flex-wrap">
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Large" Style="min-width: 280px;" OnClick="GoToTransactionChartsDonutTransactionPerAgent" StartIcon="@Icons.Material.Filled.DonutLarge">
+                Chart Donut – Distribuție Tranzacții-Agent
+            </MudButton>
+        </MudStack>
+@*         <MudPaper Class="dashboard-block">
+            <MudText Typo="Typo.h6" Class="dashboard-block-title"></MudText>
+            <TransactionDashboard />
+        </MudPaper> *@
     </Authorized>
 </AuthorizeView>
 
@@ -51,18 +97,11 @@
         Navigation.NavigateTo("/favouriteAnnouncements");
     }
 
-    public async Task UploadDocuments()
-    {
-        Navigation.NavigateTo("/uploadDocuments");
-    }    
-
-    public async Task GoToRaportGenerator()
-    {
-        Navigation.NavigateTo("/rapoarte");
-    }
-
-    public async Task GoToMyAnnouncements()
-    {
-        Navigation.NavigateTo("/my-announcements");
-    }
+    public async Task UploadDocuments() => Navigation.NavigateTo("/uploadDocuments");
+    public async Task GoToRaportGenerator() => Navigation.NavigateTo("/rapoarte");
+    public async Task GoToMyAnnouncements() => Navigation.NavigateTo("/my-announcements");
+    public async Task GoToDashboard() => Navigation.NavigateTo("/dashboard-tranzactii");
+    public async Task GoToTransactionChartsBarForTwoPeriods() => Navigation.NavigateTo("/charts");
+    public async Task GoToTransactionChartsPieTransactionType() => Navigation.NavigateTo("/grafic-tip-tranzactie");
+    public async Task GoToTransactionChartsDonutTransactionPerAgent() => Navigation.NavigateTo("/grafic-tranzactii-per-agent");
 }

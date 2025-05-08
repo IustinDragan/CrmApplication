@@ -2,7 +2,6 @@
 using CRMRealEstate.Application.Services.Interfaces;
 using CRMRealEstate.DataAccess.Enums;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace CRMRealEstate.API.Controllers
 {
@@ -49,7 +48,7 @@ namespace CRMRealEstate.API.Controllers
             return Ok(transaction);
         }
 
-        [HttpGet("{byMonth}")]
+        [HttpGet("(byMonth)")]
         public async Task<IActionResult> GetTransactionByMonth([FromQuery] int year,  [FromQuery] int month)
         {
             var result = await _transactionService.GetByMonthAsync(year, month);
@@ -123,7 +122,6 @@ namespace CRMRealEstate.API.Controllers
         [HttpGet("total-amount")]
         public async Task<IActionResult> GetTotalAmount([FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
         {
-            //var total = await _transactionService.GetTotalAmountByDateRangeAsync(startDate, endDate);
             var total = await _transactionService.GetTotalAmountAsync(startDate, endDate);
 
             return Ok(total);
@@ -136,7 +134,7 @@ namespace CRMRealEstate.API.Controllers
             return Ok(counts);
         }
 
-        [HttpGet("monthly-totals)")]
+        [HttpGet("monthly-totals")]
         public async Task<IActionResult> GetMonthlyTotals()
         {
             var totals = await _transactionService.GetMonthlyTotalsAsync();

@@ -9,8 +9,17 @@
 @using CRMRealEstate.UI.Models
 @inject HttpClient Http
 @inject UserFavouriteAnnouncements userFavouriteAnnouncements;
-@using MudBlazor
 
+
+@* Required *@
+@* <MudThemeProvider />
+<MudPopoverProvider /> *@
+
+@* Needed for dialogs *@
+@* <MudDialogProvider /> *@
+
+@* Needed for snackbars *@
+@* <MudSnackbarProvider /> *@
 
 <MudMainContent>
     <AuthorizeView>

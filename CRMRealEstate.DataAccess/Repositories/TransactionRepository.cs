@@ -133,12 +133,33 @@ namespace CRMRealEstate.DataAccess.Repositories
         //        .ToDictionaryAsync(x => x.Month, x => x.Total);
         //}
 
+        //public async Task<Dictionary<string, double>> GetMonthlyTotalsAsync()
+        //{
+        //    return await _databaseContext.Transactions
+        //        .GroupBy(t => t.Date.ToString("yyyy-MM"))
+        //        .OrderBy(g => g.Key)
+        //        .ToDictionaryAsync(g => g.Key, g => g.Sum(t => t.Price));
+
+        //}
+
         public async Task<Dictionary<string, double>> GetMonthlyTotalsAsync()
         {
-            return await _databaseContext.Transactions
-                .GroupBy(t => t.Date.ToString("yyyy-MM"))
-                .OrderBy(g => g.Key)
-                .ToDictionaryAsync(g => g.Key, g => g.Sum(t => t.Price));
+            var data = await _databaseContext.Transactions
+                .GroupBy(t => new { t.Date.Year, t.Date.Month })
+                .Select(g => new
+                {
+                    Year = g.Key.Year,
+                    Month = g.Key.Month,
+                    Total = g.Sum(t => t.Price)
+                })
+                .OrderBy(g => g.Year).ThenBy(g => g.Month)
+                .ToListAsync();
+
+            // Formatăm cheia în memorie
+            return data.ToDictionary(
+                x => $"{x.Year:D4}-{x.Month:D2}",
+                x => x.Total
+        );
         }
 
         public async Task<double> GetTotalAmountAsync(DateTime startDate, DateTime endDate)

@@ -1,0 +1,20 @@
+﻿@page "/dashboard-tranzactii"
+@using CRMRealEstate.UI.Pages
+@using MudBlazor
+
+<MudContainer MaxWidth="MaxWidth.False" Class="dashboard-container">
+    <MudStack Spacing="3">
+        <MudPaper Class="dashboard-block">
+            <PieChartTransactionsPerAgent />
+        </MudPaper>
+
+        <MudPaper Class="dashboard-block">
+            <PieChartForTransactionType />
+        </MudPaper>
+
+        <MudPaper Class="dashboard-block">
+            <GraphicsReports />
+        </MudPaper>
+    </MudStack>
+</MudContainer>
+

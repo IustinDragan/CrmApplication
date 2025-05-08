@@ -1,0 +1,133 @@
+﻿@page "/grafic-tip-tranzactie"
+@inject HttpClient Http
+@using CRMRealEstate.UI.Models
+@using CRMRealEstate.DataAccess.Enums
+@using Microsoft.AspNetCore.WebUtilities
+@using MudBlazor
+
+<MudPaper Class="pa-6 mt-4" Style="border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); background-color: #f9f9fb;">
+    <MudText Typo="Typo.h5" Class="text-center mb-4" Style="font-weight: 700; color: #1565c0;">
+        Distribuția tipurilor de tranzacții pentru un agent
+    </MudText>
+
+    <MudForm @ref="form">
+        <MudGrid GutterSize="3" Class="mb-4">
+            <MudItem xs="12" md="4">
+                <MudTextField T="int" Label="ID Agent" @bind-Value="agentId" Variant="Variant.Outlined" />
+            </MudItem>
+            <MudItem xs="12" md="4">
+                <MudDatePicker Label="Lună/An"
+                               @bind-Date="selectedDate"
+                               Views="PickerViews.Month"
+                               Variant="Variant.Outlined" />
+            </MudItem>
+            <MudItem xs="12" md="4" Class="d-flex align-items-end">
+                <MudButton OnClick="LoadChart"
+                           Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           DisableElevation="true"
+                           Class="w-100">
+                    Generează Grafic
+                </MudButton>
+            </MudItem>
+        </MudGrid>
+    </MudForm>
+
+    <MudGrid GutterSize="3">
+        <MudItem xs="12" md="8">
+            <MudChart ChartType="ChartType.Pie"
+                      InputData="@chartData"
+                      InputLabels="@chartLabels"
+                      @bind-SelectedIndex="selectedIndex"
+                      Options="chartOptions"
+                      Width="100%"
+                      Height="300px" />
+        </MudItem>
+
+        <MudItem xs="12" md="4">
+            <MudPaper Class="pa-4" Style="border-radius: 8px; background-color: white;">
+                <MudText Typo="Typo.subtitle1" Class="mb-2">Detalii tranzacții</MudText>
+
+                @if (_chartItems != null && _chartItems.Any())
+                {
+                    @foreach (var item in _chartItems)
+                    {
+                        <MudText Typo="Typo.body2">
+                            @item.Label: @item.Value tranzacții (@item.Percent:0.0%)
+                        </MudText>
+                    }
+                }
+                else
+                {
+                    <MudText Typo="Typo.body2" Color="Color.Secondary">Nu sunt date de afișat.</MudText>
+                }
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+</MudPaper>
+
+@code {
+    private MudForm form;
+    private int agentId;
+    private DateTime? selectedDate = DateTime.Today;
+    private int selectedIndex = -1;
+
+    private string[]? chartLabels;
+    private double[]? chartData;
+
+    private List<(string Label, double Value, double Percent)> _chartItems = new();
+
+    private readonly ChartOptions chartOptions = new();
+
+    private async Task LoadChart()
+    {
+        if (agentId <= 0 || selectedDate == null)
+            return;
+
+        try
+        {
+            var queryParams = new Dictionary<string, string>
+            {
+                { "agentId", agentId.ToString() },
+                { "year", selectedDate.Value.Year.ToString() },
+                { "month", selectedDate.Value.Month.ToString() }
+            };
+
+            var url = QueryHelpers.AddQueryString("/transaction/report", queryParams);
+            var transactions = await Http.GetFromJsonAsync<List<TransactionResponseModel>>(url);
+
+            if (transactions == null || !transactions.Any())
+            {
+                chartLabels = Array.Empty<string>();
+                chartData = Array.Empty<double>();
+                _chartItems.Clear();
+                return;
+            }
+
+            var grouped = transactions
+                .GroupBy(t => t.TypeOfTransaction.ToString())
+                .Select(g => new { Label = g.Key, Count = g.Count() })
+                .ToList();
+
+            double total = grouped.Sum(g => g.Count);
+
+            _chartItems = grouped
+                .Select(g => (
+                    Label: g.Label,
+                    Value: (double)g.Count,
+                    Percent: total > 0 ? (double)g.Count / total * 100 : 0.0
+                ))
+                .ToList();
+
+            chartLabels = _chartItems.Select(i => i.Label).ToArray();
+            chartData = _chartItems.Select(i => i.Value).ToArray();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Eroare la generarea graficului: {ex.Message}");
+            chartLabels = Array.Empty<string>();
+            chartData = Array.Empty<double>();
+            _chartItems.Clear();
+        }
+    }
+}

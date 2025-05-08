@@ -1,0 +1,40 @@
+﻿.chart-title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.75rem; /* puțin mai mare pentru un aspect premium */
+    margin-bottom: 2.5rem; /* distanță mai mare față de următorul element */
+    color: #2c3e50;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.date-grid {
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+}
+
+.date-input {
+    width: 100%;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease-in-out;
+}
+
+    .date-input:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+.agent-input {
+    max-width: 250px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 0 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+    .agent-input:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+

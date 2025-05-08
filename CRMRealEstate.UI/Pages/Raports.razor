@@ -85,10 +85,10 @@
 </div>
 
 @code {
-    private MudForm form;
-    private MudForm chartForm;
+    private MudForm? form;
+    private MudForm? chartForm;
     private int agentId;
-    private string agentName;
+    private string? agentName;
     private DateTime? selectedDate;
     private TransactionType? selectedTypeEnum = null;
     private List<TransactionResponseModel>? transactions;
@@ -135,9 +135,5 @@
             StateHasChanged();
         }
     }
-
-
-    
-
 } 
 

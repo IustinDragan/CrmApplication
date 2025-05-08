@@ -1,0 +1,98 @@
+﻿@page "/grafic-tranzactii-per-agent"
+@inject HttpClient Http
+@using MudBlazor
+
+<MudPaper Class="pa-6 mt-4" Style="border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); background-color: #f9f9fb;">
+    <MudText Typo="Typo.h5" Class="text-center mb-4" Style="font-weight:700; color:#1565c0;">
+        Distribuția tranzacțiilor per agent
+    </MudText>
+
+    <MudButton OnClick="LoadChart"
+               Variant="Variant.Filled"
+               Color="Color.Primary"
+               Class="mb-4"
+               DisableElevation="true">
+        Generează Grafic
+    </MudButton>
+
+    <MudChart ChartType="ChartType.Donut"
+              InputData="@_data"
+              InputLabels="@_labels"
+              Width="100%"
+              Height="350px">
+
+        <CustomGraphics>
+            <text class="donut-inner-text" x="50%" y="40%" dominant-baseline="middle" text-anchor="middle"
+                  fill="black" font-family="Helvetica" font-size="20">
+                Total
+            </text>
+            <text class="donut-inner-text" x="50%" y="60%" dominant-baseline="middle" text-anchor="middle"
+                  fill="black" font-family="Helvetica" font-size="32">
+                @_data.Sum()
+            </text>
+        </CustomGraphics>
+    </MudChart>
+
+    <MudPaper Class="pa-4 mt-4" Style="border-radius: 8px; background-color: white;">
+        <MudText Typo="Typo.subtitle1" Class="mb-2">Detalii tranzacții</MudText>
+
+        @if (_chartItems.Any())
+        {
+            @foreach (var item in _chartItems)
+            {
+                <MudText Typo="Typo.body2">
+                    @item.Label: @item.Value tranzacții (@item.Percent:0.0%)
+                </MudText>
+            }
+        }
+        else
+        {
+            <MudText Typo="Typo.body2" Color="Color.Secondary">
+                Nu sunt date disponibile.
+            </MudText>
+        }
+    </MudPaper>
+</MudPaper>
+
+@code {
+    private string[] _labels = Array.Empty<string>();
+    private double[] _data = Array.Empty<double>();
+
+    private List<(string Label, double Value, double Percent)> _chartItems = new();
+
+    private async Task LoadChart()
+    {
+        try
+        {
+            var result = await Http.GetFromJsonAsync<Dictionary<string, int>>("/transaction/count-by-agent");
+
+            if (result is null || !result.Any())
+            {
+                _chartItems.Clear();
+                _labels = Array.Empty<string>();
+                _data = Array.Empty<double>();
+                return;
+            }
+
+            var total = result.Values.Sum();
+
+            _chartItems = result
+                .Select(pair => (
+                    Label: pair.Key,
+                    Value: (double)pair.Value,
+                    Percent: total > 0 ? pair.Value * 100.0 / total : 0
+                ))
+                .ToList();
+
+            _labels = _chartItems.Select(x => x.Label).ToArray();
+            _data = _chartItems.Select(x => x.Value).ToArray();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Eroare la fetch: {ex.Message}");
+            _chartItems.Clear();
+            _labels = Array.Empty<string>();
+            _data = Array.Empty<double>();
+        }
+    }
+}
