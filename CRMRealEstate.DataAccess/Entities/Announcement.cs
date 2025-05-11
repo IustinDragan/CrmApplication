@@ -16,5 +16,7 @@ namespace CRMRealEstate.DataAccess.Entities
         public int? UserId { get; set; }
         public Users? User { get; set; }
         public ICollection<UserAnnouncement> UserAnnouncements { get; set; }
+        public bool IsRent { get; set; }
+        public bool IsSold { get; set; }
     }
 }

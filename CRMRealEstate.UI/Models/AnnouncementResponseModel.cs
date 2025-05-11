@@ -8,5 +8,7 @@
         public DateTime EndDate { get; set; }
         public int? AgentId {  get; set; }
         public PropertyResponseModel Property { get; set; }
+        public bool IsSold {  get; set; }
+        public bool IsRent {  get; set; }
     }
 }

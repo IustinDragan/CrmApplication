@@ -9,24 +9,24 @@
 
 <h3 class="mb-4">Trimite un mesaj către agent</h3>
 
-<div class="card shadow-sm p-4 mb-5 rounded custom-form">
+<div class="card shadow-sm p-4 mb-5 rounded custom-form" style="max-width: 1000px; margin: 0 auto;">
     <EditForm Model="requestModel" OnValidSubmit="HandleValidSubmit">
         <DataAnnotationsValidator />
         <ValidationSummary />
 
         <div class="mb-4">
             <label for="title" class="form-label fw-semibold">Titlu</label>
-            <InputText id="title" class="form-control form-control-lg" @bind-Value="requestModel.Title" />
+            <InputText id="title" class="form-control form-control-lg" @bind-Value="requestModel.Title" style="width: 100%;" />
         </div>
 
         <div class="mb-4">
             <label for="message" class="form-label fw-semibold">Mesaj</label>
-            <InputTextArea id="message" class="form-control form-control-lg" rows="4" @bind-Value="requestModel.CustomerMessage" />
+            <InputTextArea id="message" class="form-control form-control-lg" rows="4" @bind-Value="requestModel.CustomerMessage" style="width: 100%;" />
         </div>
 
         <div class="mb-4">
             <label for="agent" class="form-label fw-semibold">Selectează agentul</label>
-            <select id="agent" class="form-select form-select-lg" @bind="requestModel.AgentId">
+            <select id="agent" class="form-select form-select-lg" @bind="requestModel.AgentId" style="width: 100%;">
                 <option value="">-- Selectează un agent --</option>
                 @foreach (var agent in agents)
                 {
@@ -38,6 +38,7 @@
         <button type="submit" class="btn btn-primary px-4 py-2 rounded-pill">Trimite</button>
     </EditForm>
 </div>
+
 
 @if (myRequests != null && myRequests.Any())
 {
@@ -140,18 +141,6 @@
             }
         }
 
-    }
-
-    public class UserModel
-    {
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string? UserName { get; set; }
-        public string EmailAddress { get; set; }
-        public string PhoneNumber { get; set; }
-        public Roles RoleName { get; set; }
-        public DateTime UserCreatedAt { get; set; }
     }
 
     private List<RequestResponseModel> myRequests = new();

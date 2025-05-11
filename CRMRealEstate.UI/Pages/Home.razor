@@ -98,7 +98,7 @@
                     </div>
                     <h5>Anunțuri care ți-ar putea plăcea</h5>
                     <p>Explorează proprietăți similare cu cele salvate de tine.</p>
-                    <button class="btn btn-outline-primary" href="/announcements">Vezi sugestiile</button>
+                    <button class="btn btn-outline-primary" @onclick="GoToAnnouncementsAsync">Vezi sugestiile</button>
                 </div>
 
                 <div class="dashboard-card">
@@ -136,7 +136,7 @@
                     <div class="card-icon">
                         <i class="bi bi-building-down"></i>
                     </div>
-                    <h5>Proprietățile mele</h5>
+                    <h5>Anunturile mele</h5>
                     <p>Vezi toate anunțurile publicate de tine.</p>
                     <button class="btn btn-outline-primary" @onclick="GoToAgentAnnouncements">Vezi anunțurile</button>
                 </div>
@@ -161,12 +161,22 @@
 
                 <div class="dashboard-card">
                     <div class="card-icon">
+                        <i class="bi bi-building-down"></i>
+                    </div>
+                    <h5>Tranzactii finalizate</h5>
+                    <p>Vezi toate tranzactiile publicate de tine.</p>
+                    <button class="btn btn-outline-primary" @onclick="GoToMySoldAnnouncements">Vezi anunțurile</button>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-icon">
                         <i class="bi bi-person"></i>
                     </div>
                     <h5>Profilul Meu</h5>
                     <p>Actualizează datele contului tău și informațiile personale.</p>
                     <button class="btn btn-outline-primary" @onclick="GoToProfile">Profilul Meu</button>
                 </div>
+
             </Authorized>
         </AuthorizeView>
 
@@ -289,11 +299,21 @@
     private void GoToAgentAnnouncements()
     {
         Navigation.NavigateTo("/my-announcements");
+    }     
+    
+    private void GoToMySoldAnnouncements()
+    {
+        Navigation.NavigateTo("/my-sold-announcements");
     }    
 
     private void GoToAgentReceivedRequests()
     {
         Navigation.NavigateTo("/agent-requests");
+    }      
+    
+    private void GoToAnnouncementsAsync()
+    {
+        Navigation.NavigateTo("/announcements");
     }     
 
     private void GoToCustomerRequests()

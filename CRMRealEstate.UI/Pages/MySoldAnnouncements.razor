@@ -1,0 +1,73 @@
+﻿@page "/my-sold-announcements"
+@using CRMRealEstate.UI.Models
+@inject HttpClient Http
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+@inject NavigationManager NavManager
+
+<MudPaper Class="pa-6 mt-4">
+    <MudText Typo="Typo.h5" Class="mb-4 text-center" Style="font-weight: 700; color: #1565c0;">
+        <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Class="me-2" Style="vertical-align: middle;" />
+        Anunțuri finalizate (vândute / închiriate)
+    </MudText>
+
+    @if (_transactions == null)
+    {
+        <MudProgressCircular Indeterminate="true" Color="Color.Primary" />
+    }
+    else if (!_transactions.Any())
+    {
+        <MudText Typo="Typo.subtitle1" Color="Color.Secondary" >
+            Nu ai încă anunțuri finalizate.
+        </MudText>
+    }
+    else
+    {
+        <MudTable Items="_transactions" Hover="true" Dense="true">
+            <HeaderContent>
+                <MudTh>#</MudTh>
+                <MudTh>Titlu Anunț</MudTh>
+                <MudTh>Tip Tranzacție</MudTh>
+                <MudTh>Preț</MudTh>
+                <MudTh>Dată</MudTh>
+                <MudTh>Detalii</MudTh>
+            </HeaderContent>
+
+            <RowTemplate Context="context">
+                @{
+                    var index = _transactions.IndexOf(context);
+                }
+                <MudTd>@(index + 1)</MudTd>
+                <MudTd>@context.PropertyTitle</MudTd>
+                <MudTd>@context.TypeOfTransaction</MudTd>
+                <MudTd>@($"{context.Price:N0} €")</MudTd>
+                <MudTd>@context.Date.ToLocalTime().ToString("dd MMM yyyy")</MudTd>
+                <MudTd>
+                    <MudButton Size="Size.Small"
+                               Variant="Variant.Filled"
+                               StartIcon="@Icons.Material.Filled.Visibility"
+                               OnClick="@(() => NavManager.NavigateTo($"/announcements/{context.PropertyId}"))">
+                        Vezi
+                    </MudButton>
+                </MudTd>
+            </RowTemplate>
+        </MudTable>
+    }
+</MudPaper>
+
+@code {
+    private List<TransactionResponseModel> _transactions;
+    private int _agentId;
+    private int _index;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _index = 0; // Resetăm indexul
+        _agentId = await LocalStorage.GetItemAsync<int>("userId");
+
+        _transactions = await Http.GetFromJsonAsync<List<TransactionResponseModel>>($"/transaction/agent/{_agentId}/completed");
+
+        _transactions = _transactions
+            .Where(t => t.PropertyTitle != "Nu exista acest anunt")
+            .ToList();
+    }
+}

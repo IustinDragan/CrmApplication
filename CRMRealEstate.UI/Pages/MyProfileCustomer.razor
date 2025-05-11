@@ -12,7 +12,7 @@
 
 <AuthorizeView Roles="Customer">
     <Authorized>
-        <MudStack>
+        <MudStack Row Spacing="2" Class="mb-4 flex-wrap">
             <MudButton Variant="Variant.Outlined"
                        Color="Color.Primary"
                        Size="Size.Large"
@@ -64,10 +64,6 @@
                 Chart Donut – Distribuție Tranzacții-Agent
             </MudButton>
         </MudStack>
-@*         <MudPaper Class="dashboard-block">
-            <MudText Typo="Typo.h6" Class="dashboard-block-title"></MudText>
-            <TransactionDashboard />
-        </MudPaper> *@
     </Authorized>
 </AuthorizeView>
 

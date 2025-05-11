@@ -104,11 +104,6 @@ namespace CRMRealEstate.Application.Services
                 request.Status = RequestStatus.Completed;
             }
 
-            //if (!string.IsNullOrWhiteSpace(model.AgentId.ToString()))
-            //{
-            //    request.AgentId = model.AgentId;  
-            //}
-
             await _requestRepository.UpdateMessageAsync(request);
 
             return model;

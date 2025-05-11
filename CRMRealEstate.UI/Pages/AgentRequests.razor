@@ -21,24 +21,34 @@ else
 {
     <table class="table">
         <thead>
-            <tr>
-                <th>Titlu</th>
-                <th>Mesaj</th>
-                <th>Client</th>
-                <th>Acțiuni</th>
+            <tr class="text-primary">
+                <th class="fw-bold fs-6">Titlu</th>
+                <th class="fw-bold fs-6">Mesaj</th>
+                <th class="fw-bold fs-6">Client</th>
+                <th class="fw-bold fs-6">Acțiuni</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var request in requests)
             {
                 <tr>
-                    <td>@request.Title</td>
-                    <td>@request.CustomerMessage</td>
-                    <td>@request.CustomerId</td>
+                    <td class="text-secondary fs-6">@request.Title</td>
+                    <td class="text-secondary fs-6">@request.CustomerMessage</td>
+                    <td class="text-secondary fs-6">@request.CustomerId</td>
+
                     <td>
-                        <button class="btn btn-success btn-sm" @onclick="() => ApproveRequest(request)">Aprobă</button>
-                        <button class="btn btn-danger btn-sm" @onclick="() => RejectRequest(request)">Respinge</button>
-                        <button class="btn btn-info btn-sm" @onclick="() => OpenRespondDialog(request)">Răspunde</button>
+                        <MudButton Color="Color.Success" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Check" Class="me-2" Size="Size.Small" OnClick="() => ApproveRequest(request)">
+                            Acceptă
+                        </MudButton>
+
+                        <MudButton Color="Color.Error" Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.Close" Class="me-2" Size="Size.Small" OnClick="() => RejectRequest(request)">
+                            Refuză
+                        </MudButton>
+
+                        <MudButton Color="Color.Info" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Chat" Size="Size.Small" OnClick="() => OpenRespondDialog(request)">
+                            Răspunde
+                        </MudButton>
+
                     </td>
                 </tr>
             }
@@ -98,7 +108,14 @@ else
                 ["RequestId"] = request.Id
             };
 
-        var dialog = DialogService.Show<RespondToRequestDialog>("Răspunde la cerere", parameters);
+        var options = new DialogOptions
+            {
+                MaxWidth = MaxWidth.ExtraLarge, 
+                FullWidth = true               
+            };
+
+
+        var dialog = DialogService.Show<RespondToRequestDialog>("", parameters, options);
         var result = await dialog.Result;
 
         if (!result.Canceled)

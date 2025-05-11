@@ -9,9 +9,12 @@ namespace CRMRealEstate.Application.Services
     public class TransactionService : ITransactionService
     {
         private readonly ITransactionsRepository _transactionsRepository;
-        public TransactionService(ITransactionsRepository transactionsRepository)
+        private readonly IAnnouncementRepository _announcementRepository;
+
+        public TransactionService(ITransactionsRepository transactionsRepository, IAnnouncementRepository announcementRepository)
         {
             _transactionsRepository = transactionsRepository;
+            _announcementRepository = announcementRepository;
         }
 
         public async Task DeleteTransactionAsync(int id)
@@ -31,7 +34,20 @@ namespace CRMRealEstate.Application.Services
             transaction.Date = DateTime.UtcNow;
 
             await _transactionsRepository.AddTransactionAsync(transaction);
-           
+
+            var announcement = await _announcementRepository.GetByPropertyIdAsync(model.PropertyId);
+
+            if (announcement != null)
+            {
+                if (model.TypeOfTransaction == TransactionType.Sale)
+                    announcement.IsSold = true;
+
+                else if (model.TypeOfTransaction == TransactionType.Rent)
+                    announcement.IsRent = true;
+
+                await _announcementRepository.UpdateAsync(announcement);
+            }
+
             return TransactionResponseModel.FromTransaction(transaction);
         }
 
@@ -104,5 +120,11 @@ namespace CRMRealEstate.Application.Services
         }
 
         public async Task<double> GetTotalAmountAsync(DateTime startDate, DateTime endDate)  => await _transactionsRepository.GetTotalAmountAsync(startDate, endDate);
+
+        public async Task<List<TransactionResponseModel>> GetCompletedTransactionsByAgentIdAsync(int agentId)
+        {
+            var transactions = await _transactionsRepository.GetCompletedByAgentIdAsync(agentId);
+            return transactions.Select(TransactionResponseModel.FromTransaction).ToList();
+        }
     }
 }

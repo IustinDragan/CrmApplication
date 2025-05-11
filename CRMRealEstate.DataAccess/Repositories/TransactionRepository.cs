@@ -171,5 +171,15 @@ namespace CRMRealEstate.DataAccess.Repositories
                 .Where(t => t.Date >= adjustedStart && t.Date <= adjustedEnd)
                 .SumAsync(t => t.Price);
         }
+
+        public async Task<List<Transaction>> GetCompletedByAgentIdAsync(int agentId)
+        {
+            return await _databaseContext.Transactions
+                .Include(t => t.Property)
+                    .ThenInclude(t => t.Adress)
+                .Include(t=>t.Property.Announcement)
+                .Where(t => t.AgentId == agentId && t.Status == TransactionStatusEnum.Completed)
+                .ToListAsync();
+        }
     }
 }

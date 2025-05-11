@@ -84,6 +84,7 @@ namespace CRMRealEstate.DataAccess.Repositories
                     throw new Exception($"Nu se poate ordona dupa {orderBy}");
                 query = query.OrderByDescending(orderByConfiguration[orderBy]);
             }
+            query = query.Where(a => !a.IsSold && !a.IsRent);
 
             query = query.Skip((page - 1) * pageCount).Take(pageCount);
 
@@ -119,5 +120,9 @@ namespace CRMRealEstate.DataAccess.Repositories
             await _databaseContext.SaveChangesAsync();
         }
 
+        public async Task<Announcement> GetByPropertyIdAsync(int propertyId)
+        {
+            return await _databaseContext.Announcements.FirstOrDefaultAsync(a => a.Property.Id == propertyId);
+        }
     }
 }

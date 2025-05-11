@@ -10,17 +10,6 @@
 @inject HttpClient Http
 @inject UserFavouriteAnnouncements userFavouriteAnnouncements;
 
-
-@* Required *@
-@* <MudThemeProvider />
-<MudPopoverProvider /> *@
-
-@* Needed for dialogs *@
-@* <MudDialogProvider /> *@
-
-@* Needed for snackbars *@
-@* <MudSnackbarProvider /> *@
-
 <MudMainContent>
     <AuthorizeView>
         <Authorized Context="auth">
@@ -102,11 +91,6 @@
         </footer>
 
 </MudMainContent>
-
-@* <MudDialogProvider />
-<MudSnackbarProvider />
-<MudPopoverProvider /> *@
-
 
 @code {
     private List<AnnouncementResponseModel> announcements;

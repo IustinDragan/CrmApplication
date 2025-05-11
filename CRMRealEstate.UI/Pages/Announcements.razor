@@ -42,6 +42,12 @@
                 <section class="card">
                     <figure>
                         <div class="img-overlay hot-home">
+                            @if (item.IsSold || item.IsRent)
+                            {
+                                <div class="status-badge">
+                                    @(item.IsSold ? "VÂNDUT" : "ÎNCHIRIAT")
+                                </div>
+                            }
                             <img src="/images/InterfataAnunt/ForEachAnnouncement.jpg" alt="Poză anunț" />
                             <div class="overlay">
                                 <div class="icons-img">
@@ -92,12 +98,14 @@
                         </section>
 
                         <div class="card-buttons">
-                            <button class="btn-detail" @onclick="() => GoToDetails(item.Id)">Detalii</button>
+                            <MudButton Color="Color.Info" Variant="Variant.Filled" Size="Size.Small" StartIcon="@Icons.Material.Filled.Visibility" OnClick="@(() => GoToDetails(item.Id))" Class="me-2">
+                                Detalii
+                            </MudButton>
 
                             <AuthorizeView Roles="SalesAgent">
-                                <Authorized>
-                                    <button class="btn-delete" @onclick="() => ConfirmDeleteAsync(item.Id)">Șterge</button>
-                                </Authorized>
+                                <MudButton Color="Color.Error" Variant="Variant.Filled" Size="Size.Small" StartIcon="@Icons.Material.Filled.Delete" OnClick="@(() => ConfirmDeleteAsync(item.Id))">
+                                    Șterge
+                                </MudButton>
                             </AuthorizeView>
                         </div>
                     </div>
@@ -110,7 +118,7 @@
 @code {
     private List<AnnouncementResponseModel> announcements;
     private List<AnnouncementResponseModel> favouriteAnnouncements;
-  
+
     private readonly string startDate = string.Empty;
     private string searchText = string.Empty;
     private string queryString = string.Empty;
@@ -195,6 +203,8 @@
         userId = await LocalStorage.GetItemAsync<int>("userId");
 
         announcements = await Http.GetFromJsonAsync<List<AnnouncementResponseModel>>("announcement");
+
+        announcements = announcements.Where(a => !a.IsSold && !a.IsRent).ToList();
     }
 
     private void GoToDetails(int id)

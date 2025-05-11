@@ -21,5 +21,6 @@ namespace CRMRealEstate.DataAccess.Repositories.Interfaces
         Task<Dictionary<string, int>> GetTransactionCountByAgentAsync();
         Task<Dictionary<string, double>> GetMonthlyTotalsAsync();
         Task<double> GetTotalAmountAsync(DateTime startDate, DateTime endDate);
+        Task<List<Transaction>> GetCompletedByAgentIdAsync(int agentId);
     }
 }

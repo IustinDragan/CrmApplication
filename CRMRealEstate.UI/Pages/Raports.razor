@@ -17,7 +17,14 @@
         <MudForm @ref="form" Class="form-wrapper">
             <div class="form-field">
                 <MudTextField Label="ID Agent" Variant="Variant.Outlined" @bind-Value="agentId" />
-                @* <MudTextField Label="Agent Name" Variant="Variant.Outlined" @bind-Value="agentName" ReadOnly="true" /> *@
+                @* <MudTextField Label="Agent Name" Variant="Variant.Outlined" @bind-Value="agentName" ReadOnly="false" /> *@
+                @* <select id="agent" class="form-select form-select-lg" style="width: 100%;">
+                    <option value="">-- Selectează un agent --</option>
+                    @foreach (var agent in agents)
+                    {
+                        <option value="@agent.Id">@agent.UserName</option>
+                    }
+                </select> *@
             </div>
 
             <div class="form-field">
@@ -36,10 +43,6 @@
         <MudButton Class="mt-4" Color="Color.Primary" Variant="Variant.Filled" OnClick="ApplyFilters">
             Vezi rezultatele
         </MudButton>
-@*         <MudButton Class="mt-4" Color="Color.Secondary" Variant="Variant.Filled" OnClick="ApplyReportFilters">
-            Vezi Raportul Grafic
-        </MudButton> *@
-
     </MudPaper>
 
 
@@ -93,10 +96,19 @@
     private TransactionType? selectedTypeEnum = null;
     private List<TransactionResponseModel>? transactions;
     private bool isLoading = false;
+    private List<UserModel> agents = new List<UserModel>();
 
     private string[]? chartLabels;
     private double[][]? chartData;
 
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var users = await Http.GetFromJsonAsync<List<UserModel>>("/users");
+
+        agents = users.Where(u => u.RoleName == DataAccess.Enums.Roles.SalesAgent).ToList();
+    }
 
     private async Task ApplyFilters()
     {

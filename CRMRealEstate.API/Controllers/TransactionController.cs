@@ -140,5 +140,12 @@ namespace CRMRealEstate.API.Controllers
             var totals = await _transactionService.GetMonthlyTotalsAsync();
             return Ok(totals);
         }
+
+        [HttpGet("agent/{agentId}/completed")]
+        public async Task<IActionResult> GetCompletedByAgentId(int agentId)
+        {
+            var result = await _transactionService.GetCompletedTransactionsByAgentIdAsync(agentId);
+            return Ok(result);
+        }
     }
 }

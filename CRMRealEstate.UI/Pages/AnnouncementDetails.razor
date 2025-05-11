@@ -2,150 +2,223 @@
 @using Blazored.LocalStorage
 @using CRMRealEstate.DataAccess.Enums
 @using CRMRealEstate.UI.Models
+@using Microsoft.AspNetCore.Components.Authorization
 @inject HttpClient Http
 @inject NavigationManager NavManager
-@using Microsoft.AspNetCore.Components.Authorization
+@inject ILocalStorageService LocalStorage
 @using MudBlazor
-@using static MudBlazor.Icons
 
 @if (announcement == null)
 {
-    <div class="loading">Se încarcă detaliile anunțului...</div>
+    <MudSkeleton Width="100%" Height="300px" Animation="Animation.Wave" />
+    <MudSkeleton Width="70%" Height="50px" Class="my-3" />
+    <MudSkeleton Width="100%" Height="400px" />
 }
 else
 {
-    <div class="details-container">
-        <div class="button-container">
-            <button class="btn-back" @onclick="@(() => NavManager.NavigateTo("/announcements"))">
-                &larr; Înapoi la anunțuri
-            </button>
-
+    <MudContainer MaxWidth="MaxWidth.Large" Class="mt-6">
+        <MudGrid GutterSize="2" Class="mb-4">
+            <MudItem xs="12" md="4">
+                <MudButton Variant="Variant.Outlined" Color="Color.Default" StartIcon="@Icons.Material.Filled.ArrowBack" OnClick="@(() => NavManager.NavigateTo("/announcements"))">
+                    Înapoi la anunțuri
+                </MudButton>
+            </MudItem>
 
             <AuthorizeView Roles="SalesAgent">
                 <Authorized>
-                    <button class="btn-edit" @onclick="@(() => NavManager.NavigateTo($"/announcements/edit/{Id}"))">
-                        ✏ Editează anunțul
-                    </button>
+                    <MudItem xs="12" md="4">
+                        <MudButton Variant="Variant.Outlined" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.Edit" OnClick="@(() => NavManager.NavigateTo($"/announcements/edit/{Id}"))">
+                            Editează anunțul
+                        </MudButton>
+                    </MudItem>
 
-                    <button @onclick="ShowDialog" class="btn-finalize">Finalizează tranzacția</button>
-
-                    
-
-                    @if (isDialogVisible)
-                    {
-                        <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
-                            <div class="modal-dialog">
-                                <div class="modal-content p-4">
-                                    <h5 class="modal-title mb-3">Finalizează tranzacția</h5>
-
-                                    <div class="form-group mb-3">
-                                        <label>Preț final</label>
-                                        <input class="form-control" @bind="price" type="number" />
-                                    </div>
-
-                                    <div class="form-group mb-3">
-                                        <label>Tip tranzacție</label>
-                                        <select class="form-control" @bind="selectedType">
-                                            <option value="">-- Alege --</option>
-                                            <option value="Sale">Vânzare</option>
-                                            <option value="Rent">Închiriere</option>
-                                        </select>
-                                    </div>
-
-                                    
-
-                                    <div class="d-flex justify-content-end">
-                                        <button class="btn btn-primary me-2" @onclick="FinalizeTransaction">Salvează</button>
-                                        <button class="btn btn-secondary" @onclick="HideDialog">Anulează</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
+                    <MudItem xs="12" md="4">
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.CheckCircle" OnClick="ShowDialog">
+                            Finalizează tranzacția
+                        </MudButton>
+                    </MudItem>
                 </Authorized>
             </AuthorizeView>
-        </div>
+        </MudGrid>
 
+        <MudCard Class="pa-6 rounded-xl shadow-md">
+            <MudGrid GutterSize="3">
+                <MudItem xs="12" md="6">
+                    <MudCarousel Class="mud-width-full" Style="height:200px;" TData="object">
+                        <MudCarouselItem Transition="transition" Color="@Color.Primary">
+                            <div class="d-flex" style="height:100%">
+                                <MudImage Src="/images/Apartamente/Apartament1a.jpg" Alt="img1" Style="width: 100%; height: 100%;" Class="rounded" />
+                            </div>
+                        </MudCarouselItem>
+                        <MudCarouselItem Transition="transition" Color="@Color.Secondary">
+                            <div class="d-flex" style="height:100%">
+                                <MudImage Src="/images/Apartamente/Apartament1b.jpg" Alt="img2" Class="rounded" Style="width: 100%; height: 100%;" />
+                            </div>
+                        </MudCarouselItem>
+                        <MudCarouselItem Transition="transition">
+                            <div class="d-flex" style="height:100%">
+                                <MudImage Src="/images/Apartamente/Apartament1c.jpg" Alt="img3" Class="rounded" Style="width: 100%; height: 100%;" />
+                            </div>
+                        </MudCarouselItem>
+                    </MudCarousel>
+                    <MudSelect @bind-Value="transition" Label="Transition" Class="ma-2">
+                        <MudSelectItem Value="@Transition.Fade">Fade</MudSelectItem>
+                        <MudSelectItem Value="@Transition.Slide">Slide</MudSelectItem>
+                        <MudSelectItem Value="@Transition.None">None</MudSelectItem>
+                    </MudSelect>
+                </MudItem>
 
-        <h2 class="title">@announcement.Title</h2>
+                <MudItem xs="12" md="6">
+                    <MudText Typo="Typo.h5" Align="Align.Center" Color="Color.Primary">@announcement.Title</MudText>                    
+                    <MudDivider Class="my-2" />
 
-        <!-- Galerie imagini mock -->
-        <div class="image-gallery">
-            <img src="/images/Apartamente/Apartament1a.jpg" alt="Poză anunț" />
-            <img src="/images/Apartamente/Apartament1b.jpg" alt="Poză anunț" />
-            <img src="/images/Apartamente/Apartament1c.jpg" alt="Poză anunț" />
-        </div>
-         
-        <div class="details-grid">
+                    <MudPaper Width="300px">
+                        <MudList T="string">
+                            <MudListItem>
+                                <MudListItem><MudIcon Icon="@Icons.Material.Filled.CalendarToday" /></MudListItem>
+                                <MudText>Construit în @announcement.Property.ConstructionYear</MudText>
+                                <MudListItem><MudIcon Icon="@Icons.Material.Filled.Build" /></MudListItem>
+                                <MudText>Utilități: @announcement.Property.Utilities</MudText>
+                                <MudListItem><MudIcon Icon="@Icons.Material.Filled.HomeWork" /></MudListItem>
+                                <MudText>Tip: @announcement.Property.PropertyType</MudText>
+                                <MudListItem><MudIcon Icon="@Icons.Material.Filled.PriceChange" /></MudListItem>
+                                <MudText>@($"Pret: {announcement.Property.Price:N0} €")</MudText>
+                                <MudListItem><MudIcon Icon="@Icons.Material.Filled.AddLocation" /></MudListItem>
+                                <MudText>@announcement.Property.Adress</MudText>
+                            </MudListItem>
+                        </MudList>
+                    </MudPaper>
 
-            <div><strong>Preț:</strong> @($"{announcement.Property.Price} €")</div>
-            <div><strong>An construcție:</strong> @announcement.Property.ConstructionYear</div>
-            <div><strong>Utilități:</strong> @announcement.Property.Utilities</div>
+                </MudItem>
+            </MudGrid>
 
-            @if (announcement.Property.PropertyType == PropertyType.Apartment)
-            {
-                <div><strong>Camere:</strong> @announcement.Property.RoomsNumber</div>
-                <div><strong>Băi:</strong> @announcement.Property.BathroomsNumber</div>
-                <div><strong>Suprafață utilă:</strong> @announcement.Property.HouseUsableArea m²</div>
-                <div><strong>Etaj:</strong> @(announcement.Property.ApartamentFloor ?? 0)</div>
-                <div><strong>Etaje bloc:</strong> @announcement.Property.FloorsTotalNumber</div>
-                <div><strong>Lift:</strong> @(announcement.Property.Elevator == true ? "Da" : "Nu")</div>
-                <div><strong>Oraș:</strong> @announcement.Property.Adress</div>
-            }
-            else if (announcement.Property.PropertyType == PropertyType.House)
-            {
-                <div><strong>Camere:</strong> @announcement.Property.RoomsNumber</div>
-                <div><strong>Băi:</strong> @announcement.Property.BathroomsNumber</div>
-                <div><strong>Suprafață utilă:</strong> @announcement.Property.HouseUsableArea m²</div>
-                <div><strong>Suprafață teren:</strong> @announcement.Property.LandArea m²</div>
-                <div><strong>Număr etaje:</strong> @announcement.Property.FloorsTotalNumber</div>
-                <div><strong>Oraș:</strong> @announcement.Property.Adress</div>
-            }
-            else if (announcement.Property.PropertyType == PropertyType.Land)
-            {
-                <div><strong>Suprafață teren:</strong> @announcement.Property.LandArea m²</div>
-                <div><strong>Oraș:</strong> @announcement.Property.Adress</div>
-            }
+            <MudDivider Class="my-4" />
+            <MudText Typo="Typo.h6">Detalii proprietate</MudText>
+            <MudSimpleTable Dense="true" Bordered="true" Hover="true" Class="mt-3 rounded-xl">
+                <HeaderContent>
+                    <MudTh>Caracteristică</MudTh>
+                    <MudTh>Valoare</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTr>
+                        <MudTd>Camere</MudTd>
+                        <MudTd>@announcement.Property.RoomsNumber</MudTd>
+                    </MudTr>
+                    <MudTr>
+                        <MudTd>Băi</MudTd>
+                        <MudTd>@announcement.Property.BathroomsNumber</MudTd>
+                    </MudTr>
+                    @if (announcement.Property.PropertyType != PropertyType.Land)
+                    {
+                        <MudTr>
+                            <MudTd>Suprafață utilă</MudTd>
+                            <MudTd>@announcement.Property.HouseUsableArea m²</MudTd>
+                        </MudTr>
+                    }
+                    @if (announcement.Property.PropertyType == PropertyType.House || announcement.Property.PropertyType == PropertyType.Land)
+                    {
+                        <MudTr>
+                            <MudTd>Suprafață teren</MudTd>
+                            <MudTd>@announcement.Property.LandArea m²</MudTd>
+                        </MudTr>
+                    }
+                    @if (announcement.Property.PropertyType == PropertyType.Apartment)
+                    {
+                        <MudTr>
+                            <MudTd>Etaj</MudTd>
+                            <MudTd>@(announcement.Property.ApartamentFloor ?? 0)</MudTd>
+                        </MudTr>
+                        <MudTr>
+                            <MudTd>Etaje bloc</MudTd>
+                            <MudTd>@announcement.Property.FloorsTotalNumber</MudTd>
+                        </MudTr>
+                        <MudTr>
+                            <MudTd>Lift</MudTd>
+                            <MudTd>@(announcement.Property.Elevator == true ? "Da" : "Nu")</MudTd>
+                        </MudTr>
+                    }
+                </RowTemplate>
+            </MudSimpleTable>
 
-        </div>
-
-        <div class="description">
-            <h4>Descriere:</h4>
-            <p>@announcement.Property.Details</p>
-        </div>
+            <MudDivider Class="my-4" />
+            <MudText Typo="Typo.h6" Class="mb-2">Descriere</MudText>
+            <MudPaper Class="pa-4" Style="background-color: #f9f9f9; border-radius: 12px">
+                <MudText Typo="Typo.body1">@announcement.Property.Details</MudText>
+            </MudPaper>
+        </MudCard>
 
         <AuthorizeView Roles="Customer">
             <Authorized>
-                <div class="contact-agent">
-                    <h4>Contactează agentul</h4>
-                    <p><strong>Nume:</strong> Andrei Popescu</p>
-                    <p><strong>Email:</strong> andrei.popescu@imobcrm.ro</p>
-                    <p><strong>Telefon:</strong> 0722 123 456</p>
-                    <button class="btn-contact">Trimite mesaj</button>
-                </div>
+                <MudCard Class="mt-6 pa-4 shadow-md rounded-xl">
+                    <MudText Typo="Typo.h6">Contactează agentul</MudText>
+
+                    <MudList T="string">
+                        <MudListItem Text="Inbox" Icon="@Icons.Material.Filled.Person" />
+                        <MudText>Andrei Popescu</MudText>
+                        <MudListItem Text="Inbox" Icon="@Icons.Material.Filled.Email" />
+                        <MudText>andrei.popescu@imobcrm.ro</MudText>
+                        <MudListItem Text="Inbox" Icon="@Icons.Material.Filled.Phone" />
+                        <MudText>0722 123 456</MudText>
+                    </MudList>
+
+                    <MudPaper Width="300px">
+                        <MudList T="string">
+                            <MudListItem Text="Inbox" Icon="@Icons.Material.Filled.Inbox" />
+                            <MudListItem Text="Sent" Icon="@Icons.Material.Filled.Send" />
+                            <MudListItem Text="Drafts" Disabled="true" IconColor="Color.Info" Icon="@Icons.Material.Filled.Drafts" />
+                            <MudDivider />
+                            <MudListItem Text="Trash" SecondaryText="Removed e-mails" />
+                            <MudListItem Text="Spam" SecondaryText="E-mails from common providers" />
+                        </MudList>
+                    </MudPaper>
+
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Message">Trimite mesaj</MudButton>
+                </MudCard>
             </Authorized>
-            <NotAuthorized> </NotAuthorized>
         </AuthorizeView>
-    </div>
+
+        @if (isDialogVisible)
+        {
+            <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+                <div class="modal-dialog">
+                    <div class="modal-content p-4">
+                        <h5 class="modal-title mb-3">Finalizează tranzacția</h5>
+
+                        <div class="form-group mb-3">
+                            <label>Preț final</label>
+                            <input class="form-control" @bind="price" type="number" />
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label>Tip tranzacție</label>
+                            <select class="form-control" @bind="selectedType">
+                                <option value="">-- Alege --</option>
+                                <option value="Sale">Vânzare</option>
+                                <option value="Rent">Închiriere</option>
+                            </select>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <button class="btn btn-primary me-2" @onclick="FinalizeTransaction">Salvează</button>
+                            <button class="btn btn-secondary" @onclick="HideDialog">Anulează</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+    </MudContainer>
 }
 
 @code {
-    [Parameter]
-    public int Id { get; set; }
-
+    [Parameter] public int Id { get; set; }
     private AnnouncementResponseModel? announcement;
+    private PropertyResponseModel property;
     private bool isDialogVisible;
-
-    private bool isDialogOpen;
     private double price;
     private TransactionType selectedType;
-
-    private PropertyResponseModel property;
-    [Inject] private ILocalStorageService LocalStorage{ get; set; }
-
     private int userId;
 
-
+    private Transition transition = Transition.Slide;
 
     protected override async Task OnInitializedAsync()
     {
@@ -159,29 +232,21 @@ else
 
     private async Task FinalizeTransaction()
     {
-        if (announcement?.Property.Id == null)
-        {
-            Console.WriteLine("Nu există PropertyId");
-            return;
-        }
+        if (announcement?.Property.Id == null) return;
 
         var model = new CreateTransactionRequestModel
-            {
-                PropertyId = announcement.Property.Id.Value,
-                AgentId = userId,
-                Price = price,
-                TypeOfTransaction = selectedType
-            };
+        {
+            PropertyId = announcement.Property.Id.Value,
+            AgentId = userId,
+            Price = price,
+            TypeOfTransaction = selectedType
+        };
 
         var response = await Http.PostAsJsonAsync("/transaction", model);
         if (response.IsSuccessStatusCode)
         {
-            Console.WriteLine("Tranzacție salvată cu succes");
             isDialogVisible = false;
-        }
-        else
-        {
-            Console.WriteLine("Eroare la salvarea tranzacției");
+            NavManager.NavigateTo("/announcements", true);
         }
     }
 }
