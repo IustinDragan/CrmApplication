@@ -37,13 +37,13 @@ else
                     <td class="text-secondary fs-6">@request.CustomerId</td>
 
                     <td>
-                        <MudButton Color="Color.Success" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Check" Class="me-2" Size="Size.Small" OnClick="() => ApproveRequest(request)">
+@*                         <MudButton Color="Color.Success" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Check" Class="me-2" Size="Size.Small" OnClick="() => ApproveRequest(request)">
                             Acceptă
-                        </MudButton>
+                        </MudButton> *@
 
                         <MudButton Color="Color.Error" Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.Close" Class="me-2" Size="Size.Small" OnClick="() => RejectRequest(request)">
                             Refuză
-                        </MudButton>
+                        </MudButton> 
 
                         <MudButton Color="Color.Info" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Chat" Size="Size.Small" OnClick="() => OpenRespondDialog(request)">
                             Răspunde

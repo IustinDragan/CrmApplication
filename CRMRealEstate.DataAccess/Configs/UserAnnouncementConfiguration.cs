@@ -1,6 +1,6 @@
 ﻿using CRMRealEstate.DataAccess.Entities;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 class UserAnnouncementConfiguration : IEntityTypeConfiguration<UserAnnouncement>
 {

@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\images\CarouselHome-img\" />
+    <Folder Include="wwwroot\images\Benefits\" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using CRMRealEstate.DataAccess.Enums;
 using System.ComponentModel.DataAnnotations;
-using CRMRealEstate.DataAccess.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CRMRealEstate.DataAccess.Entities
 {
@@ -13,7 +13,7 @@ namespace CRMRealEstate.DataAccess.Entities
         public int RoomsNumber { get; set; }
         public int BathroomsNumber { get; set; }
 
-        public double? Area { get; set; } 
+        public double? Area { get; set; }
 
         public int ConstructionYear { get; set; }
         public string? Details { get; set; }
@@ -22,9 +22,9 @@ namespace CRMRealEstate.DataAccess.Entities
 
         public PropertyType PropertyType { get; set; }
 
-        public string? Utilities { get; set; } 
-        public int? FloorsTotalNumber { get; set; } 
-        public int? ApartamentFloor { get; set; } 
+        public string? Utilities { get; set; }
+        public int? FloorsTotalNumber { get; set; }
+        public int? ApartamentFloor { get; set; }
 
         public bool isAvailable { get; set; }
 

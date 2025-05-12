@@ -1,8 +1,8 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using CRMRealEstate.DataAccess.Entities;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using CRMRealEstate.DataAccess.Entities;
-using Microsoft.IdentityModel.Tokens;
 
 namespace CRMRealEstate.Application.Helpers;
 
@@ -19,7 +19,7 @@ public class JwtHelper
             new(ClaimTypes.Email, user.Email),
             new(ClaimTypes.Role, user.Roles.ToString())
         };
-//Din appsetings se citeste cu ConfigurationManager
+        //Din appsetings se citeste cu ConfigurationManager
         // if (user.FirstName.Contains("admin"))
         // {
         //     claims.Add(new Claim(ClaimTypes.Role, "Admin"));

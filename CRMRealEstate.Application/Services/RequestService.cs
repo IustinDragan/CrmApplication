@@ -3,7 +3,6 @@ using CRMRealEstate.Application.Services.Interfaces;
 using CRMRealEstate.DataAccess.Enums;
 using CRMRealEstate.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
-using System.Net;
 
 namespace CRMRealEstate.Application.Services
 {
@@ -21,18 +20,18 @@ namespace CRMRealEstate.Application.Services
         {
             var newRequest = requestModel.ToRequest();
 
-            await _requestRepository.CreateAsync(newRequest); 
+            await _requestRepository.CreateAsync(newRequest);
 
             return RequestResponseModel.FromUser(newRequest);
         }
 
         public async Task DeleteRequestsAsync(int requestId)
         {
-           await _requestRepository.DeleteAsync(requestId);
+            await _requestRepository.DeleteAsync(requestId);
         }
 
         public async Task<List<RequestResponseModel>> GetAllRequestsAsync()
-        {            
+        {
             var requests = await _requestRepository.GetRequestsAsync();
 
             return requests.Select(RequestResponseModel.FromUser).ToList();
@@ -70,7 +69,7 @@ namespace CRMRealEstate.Application.Services
                 throw new Exception("Request not fount");
             }
 
-            if (requestFromDb != null) 
+            if (requestFromDb != null)
             {
                 requestFromDb.Status = status;
                 requestFromDb.AgentId = agentId;
@@ -81,7 +80,7 @@ namespace CRMRealEstate.Application.Services
                 var updatedRequestModel = new RequestResponseModel
                 {
                     Id = requestId,
-                    CustomerId= requestFromDb.CustomerId,
+                    CustomerId = requestFromDb.CustomerId,
                     AgentId = agentId,
                     Status = status,
                     UpdatedAt = DateTime.UtcNow
@@ -92,13 +91,13 @@ namespace CRMRealEstate.Application.Services
 
             return null;
         }
-       
+
         public async Task<RespondToRequestModel> RespondToRequestAsync(int requestId, RespondToRequestModel model)
         {
             var request = await _requestRepository.GetByIdAsync(requestId);
 
             model.ApplyToRequest(request);
-            
+
             if (!string.IsNullOrWhiteSpace(model.AgentMessage))
             {
                 request.Status = RequestStatus.Completed;

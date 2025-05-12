@@ -58,7 +58,7 @@ namespace CRMRealEstate.Application.Services
         {
             var announcements = await _announcementRepository.GetAnnouncementsByAgentIdAsync(agentId);
 
-            return announcements.Select(AnnouncementResponseModel.FromAnnouncement).ToList(); 
+            return announcements.Select(AnnouncementResponseModel.FromAnnouncement).ToList();
         }
         public async Task DeleteAsync(int id)
         {

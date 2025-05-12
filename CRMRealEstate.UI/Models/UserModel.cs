@@ -1,5 +1,4 @@
 ﻿using CRMRealEstate.DataAccess.Enums;
-using System.ComponentModel.DataAnnotations;
 
 namespace CRMRealEstate.UI.Models
 {

@@ -27,7 +27,7 @@ namespace CRMRealEstate.Application.Models.RequestsModel
                 Status = requests.Status,
                 CreatedAt = requests.CreatedAt,
                 UpdatedAt = requests.UpdatedAt,
-                AnnouncementId= requests.AnnouncementId,
+                AnnouncementId = requests.AnnouncementId,
                 Title = requests.Title,
                 CustomerMessage = requests.CustomerMessage,
                 AgentMessage = requests.AgentMessage

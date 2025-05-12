@@ -10,7 +10,7 @@ namespace CRMRealEstate.Application.Services.Interfaces
         Task<RequestResponseModel> UpdateRequestsStatusAsync(int requestId, RequestStatus status, int agentId);
         Task DeleteRequestsAsync(int requestId);
         Task<List<RequestResponseModel>> GetAllRequestsAsync();
-        Task<List<RequestResponseModel>> GetRequestsForCustomerAsync(int customerId);   
+        Task<List<RequestResponseModel>> GetRequestsForCustomerAsync(int customerId);
         Task<List<RequestResponseModel>> GetRequestsForAgentAsync(int agentId);
         Task UploadAsync(int requestId, IFormFile formFile);
         Task<RespondToRequestModel> RespondToRequestAsync(int requestId, RespondToRequestModel model);

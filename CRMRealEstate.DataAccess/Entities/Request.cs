@@ -6,8 +6,8 @@ namespace CRMRealEstate.DataAccess.Entities
     public class Request
     {
         public int Id { get; set; }
-        public int CustomerId {  get; set; }
-        public int? AgentId {  get; set; }
+        public int CustomerId { get; set; }
+        public int? AgentId { get; set; }
         public RequestStatus Status { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
@@ -16,9 +16,9 @@ namespace CRMRealEstate.DataAccess.Entities
         public Users Customer { get; set; }
         [ForeignKey(nameof(AgentId))]
         public Users Agent { get; set; }
-        public int? AnnouncementId {  get; set; }
+        public int? AnnouncementId { get; set; }
         public string? Title { get; set; }
-        public string? CustomerMessage {  get; set; }
+        public string? CustomerMessage { get; set; }
         public string? AgentMessage { get; set; }
 
         //public string fileName {  get; set; } --cred ca va trebui adaugat

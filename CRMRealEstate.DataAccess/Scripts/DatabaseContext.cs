@@ -1,7 +1,7 @@
-﻿using System.Reflection;
-using CRMRealEstate.DataAccess.Configs;
+﻿using CRMRealEstate.DataAccess.Configs;
 using CRMRealEstate.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace CRMRealEstate.DataAccess.Scripts;
 

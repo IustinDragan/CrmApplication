@@ -16,7 +16,7 @@ public class Company
     [Required]
     public string CompanyName { get; set; }
     [Required]
-    public string CompanyIdentityNumber { get; set; } 
+    public string CompanyIdentityNumber { get; set; }
     public string CompanyPhoneNumber { get; set; }
     public DateTime CompanyCreatedAt { get; set; }
     public List<Users> Users { get; set; } = new();

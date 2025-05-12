@@ -1,7 +1,6 @@
 ﻿using CRMRealEstate.Application.Models.TransactionsModel;
 using CRMRealEstate.Application.Services.Interfaces;
 using CRMRealEstate.DataAccess.Enums;
-using CRMRealEstate.DataAccess.Repositories;
 using CRMRealEstate.DataAccess.Repositories.Interfaces;
 
 namespace CRMRealEstate.Application.Services
@@ -119,7 +118,7 @@ namespace CRMRealEstate.Application.Services
             return transactions.Select(TransactionResponseModel.FromTransaction).ToList();
         }
 
-        public async Task<double> GetTotalAmountAsync(DateTime startDate, DateTime endDate)  => await _transactionsRepository.GetTotalAmountAsync(startDate, endDate);
+        public async Task<double> GetTotalAmountAsync(DateTime startDate, DateTime endDate) => await _transactionsRepository.GetTotalAmountAsync(startDate, endDate);
 
         public async Task<List<TransactionResponseModel>> GetCompletedTransactionsByAgentIdAsync(int agentId)
         {

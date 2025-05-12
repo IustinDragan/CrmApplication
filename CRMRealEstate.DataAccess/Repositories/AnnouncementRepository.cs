@@ -1,8 +1,8 @@
 ﻿using CRMRealEstate.DataAccess.Entities;
 using CRMRealEstate.DataAccess.Repositories.Interfaces;
 using CRMRealEstate.DataAccess.Scripts;
-using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace CRMRealEstate.DataAccess.Repositories
 {

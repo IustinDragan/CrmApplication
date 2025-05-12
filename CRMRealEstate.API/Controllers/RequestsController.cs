@@ -12,7 +12,7 @@ namespace CRMRealEstate.API.Controllers
     {
         private readonly IRequestService _requestService;
 
-        public RequestsController(IRequestService requestService) 
+        public RequestsController(IRequestService requestService)
         {
             _requestService = requestService;
         }
@@ -27,7 +27,7 @@ namespace CRMRealEstate.API.Controllers
         }
 
         [HttpPost("{requestId:int}/respond")]
-        public async Task<IActionResult> RespondToRequestAsync(int requestId,[FromBody] RespondToRequestModel respondToRequestModel)
+        public async Task<IActionResult> RespondToRequestAsync(int requestId, [FromBody] RespondToRequestModel respondToRequestModel)
         {
             try
             {
@@ -46,16 +46,16 @@ namespace CRMRealEstate.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllRequestsAsync()
         {
-            var requestsEntity = await _requestService.GetAllRequestsAsync(); 
+            var requestsEntity = await _requestService.GetAllRequestsAsync();
 
             return Ok(requestsEntity);
         }
 
         [HttpGet("customer/{customerId:int}")]
         public async Task<IActionResult> GetCustomerRequestsByIdAsync(int customerId)
-        { 
+        {
             var requestById = await _requestService.GetRequestsForCustomerAsync(customerId);
-            
+
             if (requestById == null)
             {
                 throw new ArgumentNullException(nameof(requestById));
@@ -64,7 +64,7 @@ namespace CRMRealEstate.API.Controllers
             return Ok(requestById);
         }
 
-        
+
         [HttpGet("agent/{agentId:int}")]
         public async Task<IActionResult> GetAgentRequestsByIdAsync(int agentId)
         {
@@ -91,7 +91,7 @@ namespace CRMRealEstate.API.Controllers
 
             var updatedRequest = await _requestService.UpdateRequestsStatusAsync(id, newStatus, agentId);
 
-            return Ok(updatedRequest); 
+            return Ok(updatedRequest);
         }
 
         [HttpDelete("{id:int}")]

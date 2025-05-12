@@ -42,14 +42,14 @@ namespace CRMRealEstate.API.Controllers
         }
 
         [HttpGet("byAgentId/{agentId}")]
-        public async Task<IActionResult> GetTransactionByAgentIdAsync(int agentId) 
+        public async Task<IActionResult> GetTransactionByAgentIdAsync(int agentId)
         {
             var transaction = await _transactionService.GetByAgentIdAsync(agentId);
             return Ok(transaction);
         }
 
         [HttpGet("(byMonth)")]
-        public async Task<IActionResult> GetTransactionByMonth([FromQuery] int year,  [FromQuery] int month)
+        public async Task<IActionResult> GetTransactionByMonth([FromQuery] int year, [FromQuery] int month)
         {
             var result = await _transactionService.GetByMonthAsync(year, month);
             return Ok(result);
@@ -102,9 +102,9 @@ namespace CRMRealEstate.API.Controllers
         {
             var transactions = await _transactionService.ReadAllTransactionsAsync();
 
-              transactions = transactions
-                    .Where(t => t.AgentId != null && t.AgentId .Equals(agentId))
-                    .ToList();
+            transactions = transactions
+                  .Where(t => t.AgentId != null && t.AgentId.Equals(agentId))
+                  .ToList();
 
             if (year.HasValue && month.HasValue)
                 transactions = transactions

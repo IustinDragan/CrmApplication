@@ -1,20 +1,20 @@
-﻿using CRMRealEstate.Application.Helpers.Validators;
+﻿using CRMRealEstate.Application;
+using CRMRealEstate.Application.Helpers.Validators;
+using CRMRealEstate.Application.Models.AdressModels;
 using CRMRealEstate.Application.Models.UsersModels;
 using CRMRealEstate.Application.Services;
 using CRMRealEstate.Application.Services.Interfaces;
+using CRMRealEstate.Application.Validators;
 using CRMRealEstate.DataAccess.Repositories;
 using CRMRealEstate.DataAccess.Repositories.Interfaces;
 using CRMRealEstate.DataAccess.Scripts;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using CRMRealEstate.Application.Models.AdressModels;
-using CRMRealEstate.Application.Validators;
-using CRMRealEstate.Application;
+using Microsoft.OpenApi.Models;
 using Minio;
+using System.Text;
 
 internal class Program
 {

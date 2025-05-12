@@ -1,11 +1,10 @@
 ﻿using CRMRealEstate.DataAccess.Entities;
-using CRMRealEstate.DataAccess.Enums;
 
 namespace CRMRealEstate.Application.Models.RequestsModel
 {
     public class RespondToRequestModel
     {
-        public int RequestId {  get; set; }
+        public int RequestId { get; set; }
         public string? AgentMessage { get; set; }
         //public int AgentId {  get; set; }
 
@@ -15,7 +14,8 @@ namespace CRMRealEstate.Application.Models.RequestsModel
                 request.UpdatedAt = DateTime.UtcNow;
                 request.AgentMessage = this.AgentMessage;
                 //request.AgentId = this.AgentId;
-            };
+            }
+            ;
         }
     }
 }

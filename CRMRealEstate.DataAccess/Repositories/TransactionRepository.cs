@@ -51,7 +51,7 @@ namespace CRMRealEstate.DataAccess.Repositories
             return await _databaseContext.Transactions
                 .Where(t => t.AgentId == agentId)
                 .Include(t => t.Property)
-                .ToListAsync();                
+                .ToListAsync();
         }
 
         public async Task<List<Transaction>> GetByPropertyIdAsync(int propertyId)
@@ -100,7 +100,7 @@ namespace CRMRealEstate.DataAccess.Repositories
         public async Task<int> GetTotalPropertyCountByAgentIdAsync(int agentId)
         {
             return await _databaseContext.Transactions
-                .Where(t=> t.AgentId == agentId && t.Status == TransactionStatusEnum.Completed)
+                .Where(t => t.AgentId == agentId && t.Status == TransactionStatusEnum.Completed)
                 .CountAsync(t => t.Status == TransactionStatusEnum.Completed);
         }
 
@@ -114,7 +114,7 @@ namespace CRMRealEstate.DataAccess.Repositories
         public async Task<Dictionary<string, int>> GetTransactionCountByAgentAsync()
         {
             return await _databaseContext.Transactions
-                .Include(t =>t.Agent)
+                .Include(t => t.Agent)
                 .GroupBy(t => t.Agent.UserName)
                 .ToDictionaryAsync(x => x.Key, x => x.Count());
 
@@ -177,7 +177,7 @@ namespace CRMRealEstate.DataAccess.Repositories
             return await _databaseContext.Transactions
                 .Include(t => t.Property)
                     .ThenInclude(t => t.Adress)
-                .Include(t=>t.Property.Announcement)
+                .Include(t => t.Property.Announcement)
                 .Where(t => t.AgentId == agentId && t.Status == TransactionStatusEnum.Completed)
                 .ToListAsync();
         }

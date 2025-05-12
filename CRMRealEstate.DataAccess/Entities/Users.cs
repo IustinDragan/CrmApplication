@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CRMRealEstate.DataAccess.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using CRMRealEstate.DataAccess.Enums;
 
 namespace CRMRealEstate.DataAccess.Entities;
 public class Users
@@ -22,25 +22,25 @@ public class Users
     [Required]
     public string LastName { get; set; }
 
-    [MaxLength(50)] 
+    [MaxLength(50)]
     public string? UserName { get; set; }
-    
-    [EmailAddress] 
+
+    [EmailAddress]
     public string Email { get; set; }
-    
+
     [Required]
     [MinLength(6)]
     public string Password { get; set; }
-    
+
     [Phone]
     public string PhoneNumber { get; set; }
-    
+
     public int? CompanyId { get; set; }
     [ForeignKey("CompanyId")] public Company? Company { get; set; }
-    
+
     [Required]
     public Roles Roles { get; set; }
-    
+
     public DateTime UserCreatedAt { get; private set; }
 
     public ICollection<Announcement> Announcements { get; set; }

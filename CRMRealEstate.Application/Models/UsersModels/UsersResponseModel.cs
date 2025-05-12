@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using CRMRealEstate.DataAccess.Entities;
+﻿using CRMRealEstate.DataAccess.Entities;
 using CRMRealEstate.DataAccess.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace CRMRealEstate.Application.Models.UsersModels;
 

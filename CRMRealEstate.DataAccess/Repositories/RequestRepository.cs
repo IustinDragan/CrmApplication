@@ -24,8 +24,8 @@ namespace CRMRealEstate.DataAccess.Repositories
         public async Task DeleteAsync(int id)
         {
             var requestToDelete = await GetByIdAsync(id);
-            
-            if (requestToDelete == null) 
+
+            if (requestToDelete == null)
             {
                 throw new KeyNotFoundException($"Request with ID {id} not found.");
             }
@@ -40,7 +40,7 @@ namespace CRMRealEstate.DataAccess.Repositories
             return await _databaseContext.Requests
                 .Include(x => x.Customer)
                 .Include(x => x.Agent)
-                .Include(x =>x.Announcement)
+                .Include(x => x.Announcement)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
@@ -61,8 +61,8 @@ namespace CRMRealEstate.DataAccess.Repositories
                 .Include(x => x.Customer)
                 .Include(x => x.Agent)
                 .Include(x => x.Announcement)
-                .Where(x=> x.CustomerId == customerId)
-                .OrderByDescending(x =>x.CreatedAt)
+                .Where(x => x.CustomerId == customerId)
+                .OrderByDescending(x => x.CreatedAt)
                 .ToListAsync();
         }
 
@@ -72,7 +72,7 @@ namespace CRMRealEstate.DataAccess.Repositories
                 .Include(x => x.Customer)
                 .Include(x => x.Agent)
                 .Include(x => x.Announcement)
-                .OrderByDescending(x=>x.CreatedAt).ToListAsync();
+                .OrderByDescending(x => x.CreatedAt).ToListAsync();
         }
 
         public async Task<Request> UpdateAsync(int id)
@@ -87,7 +87,7 @@ namespace CRMRealEstate.DataAccess.Repositories
         public async Task<Request> UpdateMessageAsync(Request request)
         {
             _databaseContext.Requests.Update(request);
-            
+
             await _databaseContext.SaveChangesAsync();
             return request;
         }
