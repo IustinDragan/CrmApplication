@@ -127,6 +127,15 @@
                     <p>Actualizează datele contului tău și informațiile personale.</p>
                     <button class="btn btn-outline-primary" @onclick="GoToProfile">Profilul Meu</button>
                 </div>
+
+                <MudPaper Class="pa-4 mb-4" Elevation="1" Style="border-left: 4px solid #ff9800; background-color: #fff8e1;">
+                    <MudText Typo="Typo.h6" Class="mb-2" Style="font-weight: bold; color: #e65100;">
+                        Descoperă cum CRM Real Estate te ajută să găsești proprietatea perfectă
+                    </MudText>
+                    <MudText Typo="Typo.body1">
+                        Salvează anunțurile preferate, contactează agenți imobiliare, urmărește istoricul tău și bucură-te de o experiență intuitivă în administrarea căutărilor tale imobiliare. Devino client fidel al unei aplicații care simplifică totul!
+                    </MudText>
+                </MudPaper>
             </Authorized>
         </AuthorizeView>
 
@@ -145,9 +154,9 @@
                     <div class="card-icon">
                         <i class="bi bi-inbox"></i>
                     </div>
-                    <h5>Solicitări recente de la clienți</h5>
-                    <p>Răspunde rapid solicitărilor venite recent.</p>
-                    <button class="btn btn-outline-primary" @onclick="GoToAgentReceivedRequests">Accesează solicitările</button>
+                    <h5>Dashboard KPI</h5>
+                    <p>Vizualizează și analizează performanța prin grafice intuitive</p>
+                    <button class="btn btn-outline-primary" @onclick="GoToAgentDashboard">Accesează Dashboard-ul</button>
                 </div>
 
                 <div class="dashboard-card">
@@ -176,6 +185,15 @@
                     <p>Actualizează datele contului tău și informațiile personale.</p>
                     <button class="btn btn-outline-primary" @onclick="GoToProfile">Profilul Meu</button>
                 </div>
+
+                <MudPaper Class="pa-4 mb-4" Elevation="1" Style="border-left: 4px solid #2196f3; background-color: #f5f5f5;">
+                    <MudText Typo="Typo.h6" Class="mb-2" Style="font-weight: bold; color: #0d47a1;">
+                        Bun venit în platforma CRM Real Estate!
+                    </MudText>
+                    <MudText Typo="Typo.body1">
+                        Ai acces la toate uneltele necesare pentru a-ți gestiona eficient proprietățile, solicitările și tranzacțiile. Dashboard-ul tău este locul perfect pentru a rămâne conectat la tot ce contează.
+                    </MudText>
+                </MudPaper>
 
             </Authorized>
         </AuthorizeView>
@@ -211,6 +229,71 @@
             </Authorized>
         </AuthorizeView>
     </div>
+
+    <div class="d-flex justify-content-center">
+    <MudCarousel Class="mud-width-full" Style="height:400px; width:1000px;" TData="object">
+        <MudCarouselItem Transition="transition" Color="@Color.Primary">
+            <div class="d-flex" style="height:100%">
+                <MudImage Src="/images/CarouselHome-img/1.jpg" Alt="img1" Style="width: 100%; height: 100%;" Class="rounded" />
+            </div>
+        </MudCarouselItem>
+        <MudCarouselItem Transition="transition" Color="@Color.Secondary">
+            <div class="d-flex" style="height:100%">
+                <MudImage Src="/images/CarouselHome-img/2.jpg" Alt="img2" Class="rounded" Style="width: 100%; height: 100%;" />
+            </div>
+        </MudCarouselItem>
+        <MudCarouselItem Transition="transition">
+            <div class="d-flex" style="height:100%">
+                <MudImage Src="/images/CarouselHome-img/3.jpg" Alt="img3" Class="rounded" Style="width: 100%; height: 100%;" />
+            </div>
+        </MudCarouselItem>
+        <MudCarouselItem Transition="transition" Color="@Color.Primary">
+            <div class="d-flex" style="height:100%">
+                <MudImage Src="/images/CarouselHome-img/4.jpg" Alt="img1" Style="width: 100%; height: 100%;" Class="rounded" />
+            </div>
+        </MudCarouselItem>
+        <MudCarouselItem Transition="transition" Color="@Color.Secondary">
+            <div class="d-flex" style="height:100%">
+                <MudImage Src="/images/CarouselHome-img/5.jpg" Alt="img2" Class="rounded" Style="width: 100%; height: 100%;" />
+            </div>
+        </MudCarouselItem>
+        <MudCarouselItem Transition="transition">
+            <div class="d-flex" style="height:100%">
+                <MudImage Src="/images/CarouselHome-img/6.jpg" Alt="img3" Class="rounded" Style="width: 100%; height: 100%;" />
+            </div>
+        </MudCarouselItem>
+        <MudCarouselItem Transition="transition" Color="@Color.Primary">
+            <div class="d-flex" style="height:100%">
+                <MudImage Src="/images/CarouselHome-img/7.jpg" Alt="img1" Style="width: 100%; height: 100%;" Class="rounded" />
+            </div>
+        </MudCarouselItem>
+        <MudCarouselItem Transition="transition" Color="@Color.Secondary">
+            <div class="d-flex" style="height:100%">
+                <MudImage Src="/images/CarouselHome-img/8.jpg" Alt="img2" Class="rounded" Style="width: 100%; height: 100%;" />
+            </div>
+        </MudCarouselItem>
+        <MudCarouselItem Transition="transition">
+            <div class="d-flex" style="height:100%">
+                <MudImage Src="/images/CarouselHome-img/9.jpg" Alt="img3" Class="rounded" Style="width: 100%; height: 100%;" />
+            </div>
+        </MudCarouselItem>
+        <MudCarouselItem Transition="transition" Color="@Color.Primary">
+            <div class="d-flex" style="height:100%">
+                <MudImage Src="/images/CarouselHome-img/10.jpg" Alt="img1" Style="width: 100%; height: 100%;" Class="rounded" />
+            </div>
+        </MudCarouselItem>
+        <MudCarouselItem Transition="transition" Color="@Color.Secondary">
+            <div class="d-flex" style="height:100%">
+                <MudImage Src="/images/CarouselHome-img/11.jpg" Alt="img2" Class="rounded" Style="width: 100%; height: 100%;" />
+            </div>
+        </MudCarouselItem>
+        <MudCarouselItem Transition="transition">
+            <div class="d-flex" style="height:100%">
+                <MudImage Src="/images/CarouselHome-img/13.jpg" Alt="img3" Class="rounded" Style="width: 100%; height: 100%;" />
+            </div>
+        </MudCarouselItem>
+    </MudCarousel>
+    </div>
 </div>
 
 @code {
@@ -230,6 +313,7 @@
     private string greeting = "";
 
     private List<AnnouncementResponseModel> favouriteAnnouncements;
+    private Transition transition = Transition.Slide;
 
     private async Task Search()
     {
@@ -309,6 +393,11 @@
     private void GoToAgentReceivedRequests()
     {
         Navigation.NavigateTo("/agent-requests");
+    }     
+    
+    private void GoToAgentDashboard()
+    {
+        Navigation.NavigateTo("/dashboard-tranzactii");
     }      
     
     private void GoToAnnouncementsAsync()

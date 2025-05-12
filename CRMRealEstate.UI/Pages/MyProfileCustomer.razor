@@ -14,11 +14,11 @@
     <Authorized>
         <MudStack Row Spacing="2" Class="mb-4 flex-wrap">
             <MudButton Variant="Variant.Outlined"
-                       Color="Color.Primary"
-                       Size="Size.Large"
-                       Style="min-width: 280px;"
-                       StartIcon="@Icons.Material.Filled.Favorite"
-                       OnClick="GetFavouriteAnnouncementsAsync">
+            Color="Color.Primary"
+            Size="Size.Large"
+            Style="min-width: 280px;"
+            StartIcon="@Icons.Material.Filled.Favorite"
+            OnClick="GetFavouriteAnnouncementsAsync">
                 Vezi anunțuri salvate la Favorite
             </MudButton>
         </MudStack>
@@ -27,15 +27,14 @@
 
 <MudStack Row Spacing="2" Class="mb-4 flex-wrap">
     <MudButton Variant="Variant.Outlined"
-               Color="Color.Primary"
-               Size="Size.Large"
-               Style="min-width: 280px;"
-               StartIcon="@Icons.Material.Filled.UploadFile"
-               OnClick="UploadDocuments">
+    Color="Color.Primary"
+    Size="Size.Large"
+    Style="min-width: 280px;"
+    StartIcon="@Icons.Material.Filled.UploadFile"
+    OnClick="UploadDocuments">
         Încarcă Documente
     </MudButton>
 </MudStack>
-
 
 <AuthorizeView Roles="SalesAgent">
     <Authorized>
@@ -53,7 +52,7 @@
             <MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Large" Style="min-width: 280px;" OnClick="GoToTransactionChartsBarForTwoPeriods" StartIcon="@Icons.Material.Filled.BarChart">
                 Chart Bar – Distribuție pe Tranzacții
             </MudButton>
-            </MudStack>
+        </MudStack>
         <MudStack Row Spacing="2" Class="mb-4 flex-wrap">
             <MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Large" Style="min-width: 280px;" OnClick="GoToTransactionChartsPieTransactionType" StartIcon="@Icons.Material.Filled.PieChart">
                 Chart Pie – Distribuție pe Tipuri de Tranzacții
@@ -67,16 +66,75 @@
     </Authorized>
 </AuthorizeView>
 
+@if (user != null)
+{
+<br />
+    <MudPaper Class="pa-6 mt-4" Elevation="1" Style="border-radius: 16px; background-color: #f9f9f9;">
+        <MudText Typo="Typo.h6" Class="mb-4 text-center" Style="font-weight: 600; color: #1565c0;">
+            Informațiile tale de client
+        </MudText>
+
+        <MudGrid GutterSize="3">
+            <MudItem xs="12" md="6">
+                <MudTextField T="string" Label="ID Utilizator" Value="@user.Id.ToString()" Disabled Style="--mud-label-font-weight:600;" />
+            </MudItem>
+
+            <MudItem xs="12" md="6">
+                <MudTextField T="string" Label="Nume complet" Value="@($"{user.FirstName} {user.LastName}")" Disabled Style="--mud-label-font-weight:600;" />
+            </MudItem>
+
+            <MudItem xs="12" md="6">
+                <MudTextField T="string" Label="Username" Value="@user.UserName" Disabled Style="--mud-label-font-weight:600;" />
+            </MudItem>
+
+            <MudItem xs="12" md="6">
+                <MudTextField T="string" Label="Email" Value="@user.EmailAddress" Disabled Style="--mud-label-font-weight:600;" />
+            </MudItem>
+
+            <MudItem xs="12" md="6">
+                <MudTextField T="string" Label="Telefon" Value="@user.PhoneNumber" Disabled Style="--mud-label-font-weight:600;" />
+            </MudItem>
+
+            <MudItem xs="12" md="6">
+                <MudTextField T="string" Label="Tip utilizator" Value="@user.RoleName.ToString()" Disabled Style="--mud-label-font-weight:600;" />
+            </MudItem>
+
+            <MudItem xs="12" md="6">
+                <MudTextField T="string" Label="Data înregistrării" Value="@user.UserCreatedAt.ToString("dd MMM yyyy")" Disabled Style="--mud-label-font-weight:600;" />
+            </MudItem>
+        </MudGrid>
+    </MudPaper>
+    <MudStack Row Class="mt-6 justify-end">
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Edit" OnClick="GoToEditProfile">
+            Editează
+        </MudButton>
+    </MudStack>
+}
 
 @code{
 
     private List<AnnouncementResponseModel> announcements;
     private List<AnnouncementResponseModel> favouriteAnnouncements;
     private int userId;
+    Variant customer;
+    private UserModel user;
 
     protected override async Task OnInitializedAsync()
     {
         userId = await LocalStorage.GetItemAsync<int>("userId");
+
+        if (userId != 0)
+        {
+            try
+            {
+                user = await Http.GetFromJsonAsync<UserModel>($"/users/{userId}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Eroare la obținerea userului: {ex.Message}");
+            }
+        }
+
     }
 
     private void GoToProfile()
@@ -100,4 +158,5 @@
     public async Task GoToTransactionChartsBarForTwoPeriods() => Navigation.NavigateTo("/charts");
     public async Task GoToTransactionChartsPieTransactionType() => Navigation.NavigateTo("/grafic-tip-tranzactie");
     public async Task GoToTransactionChartsDonutTransactionPerAgent() => Navigation.NavigateTo("/grafic-tranzactii-per-agent");
+    public async Task GoToEditProfile() => Navigation.NavigateTo("/");
 }

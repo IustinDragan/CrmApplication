@@ -24,4 +24,8 @@
 	<ProjectReference Include="C:\Users\Iustin\Desktop\CrmApplication\CRMRealEstate.Shared\CRMRealEstate.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\CarouselHome-img\" />
+  </ItemGroup>
+
 </Project>
